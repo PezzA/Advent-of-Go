@@ -13,6 +13,7 @@ func outputUseage() {
 	fmt.Println("	Flags")
 	fmt.Println("		--test : run the day with test data")
 }
+
 func main() {
 	data := [...]dayData{testDayEntry}
 	runners := [...]dayRunner{testDayEntry}
