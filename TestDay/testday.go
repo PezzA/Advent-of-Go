@@ -1,6 +1,6 @@
-package main
+package TestDay
 
-var testDayEntry testDay
+var Entry testDay
 
 type testDay bool
 

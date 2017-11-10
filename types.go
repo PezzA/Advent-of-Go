@@ -1,6 +1,7 @@
 package main
 
 type dayData interface {
+	Day() int
 	GetTestData() string
 	GetData() string
 }
