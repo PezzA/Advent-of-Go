@@ -1,14 +1,14 @@
-package Day112016
+package Day201611
 
-func (d testDay) GetTestData() string {
+func (d testDay) GetTestData() ([]string, []string) {
 	return getData()
 }
 
-func getData() string {
-	return `The first floor contains a hydrogen-compatible microchip and a lithium-compatible microchip.
+func getData() ([]string, []string) {
+	return []string{`The first floor contains a hydrogen-compatible microchip and a lithium-compatible microchip.
 	The second floor contains a hydrogen generator.
 	The third floor contains a lithium generator.
-	The fourth floor contains nothing relevant.`
+	The fourth floor contains nothing relevant.`}, []string{}
 }
 
 // PuzzleInput returns the main puzzle input for day 11

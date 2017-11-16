@@ -2,12 +2,38 @@ package main
 
 import "fmt"
 
-func runner(data dayData, runner dayRunner, runTest bool) {
-	inputData := data.GetData()
+func testRunner(data dayData, runner dayRunner) {
+	day1Tests, day2Tests := data.GetTestData()
 
-	if runTest {
-		inputData = data.GetTestData()
+	fmt.Println(runner.Heading(), "** TEST MODE **")
+
+	fmt.Println("Part 1:")
+	for index, test := range day1Tests {
+		testOutput, testError := runner.PartOne(test)
+
+		if testError != nil {
+			fmt.Println("Error in test", index, testError)
+			continue
+		}
+
+		fmt.Println(fmt.Sprintf("[%v] %v -> %v", index, test, testOutput))
 	}
+
+	fmt.Println("Part 2:")
+	for index, test := range day2Tests {
+		testOutput, testError := runner.PartTwo(test)
+
+		if testError != nil {
+			fmt.Println("Error in test", index, testError)
+			continue
+		}
+
+		fmt.Println(fmt.Sprintf("[%v] %v -> %v", index, test, testOutput))
+	}
+}
+
+func runner(data dayData, runner dayRunner) {
+	inputData := data.GetData()
 
 	fmt.Println(runner.Heading())
 	part1Output, part1Err := runner.PartOne(inputData)

@@ -16,5 +16,10 @@ func main() {
 		return
 	}
 
-	runner(dailyData, dailyRunner, runTest)
+	if runTest {
+		testRunner(dailyData, dailyRunner)
+	} else {
+		runner(dailyData, dailyRunner)
+	}
+
 }

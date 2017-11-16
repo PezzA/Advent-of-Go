@@ -2,7 +2,7 @@ package main
 
 type dayData interface {
 	Day() int
-	GetTestData() string
+	GetTestData() ([]string, []string)
 	GetData() string
 }
 

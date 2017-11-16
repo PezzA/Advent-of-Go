@@ -3,13 +3,15 @@ package main
 import (
 	"errors"
 
-	"github.com/pezza/AoC2017/Day112016"
+	"github.com/pezza/AoC2017/Day201501"
+	"github.com/pezza/AoC2017/Day201502"
+	"github.com/pezza/AoC2017/Day201611"
 	"github.com/pezza/AoC2017/TestDay"
 )
 
 func getPuzzle(day int) (dayData, dayRunner, error) {
-	data := [...]dayData{TestDay.Entry, Day112016.Entry}
-	runners := [...]dayRunner{TestDay.Entry, Day112016.Entry}
+	data := [...]dayData{TestDay.Entry, Day201611.Entry, Day201501.Entry, Day201502.Entry}
+	runners := [...]dayRunner{TestDay.Entry, Day201611.Entry, Day201501.Entry, Day201502.Entry}
 
 	runnerFound := false
 	var dayrunner dayRunner

@@ -1,4 +1,4 @@
-package Day112016
+package Day201611
 
 import (
 	"log"
@@ -7,12 +7,13 @@ import (
 	"strings"
 )
 
+// Entry holds wraps the data and runner interfaces for this puzzle
 var Entry testDay
 
 type testDay bool
 
 func (d testDay) Day() int {
-	return 112016
+	return 201611
 }
 
 func (d testDay) Heading() string {
