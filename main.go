@@ -21,5 +21,4 @@ func main() {
 	} else {
 		runner(dailyData, dailyRunner)
 	}
-
 }

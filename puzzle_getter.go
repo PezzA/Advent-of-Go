@@ -5,13 +5,27 @@ import (
 
 	"github.com/pezza/AoC2017/Day201501"
 	"github.com/pezza/AoC2017/Day201502"
+	"github.com/pezza/AoC2017/Day201503"
 	"github.com/pezza/AoC2017/Day201611"
 	"github.com/pezza/AoC2017/TestDay"
 )
 
 func getPuzzle(day int) (dayData, dayRunner, error) {
-	data := [...]dayData{TestDay.Entry, Day201611.Entry, Day201501.Entry, Day201502.Entry}
-	runners := [...]dayRunner{TestDay.Entry, Day201611.Entry, Day201501.Entry, Day201502.Entry}
+	data := [...]dayData{
+		TestDay.Entry,
+		Day201611.Entry,
+		Day201501.Entry,
+		Day201502.Entry,
+		Day201503.Entry,
+	}
+
+	runners := [...]dayRunner{
+		TestDay.Entry,
+		Day201611.Entry,
+		Day201501.Entry,
+		Day201502.Entry,
+		Day201503.Entry,
+	}
 
 	runnerFound := false
 	var dayrunner dayRunner

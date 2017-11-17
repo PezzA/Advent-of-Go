@@ -16,18 +16,36 @@ type present struct {
 	w int
 }
 
-func (p present) SurfaceArea() int {
+func (p present) surfaceArea() int {
 	return (2 * p.l * p.w) + (2 * p.w * p.h) + (2 * p.h * p.l)
 }
 
-func (p present) LittleBitExtra() int {
+func (p present) sortedInts() []int {
 	intList := []int{p.l, p.h, p.w}
 	sort.Ints(intList)
+	return intList
+}
+
+func (p present) littleBitExtra() int {
+	intList := p.sortedInts()
 	return intList[0] * intList[1]
 }
 
-func (p present) PaperRequired() int {
-	return p.SurfaceArea() + p.LittleBitExtra()
+func (p present) paperRequired() int {
+	return p.surfaceArea() + p.littleBitExtra()
+}
+
+func (p present) ribbonLength() int {
+	intList := p.sortedInts()
+	return (intList[0] * 2) + (intList[1] * 2)
+}
+
+func (p present) bowSize() int {
+	return p.h * p.l * p.w
+}
+
+func (p present) ribbonRequired() int {
+	return p.ribbonLength() + p.bowSize()
 }
 
 func parsePresent(input string) present {
@@ -49,14 +67,21 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
 		present := parsePresent(scanner.Text())
-		total += present.PaperRequired()
+		total += present.paperRequired()
 	}
 
 	return strconv.Itoa(total), nil
 }
 
 func (td testDay) PartTwo(inputData string) (string, error) {
-	return " -- Not Yet Implemented -- ", nil
+	total := 0
+	scanner := bufio.NewScanner(strings.NewReader(inputData))
+	for scanner.Scan() {
+		present := parsePresent(scanner.Text())
+		total += present.ribbonRequired()
+	}
+
+	return strconv.Itoa(total), nil
 }
 
 func (td testDay) Day() int {
@@ -69,7 +94,10 @@ func (td testDay) Heading() string {
 
 func (td testDay) GetTestData() ([]string, []string) {
 	return []string{
-		"2x3x4",
-		"1x1x10",
-	}, []string{}
+			"2x3x4",
+			"1x1x10",
+		}, []string{
+			"2x3x4",
+			"1x1x10",
+		}
 }
