@@ -1,16 +1,80 @@
 package Day201503
 
+import (
+	"strconv"
+)
+
 // Entry holds wraps the data and runner interfaces for this puzzle
 var Entry testDay
 
 type testDay bool
 
+type coord struct {
+	x int
+	y int
+}
+
+func (c coord) update(instruction rune) coord {
+	switch instruction {
+	case '^':
+		return coord{c.x - 1, c.y}
+	case 'v':
+		return coord{c.x + 1, c.y}
+	case '>':
+		return coord{c.x, c.y + 1}
+	case '<':
+		return coord{c.x, c.y - 1}
+	default:
+		return c
+	}
+}
+
 func (td testDay) PartOne(inputData string) (string, error) {
-	return "-- Not Yet Implemented --", nil
+	places := make(map[coord]int, 0)
+
+	position := coord{0, 0}
+	places[position] = 1
+
+	for _, movement := range inputData {
+		position = position.update(movement)
+
+		if _, ok := places[position]; ok {
+			places[position]++
+		} else {
+			places[position] = 1
+		}
+	}
+
+	return strconv.Itoa(len(places)), nil
 }
 
 func (td testDay) PartTwo(inputData string) (string, error) {
-	return "-- Not Yet Implemented --", nil
+	places := make(map[coord]int, 0)
+
+	santa := coord{0, 0}
+	rudolf := coord{0, 0}
+
+	places[santa] = 1
+
+	for step, movement := range inputData {
+
+		var position coord
+		if step%2 == 0 {
+			santa = santa.update(movement)
+			position = santa
+		} else {
+			rudolf = rudolf.update(movement)
+			position = rudolf
+		}
+
+		if _, ok := places[position]; ok {
+			places[position]++
+		} else {
+			places[position] = 1
+		}
+	}
+
+	return strconv.Itoa(len(places)), nil
 }
 
 func (td testDay) Day() int {
@@ -26,7 +90,11 @@ func (td testDay) GetTestData() ([]string, []string) {
 			">",
 			"^>v<",
 			"^v^v^v^v^v"},
-		[]string{}
+		[]string{
+			"^v",
+			"^>v<",
+			"^v^v^v^v^v",
+		}
 }
 
 func (td testDay) GetData() string {
