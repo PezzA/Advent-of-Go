@@ -11,46 +11,68 @@ var Entry testDay
 
 type testDay bool
 
-type directions struct {
-	startingSeed string
-	up           bool
-	down         bool
-	left         bool
-	right        bool
-	hash         string
-	x            int
-	y            int
+type mazeNode struct {
+	seed  string
+	hash  string
+	x     int
+	y     int
+	up    *mazeNode
+	down  *mazeNode
+	left  *mazeNode
+	right *mazeNode
 }
 
-func traverse(input string, startx int, starty int) directions {
+type mazeTree struct {
+	root mazeNode
+}
 
-	if startx == 4 && starty == 4 {
-		// we have found the vault
-	}
-
+func traverse(node *mazeNode) *mazeNode {
 	hasher := md5.New()
 
 	hasher.Reset()
-	hasher.Write([]byte(input))
+	hasher.Write([]byte(node.seed))
 
-	hash := hex.EncodeToString(hasher.Sum(nil))
+	node.hash = hex.EncodeToString(hasher.Sum(nil))
 
-	room := directions{
-		startingSeed: input,
-		up:           isOpen(hash[0]) && starty > 1,
-		down:         isOpen(hash[1]) && starty < 4,
-		left:         isOpen(hash[2]) && startx > 1,
-		right:        isOpen(hash[3]) && startx < 4,
-		x:            startx,
-		y:            starty,
-		hash:         hash,
+	// try up
+	if isOpen(node.hash[0]) && node.y > 1 {
+		upNode := &mazeNode{
+			seed: node.seed + "U",
+			x:    node.x,
+			y:    node.y - 1,
+		}
+		node.up = traverse(upNode)
 	}
 
-	if startx != 4 && starty != 4 {
-		// we have found the vault
+	// try down
+	if isOpen(node.hash[1]) && node.y < 1 {
+		downNode := &mazeNode{
+			seed: node.seed + "D",
+			x:    node.x,
+			y:    node.y + 1,
+		}
+		node.down = traverse(downNode)
 	}
 
-	return room
+	if isOpen(node.hash[2]) && node.x > 1 {
+		leftNode := &mazeNode{
+			seed: node.seed + "L",
+			x:    node.x - 1,
+			y:    node.y,
+		}
+		node.left = traverse(leftNode)
+	}
+
+	if isOpen(node.hash[3]) && node.x < 4 {
+		rightNode := &mazeNode{
+			seed: node.seed + "R",
+			x:    node.x + 1,
+			y:    node.y,
+		}
+		node.right = traverse(rightNode)
+	}
+
+	return node
 }
 
 func isOpen(input byte) bool {
@@ -59,14 +81,20 @@ func isOpen(input byte) bool {
 
 func (td testDay) PartOne(inputData string) (string, error) {
 
-	fmt.Println(traverse(inputData, 1, 1))
+	rootNode := &mazeNode{
+		seed: inputData,
+		x:    1,
+		y:    1,
+	}
+
+	fmt.Println(traverse(rootNode))
 
 	return "", nil
 
 }
 
 func (td testDay) PartTwo(inputData string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+	return "", nil
 }
 
 func (td testDay) Day() int {
