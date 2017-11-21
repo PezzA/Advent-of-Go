@@ -34,6 +34,11 @@ func traverse(node *mazeNode) *mazeNode {
 
 	node.hash = hex.EncodeToString(hasher.Sum(nil))
 
+	if node.x == 4 && node.y == 4 {
+		fmt.Println(node.seed)
+		return node
+	}
+
 	// try up
 	if isOpen(node.hash[0]) && node.y > 1 {
 		upNode := &mazeNode{
@@ -45,7 +50,7 @@ func traverse(node *mazeNode) *mazeNode {
 	}
 
 	// try down
-	if isOpen(node.hash[1]) && node.y < 1 {
+	if isOpen(node.hash[1]) && node.y < 4 {
 		downNode := &mazeNode{
 			seed: node.seed + "D",
 			x:    node.x,

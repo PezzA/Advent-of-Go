@@ -1,4 +1,4 @@
-- Day 17: Two Steps Forward ---
+--- Day 17: Two Steps Forward ---
 
 You're trying to access a secure vault protected by a 4x4 grid of small rooms connected by doors. You start in the top-left room (marked S), and you can access the vault (marked V) once you reach the bottom-right room:
 
@@ -31,5 +31,3 @@ If your passcode were ihgpwlah, the shortest path would be DDRRRD.
 With kglvqrro, the shortest path would be DDUDRLRRUDRD.
 With ulqzkmiv, the shortest would be DRURDRUDDLLDLUURRDULRLDUUDDDRR.
 Given your vault's passcode, what is the shortest path (the actual path, not just the length) to reach the vault?
-
-Your puzzle input is ioramepc.
