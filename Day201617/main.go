@@ -3,7 +3,8 @@ package Day201617
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
+	"strconv"
+	"strings"
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
@@ -26,7 +27,7 @@ type mazeTree struct {
 	root mazeNode
 }
 
-func traverse(node *mazeNode) *mazeNode {
+func traverse(node *mazeNode, matches chan string) *mazeNode {
 	hasher := md5.New()
 
 	hasher.Reset()
@@ -35,7 +36,7 @@ func traverse(node *mazeNode) *mazeNode {
 	node.hash = hex.EncodeToString(hasher.Sum(nil))
 
 	if node.x == 4 && node.y == 4 {
-		fmt.Println(node.seed)
+		matches <- node.seed
 		return node
 	}
 
@@ -46,7 +47,7 @@ func traverse(node *mazeNode) *mazeNode {
 			x:    node.x,
 			y:    node.y - 1,
 		}
-		node.up = traverse(upNode)
+		node.up = traverse(upNode, matches)
 	}
 
 	// try down
@@ -56,7 +57,7 @@ func traverse(node *mazeNode) *mazeNode {
 			x:    node.x,
 			y:    node.y + 1,
 		}
-		node.down = traverse(downNode)
+		node.down = traverse(downNode, matches)
 	}
 
 	if isOpen(node.hash[2]) && node.x > 1 {
@@ -65,7 +66,7 @@ func traverse(node *mazeNode) *mazeNode {
 			x:    node.x - 1,
 			y:    node.y,
 		}
-		node.left = traverse(leftNode)
+		node.left = traverse(leftNode, matches)
 	}
 
 	if isOpen(node.hash[3]) && node.x < 4 {
@@ -74,7 +75,7 @@ func traverse(node *mazeNode) *mazeNode {
 			x:    node.x + 1,
 			y:    node.y,
 		}
-		node.right = traverse(rightNode)
+		node.right = traverse(rightNode, matches)
 	}
 
 	return node
@@ -84,22 +85,56 @@ func isOpen(input byte) bool {
 	return input == 'b' || input == 'c' || input == 'd' || input == 'e' || input == 'f'
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func doTraverse(node *mazeNode, matches chan string) {
+	traverse(node, matches)
+	close(matches)
+}
 
+func (td testDay) PartOne(inputData string) (string, error) {
 	rootNode := &mazeNode{
 		seed: inputData,
 		x:    1,
 		y:    1,
 	}
 
-	fmt.Println(traverse(rootNode))
+	resultChan := make(chan string, 0)
+	go doTraverse(rootNode, resultChan)
 
-	return "", nil
+	var shortest = ""
+	var longest = ""
 
+	for result := range resultChan {
+		if shortest == "" || len(result) < len(shortest) {
+			shortest = result
+		}
+		if longest == "" || len(result) > len(longest) {
+			longest = result
+		}
+	}
+	return strings.Replace(shortest, inputData, "", 1), nil
 }
 
 func (td testDay) PartTwo(inputData string) (string, error) {
-	return "", nil
+	rootNode := &mazeNode{
+		seed: inputData,
+		x:    1,
+		y:    1,
+	}
+
+	resultChan := make(chan string, 0)
+	go doTraverse(rootNode, resultChan)
+
+	var shortest = ""
+	var longest = ""
+	for result := range resultChan {
+		if shortest == "" || len(result) < len(shortest) {
+			shortest = result
+		}
+		if longest == "" || len(result) > len(longest) {
+			longest = result
+		}
+	}
+	return strconv.Itoa(len(longest) - len(inputData)), nil
 }
 
 func (td testDay) Day() int {
@@ -113,9 +148,9 @@ func (td testDay) Heading() string {
 func (td testDay) GetTestData() ([]string, []string) {
 	return []string{
 			"hijkl",
-			//"ihgpwlah",
-			//"kglvqrro",
-			//"ulqzkmiv",
+			"ihgpwlah",
+			"kglvqrro",
+			"ulqzkmiv",
 		},
 		[]string{""}
 }
