@@ -30,3 +30,20 @@ func Test_Stuff(t *testing.T) {
 		t.Error("expecting", test, "got", index)
 	}
 }
+
+// from fib_test.go
+func BenchmarkDay1(b *testing.B) {
+	// run the Fib function b.N times
+	data := Entry.GetData()
+	for n := 0; n < b.N; n++ {
+		Entry.PartOne(data)
+	}
+}
+
+func BenchmarkDay2(b *testing.B) {
+	// run the Fib function b.N times
+	data := Entry.GetData()
+	for n := 0; n < b.N; n++ {
+		Entry.PartTwo(data)
+	}
+}
