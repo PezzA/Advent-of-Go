@@ -26,7 +26,7 @@ func Test_Stuff(t *testing.T) {
 
 	index = getWrappedIndex(0, 10, 15)
 
-	if index != 5 {
+	if index != 5c {
 		t.Error("expecting", test, "got", index)
 	}
 }
