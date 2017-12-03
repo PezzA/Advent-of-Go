@@ -14,6 +14,7 @@ import (
 	"github.com/pezza/AoC2017/Day201622"
 	"github.com/pezza/AoC2017/Day201701"
 	"github.com/pezza/AoC2017/Day201702"
+	"github.com/pezza/AoC2017/Day201703"
 	"github.com/pezza/AoC2017/TestDay"
 )
 
@@ -32,6 +33,7 @@ func getPuzzle(day int) (dayData, dayRunner, error) {
 		Day201622.Entry,
 		Day201701.Entry,
 		Day201702.Entry,
+		Day201703.Entry,
 	}
 
 	runners := [...]dayRunner{
@@ -47,6 +49,7 @@ func getPuzzle(day int) (dayData, dayRunner, error) {
 		Day201622.Entry,
 		Day201701.Entry,
 		Day201702.Entry,
+		Day201703.Entry,
 	}
 
 	runnerFound := false
