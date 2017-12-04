@@ -1,34 +1,29 @@
 package Day201619
 
 import (
-	"strconv"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
-func Test_EndToEnd(t *testing.T) {
-	day1data, _ := Entry.GetTestData()
+func Test_PartOne(t *testing.T) {
+	RegisterTestingT(t)
+}
 
-	circleSize, _ := strconv.Atoi(day1data[0])
+func Test_PartTwo(t *testing.T) {
+	RegisterTestingT(t)
+}
 
-	elfCircle := makeElfCircle(circleSize)
-	finished := false
+func Benchmark_PartOne(b *testing.B) {
+	data := Entry.GetData()
+	for n := 0; n < b.N; n++ {
+		Entry.PartOne(data)
+	}
+}
 
-	elf := elfCircle.Front()
-
-	for !finished {
-
-		if next := elf.Next(); next != nil {
-			elfCircle.Remove(next)
-		} else {
-			elfCircle.Remove(elfCircle.Front())
-		}
-
-		elf = elf.Next()
-
-		if elf == nil {
-			elf = elfCircle.Front()
-		}
-
-		finished = elfCircle.Len() == 1
+func Benchmark_PartTwo(b *testing.B) {
+	data := Entry.GetData()
+	for n := 0; n < b.N; n++ {
+		Entry.PartTwo(data)
 	}
 }

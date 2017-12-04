@@ -1,17 +1,39 @@
 package Day201611
 
 import (
-	"sort"
 	"testing"
 
-	"log"
-
-	. "github.com/smartystreets/goconvey/convey"
+	. "github.com/onsi/gomega"
 )
 
+func Test_PartOne(t *testing.T) {
+	RegisterTestingT(t)
+
+}
+
+func Test_PartTwo(t *testing.T) {
+	RegisterTestingT(t)
+
+}
+
+func Benchmark_PartOne(b *testing.B) {
+	data := Entry.GetData()
+	for n := 0; n < b.N; n++ {
+		Entry.PartOne(data)
+	}
+}
+
+func Benchmark_PartTwo(b *testing.B) {
+	data := Entry.GetData()
+	for n := 0; n < b.N; n++ {
+		Entry.PartTwo(data)
+	}
+}
+
+/*
 func Test_Day11(t *testing.T) {
 	Convey("Day 11 should be able to ", t, func() {
-		f := getStartingFacility(getData())
+		f := getStartingFacility(Entry.GetData())
 
 		hydrogenMicrochip := component{0, "hydrogen", true}
 		lithiumMicrochip := component{0, "lithium", true}
@@ -63,9 +85,9 @@ func Test_Day11(t *testing.T) {
 		})
 
 		Convey("-> Should be able to tell 2 facilties have the same state", func() {
-			x := getStartingFacility(getData())
+			x := getStartingFacility(Entry.GetData())
 
-			y := getStartingFacility(getData())
+			y := getStartingFacility(Entry.GetData())
 
 			So(x.equals(y), ShouldBeTrue)
 
@@ -92,3 +114,4 @@ func Test_Day11(t *testing.T) {
 		})
 	})
 }
+*/

@@ -1,14 +1,10 @@
 package main
 
-type dayData interface {
-	Day() int
-	GetTestData() ([]string, []string)
-	GetData() string
-}
-
 type dayRunner interface {
 	Day() int
-	Heading() string
+	Year() int
+	Title() string
 	PartOne(string) (string, error)
 	PartTwo(string) (string, error)
+	GetData() string
 }

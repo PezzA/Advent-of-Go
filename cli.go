@@ -11,29 +11,26 @@ func outputUseage(errorMsg error) {
 	fmt.Println(errorMsg)
 	fmt.Println("")
 	fmt.Println("	USEAGE: advent-of-go <day>")
+	fmt.Println("		<year> = year number of puzzle to run.  e.g. 2017")
 	fmt.Println("		<day> = day number of puzzle to run.  e.g. 2")
-	fmt.Println("")
-	fmt.Println("	Flags")
-	fmt.Println("		--test : run the day with test data")
 }
 
-func checkParams() (int, bool, error) {
+func checkParams() (int, int, error) {
 	if len(os.Args) < 2 {
-		return 0, false, errors.New("Not all parameters specified")
+		return 0, 0, errors.New("Not all parameters specified")
 	}
 
-	day, err := strconv.Atoi(os.Args[1])
+	year, err := strconv.Atoi(os.Args[1])
 
 	if err != nil {
-		return 0, false, errors.New("Called with invalid parameters")
+		return 0, 0, errors.New("Called with invalid year")
 	}
 
-	runTest := false
-	for _, val := range os.Args {
-		if val == "--test" {
-			runTest = true
-		}
+	day, err := strconv.Atoi(os.Args[2])
+
+	if err != nil {
+		return 0, 0, errors.New("Called with invalid day")
 	}
 
-	return day, runTest, nil
+	return year, day, nil
 }

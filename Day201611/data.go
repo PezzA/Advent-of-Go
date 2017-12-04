@@ -1,9 +1,5 @@
 package Day201611
 
-func (d testDay) GetTestData() ([]string, []string) {
-	return getData()
-}
-
 func getData() ([]string, []string) {
 	return []string{`The first floor contains a hydrogen-compatible microchip and a lithium-compatible microchip.
 	The second floor contains a hydrogen generator.

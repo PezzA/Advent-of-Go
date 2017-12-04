@@ -63,7 +63,6 @@ func noDupedWord(input string) bool {
 }
 
 func (td testDay) PartOne(inputData string) (string, error) {
-
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -88,9 +87,13 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 }
 
 func (td testDay) Day() int {
-	return 201704
+	return 04
 }
 
-func (td testDay) Heading() string {
-	return "--- (2017) Day 4: High-Entropy Passphrases ---"
+func (td testDay) Year() int {
+	return 2017
+}
+
+func (td testDay) Title() string {
+	return "High-Entropy Passphrases"
 }

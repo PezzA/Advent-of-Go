@@ -110,30 +110,13 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 }
 
 func (td testDay) Day() int {
-	return 201505
+	return 15
 }
 
-func (td testDay) Heading() string {
+func (td testDay) Year() int {
+	return 2015
+}
+
+func (td testDay) Title() string {
 	return "--- (2015) Day 5: Doesn't He Have Intern-Elves For This? ---"
-}
-
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{
-			"ugknbfddgicrmopn",
-			"aaa",
-			"jchzalrnumimnmhp",
-			"haegwjzuvuyypxyu",
-			"dvszwmarrgswjxmb",
-		},
-		[]string{
-			"qjhvhtzxzqqjkmpb",
-			"xxyxx",
-			"uurcxstgmygtbstg",
-			"ieodomkazucvgmuy",
-			"aaa",
-			"aaaa",
-			"aaaawer",
-			"qweaaaa",
-			"xilodxfuxphuiiii",
-		}
 }

@@ -138,21 +138,15 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 }
 
 func (td testDay) Day() int {
-	return 201617
+	return 17
 }
 
-func (td testDay) Heading() string {
-	return "--- (2016) Day 17: Two Steps Forward ---"
+func (td testDay) Year() int {
+	return 17
 }
 
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{
-			"hijkl",
-			"ihgpwlah",
-			"kglvqrro",
-			"ulqzkmiv",
-		},
-		[]string{""}
+func (td testDay) Title() string {
+	return "Two Steps Forward"
 }
 
 func (td testDay) GetData() string {

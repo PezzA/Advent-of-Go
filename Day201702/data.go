@@ -1,12 +1,5 @@
 package Day201702
 
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{`5 1 9 5
-7 5 3
-2 4 6 8`},
-		[]string{}
-}
-
 func (td testDay) GetData() string {
 	return `3751	3769	2769	2039	2794	240	3579	1228	4291	220	324	3960	211	1346	237	1586
 550	589	538	110	167	567	99	203	524	288	500	111	118	185	505	74

@@ -19,25 +19,7 @@ import (
 	"github.com/pezza/AoC2017/TestDay"
 )
 
-func getPuzzle(day int) (dayData, dayRunner, error) {
-	data := [...]dayData{
-		TestDay.Entry,
-
-		Day201501.Entry,
-		Day201502.Entry,
-		Day201503.Entry,
-		Day201504.Entry,
-		Day201505.Entry,
-		Day201611.Entry,
-		Day201617.Entry,
-		Day201619.Entry,
-		Day201622.Entry,
-		Day201701.Entry,
-		Day201702.Entry,
-		Day201703.Entry,
-		Day201704.Entry,
-	}
-
+func getPuzzle(day int, year int) (dayRunner, error) {
 	runners := [...]dayRunner{
 		TestDay.Entry,
 		Day201501.Entry,
@@ -55,27 +37,11 @@ func getPuzzle(day int) (dayData, dayRunner, error) {
 		Day201704.Entry,
 	}
 
-	runnerFound := false
-	var dayrunner dayRunner
 	for _, runner := range runners {
-		if runner.Day() == day {
-			runnerFound = true
-			dayrunner = runner
+		if runner.Day() == day && runner.Year() == year {
+			return runner, nil
 		}
 	}
 
-	dataFound := false
-	var daydata dayData
-	for _, data := range data {
-		if data.Day() == day {
-			dataFound = true
-			daydata = data
-		}
-	}
-
-	if !runnerFound || !dataFound {
-		return nil, nil, errors.New("Day specified has not been fully implemented yet")
-	}
-
-	return daydata, dayrunner, nil
+	return nil, errors.New("Day specified has not been fully implemented yet")
 }

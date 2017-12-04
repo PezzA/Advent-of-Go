@@ -26,22 +26,19 @@ func Test_Stuff(t *testing.T) {
 
 	index = getWrappedIndex(0, 10, 15)
 
-	if index != 5c {
+	if index != 5 {
 		t.Error("expecting", test, "got", index)
 	}
 }
 
-// from fib_test.go
-func BenchmarkDay1(b *testing.B) {
-	// run the Fib function b.N times
+func Benchmark_PartOne(b *testing.B) {
 	data := Entry.GetData()
 	for n := 0; n < b.N; n++ {
 		Entry.PartOne(data)
 	}
 }
 
-func BenchmarkDay2(b *testing.B) {
-	// run the Fib function b.N times
+func Benchmark_PartTwo(b *testing.B) {
 	data := Entry.GetData()
 	for n := 0; n < b.N; n++ {
 		Entry.PartTwo(data)

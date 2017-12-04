@@ -53,9 +53,13 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 }
 
 func (td testDay) Day() int {
-	return 201701
+	return 01
 }
 
-func (td testDay) Heading() string {
-	return "--- (2017) Day 1: Inverse Captcha ---"
+func (td testDay) Year() int {
+	return 2017
+}
+
+func (td testDay) Title() string {
+	return "Inverse Captcha"
 }

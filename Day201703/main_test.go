@@ -15,14 +15,14 @@ func cheapAssert(expected int, actual int, t *testing.T) {
 	}
 }
 
-func Benchmark_Day1(b *testing.B) {
+func Benchmark_PartOne(b *testing.B) {
 	data := Entry.GetData()
 	for n := 0; n < b.N; n++ {
 		Entry.PartOne(data)
 	}
 }
 
-func Benchmark_Day2(b *testing.B) {
+func Benchmark_PartTwo(b *testing.B) {
 	data := Entry.GetData()
 	for n := 0; n < b.N; n++ {
 		Entry.PartTwo(data)

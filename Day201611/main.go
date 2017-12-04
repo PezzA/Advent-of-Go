@@ -13,11 +13,15 @@ var Entry testDay
 type testDay bool
 
 func (d testDay) Day() int {
-	return 201611
+	return 11
 }
 
-func (d testDay) Heading() string {
-	return "--- Day 11: Radioisotope Thermoelectric Generators ---"
+func (d testDay) Year() int {
+	return 2016
+}
+
+func (d testDay) Title() string {
+	return "Radioisotope Thermoelectric Generators"
 }
 
 // PartOne returns the solution to day11 part one

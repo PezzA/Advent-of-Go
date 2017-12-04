@@ -19,14 +19,13 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 }
 
 func (td testDay) Day() int {
-	return 201622
+	return 22
 }
 
-func (td testDay) Heading() string {
-	return "--- (2016) Day 22: Grid Computing ---"
+func (td testDay) Year() int {
+	return 2016
 }
 
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{},
-		[]string{}
+func (td testDay) Title() string {
+	return "Grid Computing"
 }

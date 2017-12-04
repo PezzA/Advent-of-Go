@@ -131,11 +131,15 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 }
 
 func (td testDay) Day() int {
-	return 201703
+	return 03
 }
 
-func (td testDay) Heading() string {
-	return "--- (2017) Day 3: Spiral Memory ---"
+func (td testDay) Year() int {
+	return 2017
+}
+
+func (td testDay) Title() string {
+	return "Spiral Memory"
 }
 
 func (td testDay) GetTestData() ([]string, []string) {

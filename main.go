@@ -2,23 +2,19 @@ package main
 
 func main() {
 
-	day, runTest, error := checkParams()
+	year, day, error := checkParams()
 
 	if error != nil {
 		outputUseage(error)
 		return
 	}
 
-	dailyData, dailyRunner, error := getPuzzle(day)
+	dailyRunner, error := getPuzzle(day, year)
 
 	if error != nil {
 		outputUseage(error)
 		return
 	}
 
-	if runTest {
-		testRunner(dailyData, dailyRunner)
-	} else {
-		runner(dailyData, dailyRunner)
-	}
+	runner(dailyRunner)
 }
