@@ -5,10 +5,13 @@ import (
 	"strings"
 )
 
-// Entry holds wraps the data and runner interfaces for this puzzle
 var Entry testDay
 
 type testDay bool
+
+type registerList []int
+
+type stateList []registerList
 
 func getWrappedIndex(currentPos int, loopsize int, modifier int) int {
 	rawIndex := currentPos + modifier
@@ -20,11 +23,11 @@ func getWrappedIndex(currentPos int, loopsize int, modifier int) int {
 	return rawIndex
 }
 
-func isStatePreviouslySeen(registers []int, states [][]int) int {
-	for index, state := range states {
+func (sl stateList) isStatePreviouslySeen(rl registerList) int {
+	for index, state := range sl {
 		match := true
-		for index := range registers {
-			if state[index] != registers[index] {
+		for index := range rl {
+			if state[index] != rl[index] {
 				match = false
 			}
 		}
@@ -35,11 +38,21 @@ func isStatePreviouslySeen(registers []int, states [][]int) int {
 	return -1
 }
 
-func getHighestIndex(registers []int) int {
-	highIndex := 0
-	maxVal := registers[0]
+func (sl stateList) addStateToStateList(rl registerList) stateList {
+	newState := make(registerList, 0)
 
-	for index, val := range registers {
+	for _, val := range rl {
+		newState = append(newState, val)
+	}
+
+	return append(sl, newState)
+}
+
+func (rl registerList) getHighestIndex() int {
+	highIndex := 0
+	maxVal := rl[0]
+
+	for index, val := range rl {
 		if val > maxVal {
 			highIndex = index
 			maxVal = val
@@ -49,59 +62,44 @@ func getHighestIndex(registers []int) int {
 	return highIndex
 }
 
-func distributeRegister(targetReg int, registers []int) []int {
-	target := registers[targetReg]
-	registers[targetReg] = 0
-	size := len(registers)
+func (rl registerList) distributeRegister(targetReg int) registerList {
+	target := rl[targetReg]
+	rl[targetReg] = 0
+	size := len(rl)
 
 	for i := 0; i < target; i++ {
 		targetReg = getWrappedIndex(targetReg, size, 1)
-		registers[targetReg]++
+		rl[targetReg]++
 	}
 
-	return registers
+	return rl
 }
 
-func addStateToStateList(reg []int, states [][]int) [][]int {
-	newState := make([]int, 0)
-
-	for _, val := range reg {
-		newState = append(newState, val)
-	}
-
-	return append(states, newState)
-}
-
-func distributionCycle(registers []int) ([]int, int, int) {
-	states := make([][]int, 0)
+func distributionCycle(rl registerList) (int, int) {
+	states := make(stateList, 0)
 	cycles := 0
 	firstLoopIndex := 0
 
 	for {
-		// get the index of the highest value
-		index := getHighestIndex(registers)
+		rl.distributeRegister(rl.getHighestIndex())
 
-		// get it's value and distribute over registers
-		registers := distributeRegister(index, registers)
 		cycles++
 
-		// see if this set of registers has been seen before
-		firstLoopIndex = isStatePreviouslySeen(registers, states)
+		firstLoopIndex = states.isStatePreviouslySeen(rl)
 
 		if firstLoopIndex > -1 {
 			break
 		}
 
-		// if not append to the list of seen states and update cycles
-		states = addStateToStateList(registers, states)
+		states = states.addStateToStateList(rl)
 	}
 
-	return []int{}, cycles, firstLoopIndex
+	return cycles, firstLoopIndex
 }
 
-func getRegisters(input string) []int {
+func getRegisters(input string) registerList {
 	bits := strings.Fields(input)
-	registers := make([]int, 0)
+	registers := make(registerList, 0)
 
 	for _, val := range bits {
 		regVal, _ := strconv.Atoi(val)
@@ -112,18 +110,12 @@ func getRegisters(input string) []int {
 }
 
 func (td testDay) PartOne(inputData string) (string, error) {
-	registers := getRegisters(inputData)
-
-	_, cycles, _ := distributionCycle(registers)
-
+	cycles, _ := distributionCycle(getRegisters(inputData))
 	return strconv.Itoa(cycles), nil
 }
 
 func (td testDay) PartTwo(inputData string) (string, error) {
-	registers := getRegisters(inputData)
-
-	_, cycles, firstLoop := distributionCycle(registers)
-
+	cycles, firstLoop := distributionCycle(getRegisters(inputData))
 	return strconv.Itoa(cycles - firstLoop - 1), nil
 }
 
