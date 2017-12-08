@@ -19,7 +19,7 @@ func Test_PartOne(t *testing.T) {
 	Expect(parseInstruction("b inc 5 if a > 1")).Should(Equal(instruction{"b", "inc", 5, "a", ">", 1}))
 	Expect(parseInstruction("b inc -5 if a > -1")).Should(Equal(instruction{"b", "inc", -5, "a", ">", -1}))
 
-	r := runProgram(make(registers, 0), getInstructions(getTestData()))
+	r, _ := runProgram(make(registers, 0), getInstructions(getTestData()))
 
 	fmt.Println(r)
 

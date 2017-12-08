@@ -30,31 +30,26 @@ type registers map[string]int
 func parseInstruction(input string) instruction {
 	match := instructionRegex.FindStringSubmatch(input)
 
-	ins := instruction{
-		register:       match[1],
-		registerOp:     match[2],
-		testRegister:   match[4],
-		testRegisterOp: match[5],
-	}
-
 	registerShift, _ := strconv.Atoi(match[3])
 	testRegisterEval, _ := strconv.Atoi(match[6])
 
-	ins.registerShift = registerShift
-	ins.testRegisterEval = testRegisterEval
-
-	return ins
+	return instruction{
+		register:         match[1],
+		registerOp:       match[2],
+		registerShift:    registerShift,
+		testRegister:     match[4],
+		testRegisterOp:   match[5],
+		testRegisterEval: testRegisterEval,
+	}
 }
 
 func getInstructions(input string) []instruction {
 	scanner := bufio.NewScanner(strings.NewReader(input))
-
 	instructionList := make([]instruction, 0)
 
 	for scanner.Scan() {
 		instructionList = append(instructionList, parseInstruction(scanner.Text()))
 	}
-
 	return instructionList
 }
 
@@ -119,7 +114,6 @@ func runProgram(r registers, instructions []instruction) (registers, int) {
 }
 
 func (td testDay) PartOne(inputData string) (string, error) {
-
 	r, _ := runProgram(make(registers, 0), getInstructions(inputData))
 
 	test := 0
