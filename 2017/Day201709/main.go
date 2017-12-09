@@ -5,6 +5,11 @@ var Entry testDay
 
 type testDay bool
 
+type node struct {
+	score int
+	nodes []node
+}
+
 func (td testDay) PartOne(inputData string) (string, error) {
 	return " -- Not Yet Implemented --", nil
 }
@@ -22,9 +27,5 @@ func (td testDay) Year() int {
 }
 
 func (td testDay) Title() string {
-	return "Getting the boilerplate in place"
-}
-
-func (td testDay) GetData() string {
-	return "Actual Data"
+	return "Stream Processing"
 }
