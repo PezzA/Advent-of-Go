@@ -64,6 +64,8 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(len(seenList)), nil
 }
 
+// Coarse implementation, but getting in early for points.  Once you have a group, remove them from the list of all
+// programs, detect next group and repeat until length of programs is zero.
 func (td testDay) PartTwo(inputData string) (string, error) {
 	programs := getPrograms(inputData)
 
