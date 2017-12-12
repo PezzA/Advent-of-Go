@@ -1,16 +1,95 @@
 package Day201712
 
+import (
+	"bufio"
+	"strconv"
+	"strings"
+)
+
 // Entry holds wraps the data and runner interfaces for this puzzle
 var Entry testDay
 
 type testDay bool
 
+type programList map[int][]int
+
+func getPrograms(input string) programList {
+	progList := make(programList, 0)
+
+	scanner := bufio.NewScanner(strings.NewReader(input))
+	for scanner.Scan() {
+		bits := strings.Split(scanner.Text(), " ")
+
+		index := 0
+		childList := make([]int, 0)
+
+		for bitIndex, val := range bits {
+			if bitIndex == 0 {
+				index, _ = strconv.Atoi(val)
+			}
+
+			if bitIndex > 1 {
+				val = strings.Replace(val, ",", "", 1)
+				child, _ := strconv.Atoi(val)
+				childList = append(childList, child)
+			}
+
+		}
+
+		progList[index] = childList
+	}
+	return progList
+}
+
+// from index, recursively travel each pipe until we hit a program with no new programs then return
+func travelPipes(index int, seenPrograms map[int]bool, pl programList) map[int]bool {
+	if ok, _ := seenPrograms[index]; !ok {
+		seenPrograms[index] = true
+	}
+
+	program := pl[index]
+
+	for _, childIndex := range program {
+		if ok, _ := seenPrograms[childIndex]; !ok {
+			travelPipes(childIndex, seenPrograms, pl)
+		}
+	}
+
+	return seenPrograms
+}
+
 func (td testDay) PartOne(inputData string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+	programs := getPrograms(inputData)
+	seenList := travelPipes(0, make(map[int]bool, 0), programs)
+	return strconv.Itoa(len(seenList)), nil
 }
 
 func (td testDay) PartTwo(inputData string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+	programs := getPrograms(inputData)
+
+	seenList := travelPipes(0, make(map[int]bool, 0), programs)
+
+	for key := range seenList {
+		delete(programs, key)
+	}
+
+	groups := 1
+
+	for len(programs) > 0 {
+		groups++
+		index := 0
+		for key := range programs {
+			index = key
+			break
+		}
+		seenList := travelPipes(index, make(map[int]bool, 0), programs)
+
+		for key := range seenList {
+			delete(programs, key)
+		}
+	}
+
+	return strconv.Itoa(groups), nil
 }
 
 func (td testDay) Day() int {
@@ -23,8 +102,4 @@ func (td testDay) Year() int {
 
 func (td testDay) Title() string {
 	return "Getting the boilerplate in place"
-}
-
-func (td testDay) GetData() string {
-	return "Actual Data"
 }

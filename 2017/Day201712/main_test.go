@@ -1,6 +1,7 @@
 package Day201712
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -9,6 +10,18 @@ import (
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
+	programs := getPrograms(`0 <-> 2
+1 <-> 1
+2 <-> 0, 3, 4
+3 <-> 2, 4
+4 <-> 2, 3, 6
+5 <-> 6
+6 <-> 4, 5`)
+
+	fmt.Println(programs)
+	seenList := travelPipes(0, make(map[int]bool, 0), programs)
+
+	Expect(len(seenList)).Should(Equal(6))
 }
 
 func Test_PartTwo(t *testing.T) {
