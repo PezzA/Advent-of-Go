@@ -10,7 +10,7 @@ import (
 func outputUseage(errorMsg error) {
 	fmt.Println(errorMsg)
 	fmt.Println("")
-	fmt.Println("	USEAGE: advent-of-go <day>")
+	fmt.Println("	USEAGE: advent-of-go <year> <day>")
 	fmt.Println("		<year> = year number of puzzle to run.  e.g. 2017")
 	fmt.Println("		<day> = day number of puzzle to run.  e.g. 2")
 }
