@@ -1,6 +1,7 @@
 package Day201714
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -8,6 +9,9 @@ import (
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
+
+	lines := getLines("flqrgnkx", 8)
+	fmt.Println(linesToArrays(lines))
 
 }
 

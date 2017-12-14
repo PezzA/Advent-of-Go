@@ -65,7 +65,7 @@ func doSwaps(lengths []int, elements []int, currentPos int, skipSize int) ([]int
 	return elements, currentPos, skipSize
 }
 
-func doFullHash(inputs string) string {
+func DoFullHash(inputs string) string {
 	byteArray := append([]byte(inputs), lengthSuffix...)
 
 	lengths := make([]int, 0)
@@ -115,7 +115,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 
 func (td testDay) PartTwo(inputData string) (string, error) {
 
-	return doFullHash(inputData), nil
+	return DoFullHash(inputData), nil
 }
 
 func (td testDay) Day() int {
