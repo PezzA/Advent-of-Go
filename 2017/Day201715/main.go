@@ -11,7 +11,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string) {
-	return 2017, 05, "Dueling Generators"
+	return 2017, 15, "Dueling Generators"
 }
 
 func lowest16bits(input int64) string {

@@ -9,12 +9,12 @@ func main() {
 		return
 	}
 
-	dailyRunner, error := getPuzzle(day, year)
+	puzzle, error := getPuzzle(day, year)
 
 	if error != nil {
 		outputUseage(error)
 		return
 	}
 
-	runner(dailyRunner)
+	runner(puzzle, 0)
 }

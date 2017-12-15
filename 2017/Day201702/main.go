@@ -14,7 +14,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string) {
-	return 2107, 02, "Corruption Checksum"
+	return 2017, 2, "Corruption Checksum"
 }
 
 // assumes whitespace delimited string of values

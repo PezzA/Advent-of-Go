@@ -2,26 +2,30 @@ package main
 
 import "fmt"
 
-func runner(runner dayRunner) {
-	inputData := runner.PuzzleInput()
+func runner(puzzle dailyPuzzle, mode int) {
+	inputData := puzzle.PuzzleInput()
 
-	fmt.Println(fmt.Sprintf("--- (%v) Day %v : %v ---", runner.Year(), runner.Day(), runner.Title()))
+	year, day, title := puzzle.Describe()
+	fmt.Println(fmt.Sprintf("--- (%v) Day %v : %v ---", year, day, title))
 
-	part1Output, part1Err := runner.PartOne(inputData)
+	if mode == 0 || mode == 1 {
+		part1Output, part1Err := puzzle.PartOne(inputData)
 
-	if part1Err != nil {
-		fmt.Println("    Part 1: ERROR", part1Err)
-		return
+		if part1Err != nil {
+			fmt.Println("    Part 1: ERROR", part1Err)
+			return
+		}
+
+		fmt.Println("    Part 1:", part1Output)
 	}
 
-	fmt.Println("    Part 1:", part1Output)
+	if mode == 0 || mode == 2 {
+		part2Output, part2Err := puzzle.PartTwo(inputData)
 
-	part2Output, part2Err := runner.PartTwo(inputData)
-
-	if part2Err != nil {
-		fmt.Println("    Part 2: ERROR", part2Err)
-		return
+		if part2Err != nil {
+			fmt.Println("    Part 2: ERROR", part2Err)
+			return
+		}
+		fmt.Println("    Part 2:", part2Output)
 	}
-
-	fmt.Println("    Part 2:", part2Output)
 }
