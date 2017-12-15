@@ -24,6 +24,7 @@ func nextFactor(factor int64, seed int64, requiredDivisor int64) int64 {
 	val := (seed * factor) % 2147483647
 
 	if requiredDivisor > 0 {
+
 		valid := val%requiredDivisor == 0
 
 		for !valid {
@@ -31,9 +32,18 @@ func nextFactor(factor int64, seed int64, requiredDivisor int64) int64 {
 			valid = val%requiredDivisor == 0
 		}
 	}
-
 	return val
 }
+
+func nextFactorChan(factor int64, seed int64, requiredDivisor int64, report chan int64) {
+	i := 0
+	for {
+		seed = nextFactor(factor, seed, requiredDivisor)
+		i++
+		report <- seed
+	}
+}
+
 func (td dayEntry) PartOne(inputData string) (string, error) {
 
 	genASeed, genAFactor := int64(873), int64(16807)
@@ -61,6 +71,31 @@ func (td dayEntry) PartTwo(inputData string) (string, error) {
 	for i := 0; i < 5000000; i++ {
 		genASeed = nextFactor(genAFactor, genASeed, 4)
 		genBSeed = nextFactor(genBFactor, genBSeed, 8)
+
+		if lowest16bits(genASeed) == lowest16bits(genBSeed) {
+			total++
+		}
+	}
+
+	return strconv.Itoa(total), nil
+}
+
+func (td dayEntry) PartThree(inputData string) (string, error) {
+	genASeed, genAFactor := int64(873), int64(16807)
+	genBSeed, genBFactor := int64(583), int64(48271)
+
+	genAChan := make(chan int64, 100)
+	genBChan := make(chan int64, 100)
+
+	total := 0
+
+	go nextFactorChan(genAFactor, genASeed, 4, genAChan)
+	go nextFactorChan(genBFactor, genBSeed, 8, genBChan)
+
+	for i := 0; i < 5000000; i++ {
+
+		genASeed = <-genAChan
+		genBSeed = <-genBChan
 
 		if lowest16bits(genASeed) == lowest16bits(genBSeed) {
 			total++

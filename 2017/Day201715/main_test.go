@@ -35,3 +35,10 @@ func Benchmark_PartTwo(b *testing.B) {
 		Entry.PartTwo(data)
 	}
 }
+
+func Benchmark_PartThree(b *testing.B) {
+	data := Entry.PuzzleInput()
+	for n := 0; n < b.N; n++ {
+		Entry.PartThree(data)
+	}
+}
