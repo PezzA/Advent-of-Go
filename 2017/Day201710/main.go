@@ -10,9 +10,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 10, "Knot Hash"
+}
 
 func getElements(size int) []int {
 	elements := make([]int, 0)
@@ -97,7 +101,7 @@ func getDenseHashSection(bits []int) int {
 	return bits[0] ^ bits[1] ^ bits[2] ^ bits[3] ^ bits[4] ^ bits[5] ^ bits[6] ^ bits[7] ^ bits[8] ^ bits[9] ^ bits[10] ^ bits[11] ^ bits[12] ^ bits[13] ^ bits[14] ^ bits[15]
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	bits := strings.Split(inputData, ",")
 
 	lengths := make([]int, 0)
@@ -113,23 +117,10 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(elements[0] * elements[1]), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
-
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	return DoFullHash(inputData), nil
 }
 
-func (td testDay) Day() int {
-	return 10
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Knot Hash"
-}
-
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "14,58,0,116,179,16,1,104,2,254,167,86,255,55,122,244"
 }

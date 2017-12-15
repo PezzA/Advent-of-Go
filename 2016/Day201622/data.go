@@ -1,6 +1,6 @@
 package Day201622
 
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return `root@ebhq-gridcenter# df -h
 Filesystem              Size  Used  Avail  Use%
 /dev/grid/node-x0-y0     92T   72T    20T   78%

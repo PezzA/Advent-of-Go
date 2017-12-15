@@ -5,9 +5,13 @@ import (
 	"strconv"
 )
 
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 03, "Spiral Memory"
+}
 
 type point struct {
 	x int
@@ -108,7 +112,7 @@ func getAdjacentValue(x int, y int, smap map[point]int) int {
 	return 0
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	size, _ := strconv.Atoi(inputData)
 
 	spmap, _ := getSpiral(size+1, false)
@@ -122,7 +126,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return "", errors.New("Did not find the specific cell index")
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	size, _ := strconv.Atoi(inputData)
 
 	_, targetVal := getSpiral(size+1, true)
@@ -130,23 +134,6 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	return strconv.Itoa(targetVal), nil
 }
 
-func (td testDay) Day() int {
-	return 03
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Spiral Memory"
-}
-
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{},
-		[]string{}
-}
-
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "312051"
 }

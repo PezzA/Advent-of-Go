@@ -8,29 +8,21 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
 
-func (d testDay) Day() int {
-	return 11
-}
-
-func (d testDay) Year() int {
-	return 2016
-}
-
-func (d testDay) Title() string {
-	return "Radioisotope Thermoelectric Generators"
+func (d dayEntry) Describe() (int, int, string) {
+	return 2016, 11, "Radioisotope Thermoelectric Generators"
 }
 
 // PartOne returns the solution to day11 part one
-func (d testDay) PartOne(input string) (string, error) {
+func (d dayEntry) PartOne(input string) (string, error) {
 	return "", nil
 }
 
 // PartTwo returns the solution to day11 part two
-func (d testDay) PartTwo(input string) (string, error) {
+func (d dayEntry) PartTwo(input string) (string, error) {
 	return "", nil
 }
 

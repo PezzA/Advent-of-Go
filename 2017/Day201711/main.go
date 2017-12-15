@@ -7,9 +7,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 11, "Hex Ed"
+}
 
 func travel(input string) (int, int) {
 	directions := strings.Split(input, ",")
@@ -50,24 +54,12 @@ func travel(input string) (int, int) {
 	return vals[2], max
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	distance, _ := travel(inputData)
 	return strconv.Itoa(distance), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	_, maxDistance := travel(inputData)
 	return strconv.Itoa(maxDistance), nil
-}
-
-func (td testDay) Day() int {
-	return 11
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Hex Ed"
 }

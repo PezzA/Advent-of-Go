@@ -9,9 +9,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2107, 02, "Corruption Checksum"
+}
 
 // assumes whitespace delimited string of values
 func diff(input string) int {
@@ -62,7 +66,7 @@ func evenDivide(input string) (int, error) {
 	return 0, errors.New("did not find dividing numbers")
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -73,7 +77,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -82,16 +86,4 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	}
 
 	return strconv.Itoa(total), nil
-}
-
-func (td testDay) Day() int {
-	return 02
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Corruption Checksum"
 }

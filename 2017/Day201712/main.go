@@ -7,9 +7,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 12, "Digital Plumber"
+}
 
 type programList map[int][]int
 
@@ -58,7 +62,7 @@ func travelPipes(index int, seenPrograms map[int]bool, pl programList) map[int]b
 	return seenPrograms
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	programs := getPrograms(inputData)
 	seenList := travelPipes(0, make(map[int]bool, 0), programs)
 	return strconv.Itoa(len(seenList)), nil
@@ -66,7 +70,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 
 // Coarse implementation, but getting in early for points.  Once you have a group, remove them from the list of all
 // programs, detect next group and repeat until length of programs is zero.
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	programs := getPrograms(inputData)
 
 	seenList := travelPipes(0, make(map[int]bool, 0), programs)
@@ -92,16 +96,4 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	}
 
 	return strconv.Itoa(groups), nil
-}
-
-func (td testDay) Day() int {
-	return 12
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Digital Plumber"
 }

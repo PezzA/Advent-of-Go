@@ -7,9 +7,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2015, 15, "--- (2015) Day 5: Doesn't He Have Intern-Elves For This? ---"
+}
 
 var vowels = "aeiou"
 var invalidMatches map[string]bool
@@ -85,7 +89,7 @@ func hasRepeatNoOverlap(input string) bool {
 	return false
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -97,7 +101,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(total), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -107,16 +111,4 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 		}
 	}
 	return strconv.Itoa(total), nil
-}
-
-func (td testDay) Day() int {
-	return 15
-}
-
-func (td testDay) Year() int {
-	return 2015
-}
-
-func (td testDay) Title() string {
-	return "--- (2015) Day 5: Doesn't He Have Intern-Elves For This? ---"
 }

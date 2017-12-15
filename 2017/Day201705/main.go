@@ -7,9 +7,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 05, "A Maze of Twisty Trampolines, All Alike"
+}
 
 func doModifiedJumps(ins []int) int {
 	index := 0
@@ -57,7 +61,7 @@ func getInsList(input string) []int {
 	return ins
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	insList := getInsList(inputData)
 
 	exit := doJumps(insList)
@@ -65,22 +69,10 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(exit), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	insList := getInsList(inputData)
 
 	exit := doModifiedJumps(insList)
 
 	return strconv.Itoa(exit), nil
-}
-
-func (td testDay) Day() int {
-	return 5
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "A Maze of Twisty Trampolines, All Alike"
 }

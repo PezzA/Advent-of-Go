@@ -8,12 +8,15 @@ import (
 	"strings"
 )
 
-// Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+type dayEntry bool
+
+var Entry dayEntry
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 7, "Recursive Circus"
+}
 
 var nodeRegex = regexp.MustCompile(`([a-z]+) \(([0-9]+)\)( -> ((\w*(,| )*)*))*`)
-
-type testDay bool
 
 type node struct {
 	title           string
@@ -124,27 +127,15 @@ func buildTree(rootNodeKey string, nl []node) *node {
 	return addNodes(getNode(rootNodeKey, nl), nl)
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	return getRootNode(getNodes(inputData)), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	nodeList := getNodes(inputData)
 
 	rootNode := getRootNode(nodeList)
 
 	printNode(buildTree(rootNode, nodeList), 0)
 	return " -- Not Yet Implemented --", nil
-}
-
-func (td testDay) Day() int {
-	return 7
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Recursive Circus"
 }

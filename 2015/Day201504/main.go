@@ -7,11 +7,15 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) Describe() (int, int, string) {
+	return 2015, 04, "The Ideal Stocking Stuffer"
+}
+
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	hasher := md5.New()
 
 	i := 0
@@ -28,7 +32,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	}
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	hasher := md5.New()
 
 	i := 0
@@ -45,26 +49,6 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	}
 }
 
-func (td testDay) Day() int {
-	return 04
-}
-
-func (td testDay) Year() int {
-	return 2015
-}
-
-func (td testDay) Title() string {
-	return "The Ideal Stocking Stuffer"
-}
-
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{
-			"abcdef",
-			"pqrstuv",
-		},
-		[]string{}
-}
-
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "iwrupvqb"
 }

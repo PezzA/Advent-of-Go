@@ -7,6 +7,14 @@ import (
 	Day10 "github.com/pezza/AoC2017/2017/Day201710"
 )
 
+type dayEntry bool
+
+var Entry dayEntry
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 14, "Disk Defragmentation"
+}
+
 func stringHexToBinary(input string) string {
 	switch input {
 	case "0":
@@ -45,11 +53,6 @@ func stringHexToBinary(input string) string {
 
 	return ""
 }
-
-// Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
-
-type testDay bool
 
 func getLines(input string, linecount int) []string {
 	lines := make([]string, 0)
@@ -154,7 +157,7 @@ func (g grid) PrintGrid() {
 	}
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	lines := getLines(inputData, 128)
 
 	total := 0
@@ -166,7 +169,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(total), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 
 	grid := linesToArrays(getLines(inputData, 128))
 
@@ -185,18 +188,6 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	return strconv.Itoa(startRegionCount), nil
 }
 
-func (td testDay) Day() int {
-	return 14
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Disk Defragmentation"
-}
-
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "ugkiagan"
 }

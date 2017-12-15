@@ -1,11 +1,11 @@
 package Day201704
 
-func (td testDay) GetTestData() ([]string, []string) {
+func (td dayEntry) GetTestData() ([]string, []string) {
 	return []string{"aa bb cc dd ee", "aa bb cc dd aa", "aa bb cc dd aaa"},
 		[]string{}
 }
 
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return `sayndz zfxlkl attjtww cti sokkmty brx fhh suelqbp
 xmuf znkhaes pggrlp zia znkhaes znkhaes
 nti rxr bogebb zdwrin

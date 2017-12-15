@@ -16,14 +16,14 @@ func cheapAssert(expected int, actual int, t *testing.T) {
 }
 
 func Benchmark_PartOne(b *testing.B) {
-	data := Entry.GetData()
+	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
 		Entry.PartOne(data)
 	}
 }
 
 func Benchmark_PartTwo(b *testing.B) {
-	data := Entry.GetData()
+	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
 		Entry.PartTwo(data)
 	}

@@ -14,38 +14,20 @@ func Test_PartOne(t *testing.T) {
 	Expect(result).Should(Equal("0"))
 }
 
-/*
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{
-			"(())",
-			"()()",
-			"(((",
-			"(()(()(",
-			"))(((((",
-			"())",
-			"))(",
-			")))",
-			")())())",
-		}, []string{
-			")",
-			"()())"}
-}
-*/
-
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
 }
 
 func Benchmark_PartOne(b *testing.B) {
-	data := Entry.GetData()
+	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
 		Entry.PartOne(data)
 	}
 }
 
 func Benchmark_PartTwo(b *testing.B) {
-	data := Entry.GetData()
+	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
 		Entry.PartTwo(data)
 	}

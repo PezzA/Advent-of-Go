@@ -7,14 +7,17 @@ import (
 	"strings"
 )
 
-// Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+type dayEntry bool
+
+var Entry dayEntry
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 13, "Getting the boilerplate in place"
+}
 
 type layers map[int]int
 
 var layerRegex = regexp.MustCompile(`([0-9]+): ([0-9]+)`)
-
-type testDay bool
 
 func getLayers(input string) (layers, int) {
 
@@ -49,7 +52,7 @@ func getPositionForTime(time int, length int) int {
 	return step
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	layermap, maxDepth := getLayers(inputData)
 	picoSeconds := 0
 	severity := 0
@@ -66,7 +69,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(severity), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	layermap, maxDepth := getLayers(inputData)
 	seedPicoseconds := 0
 	for {
@@ -91,16 +94,4 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 		seedPicoseconds++
 	}
 	return strconv.Itoa(seedPicoseconds), nil
-}
-
-func (td testDay) Day() int {
-	return 13
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Getting the boilerplate in place"
 }

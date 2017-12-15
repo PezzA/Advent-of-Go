@@ -1,30 +1,30 @@
 package Day201715
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	return " -- Not Yet Implemented --", nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	return " -- Not Yet Implemented --", nil
 }
 
-func (td testDay) Day() int {
+func (td dayEntry) Day() int {
 	return 15
 }
 
-func (td testDay) Year() int {
+func (td dayEntry) Year() int {
 	return 2017
 }
 
-func (td testDay) Title() string {
+func (td dayEntry) Describe() (int, int, string) {
 	return "Getting the boilerplate in place"
 }
 
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "Actual Data"
 }

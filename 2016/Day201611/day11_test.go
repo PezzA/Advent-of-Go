@@ -17,14 +17,14 @@ func Test_PartTwo(t *testing.T) {
 }
 
 func Benchmark_PartOne(b *testing.B) {
-	data := Entry.GetData()
+	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
 		Entry.PartOne(data)
 	}
 }
 
 func Benchmark_PartTwo(b *testing.B) {
-	data := Entry.GetData()
+	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
 		Entry.PartTwo(data)
 	}
@@ -33,7 +33,7 @@ func Benchmark_PartTwo(b *testing.B) {
 /*
 func Test_Day11(t *testing.T) {
 	Convey("Day 11 should be able to ", t, func() {
-		f := getStartingFacility(Entry.GetData())
+		f := getStartingFacility(Entry.PuzzleInput())
 
 		hydrogenMicrochip := component{0, "hydrogen", true}
 		lithiumMicrochip := component{0, "lithium", true}
@@ -85,9 +85,9 @@ func Test_Day11(t *testing.T) {
 		})
 
 		Convey("-> Should be able to tell 2 facilties have the same state", func() {
-			x := getStartingFacility(Entry.GetData())
+			x := getStartingFacility(Entry.PuzzleInput())
 
-			y := getStartingFacility(Entry.GetData())
+			y := getStartingFacility(Entry.PuzzleInput())
 
 			So(x.equals(y), ShouldBeTrue)
 

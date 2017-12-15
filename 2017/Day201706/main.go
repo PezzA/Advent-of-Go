@@ -5,9 +5,13 @@ import (
 	"strings"
 )
 
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 6, "Memory Reallocation"
+}
 
 type registerList []int
 
@@ -109,28 +113,16 @@ func getRegisters(input string) registerList {
 	return registers
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	cycles, _ := distributionCycle(getRegisters(inputData))
 	return strconv.Itoa(cycles), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	cycles, firstLoop := distributionCycle(getRegisters(inputData))
 	return strconv.Itoa(cycles - firstLoop - 1), nil
 }
 
-func (td testDay) Day() int {
-	return 6
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "Memory Reallocation"
-}
-
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "2	8	8	5	4	2	3	1	5	5	1	2	15	13	5	14"
 }

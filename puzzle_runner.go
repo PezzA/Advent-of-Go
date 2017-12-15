@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func runner(runner dayRunner) {
-	inputData := runner.GetData()
+	inputData := runner.PuzzleInput()
 
 	fmt.Println(fmt.Sprintf("--- (%v) Day %v : %v ---", runner.Year(), runner.Day(), runner.Title()))
 

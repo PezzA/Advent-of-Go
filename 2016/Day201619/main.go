@@ -6,9 +6,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2016, 19, "An Elephant Named Joseph"
+}
 
 func getAdjacentElfHops(circleSize int, position int) int {
 	offset := circleSize / 2
@@ -29,7 +33,7 @@ func makeElfCircle(circleSize int) *list.List {
 	return elves
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	circleSize, _ := strconv.Atoi(inputData)
 
 	elfCircle := makeElfCircle(circleSize)
@@ -57,7 +61,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(elfCircle.Front().Value.(int)), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	circleSize, _ := strconv.Atoi(inputData)
 
 	elfCircle := makeElfCircle(circleSize)
@@ -85,18 +89,6 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	return strconv.Itoa(elfCircle.Front().Value.(int)), nil
 }
 
-func (td testDay) Day() int {
-	return 19
-}
-
-func (td testDay) Year() int {
-	return 2016
-}
-
-func (td testDay) Title() string {
-	return "An Elephant Named Joseph"
-}
-
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "3005290"
 }

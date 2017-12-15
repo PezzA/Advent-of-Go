@@ -1,6 +1,6 @@
 package Day201708
 
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return `j inc -19 if jhb >= 10
 es inc -432 if gbu <= -5
 es inc 278 if ib > -9

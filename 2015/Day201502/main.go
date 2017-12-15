@@ -5,10 +5,13 @@ import "strconv"
 import "bufio"
 import "sort"
 
-// Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2015, 02, "I Was Told There Would Be No Math"
+}
 
 type present struct {
 	l int
@@ -62,7 +65,7 @@ func parsePresent(input string) present {
 	}
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -73,7 +76,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(total), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -82,25 +85,4 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	}
 
 	return strconv.Itoa(total), nil
-}
-
-func (td testDay) Day() int {
-	return 02
-}
-
-func (td testDay) Year() int {
-	return 2015
-}
-func (td testDay) Title() string {
-	return "I Was Told There Would Be No Math"
-}
-
-func (td testDay) GetTestData() ([]string, []string) {
-	return []string{
-			"2x3x4",
-			"1x1x10",
-		}, []string{
-			"2x3x4",
-			"1x1x10",
-		}
 }

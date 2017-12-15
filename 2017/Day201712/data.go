@@ -1,6 +1,6 @@
 package Day201712
 
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return `0 <-> 82
 1 <-> 41, 1402
 2 <-> 454, 1690

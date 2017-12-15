@@ -8,9 +8,13 @@ import (
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2016, 17, "Two Steps Forward"
+}
 
 type mazeNode struct {
 	seed  string
@@ -90,7 +94,7 @@ func doTraverse(node *mazeNode, matches chan string) {
 	close(matches)
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	rootNode := &mazeNode{
 		seed: inputData,
 		x:    1,
@@ -114,7 +118,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strings.Replace(shortest, inputData, "", 1), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	rootNode := &mazeNode{
 		seed: inputData,
 		x:    1,
@@ -137,18 +141,6 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	return strconv.Itoa(len(longest) - len(inputData)), nil
 }
 
-func (td testDay) Day() int {
-	return 17
-}
-
-func (td testDay) Year() int {
-	return 17
-}
-
-func (td testDay) Title() string {
-	return "Two Steps Forward"
-}
-
-func (td testDay) GetData() string {
+func (td dayEntry) PuzzleInput() string {
 	return "ioramepc"
 }

@@ -40,9 +40,9 @@ import (
 	"github.com/pezza/AoC2017/TestDay"
 )
 
-func getPuzzle(day int, year int) (dayRunner, error) {
-	runners := [...]dayRunner{
-		TestDay.Entry,
+func getPuzzle(day int, year int) (dailyPuzzle, error) {
+	dailyPuzzles := [...]dailyPuzzle{
+		dayEntry.Entry,
 		Day201501.Entry,
 		Day201502.Entry,
 		Day201503.Entry,
@@ -79,9 +79,10 @@ func getPuzzle(day int, year int) (dayRunner, error) {
 		Day201725.Entry,
 	}
 
-	for _, runner := range runners {
-		if runner.Day() == day && runner.Year() == year {
-			return runner, nil
+	for _, puzzle := range dailyPuzzles {
+		puzzleYear, puzzleDay, _ := puzzle.Describe()
+		if puzzleDay == day && puzzleYear == year {
+			return puzzle, nil
 		}
 	}
 

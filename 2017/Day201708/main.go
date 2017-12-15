@@ -8,10 +8,13 @@ import (
 	"strings"
 )
 
-// Entry holds wraps the data and runner interfaces for this puzzle
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 8, "I Heard You Like Registers"
+}
 
 // link to regex tester : https://regex101.com/r/rodiWy/1/
 var instructionRegex = regexp.MustCompile(`([a-z]*) (inc|dec) ([-]?[0-9]*) if ([a-z]*) (>|<|<=|==|>=|!=) ([-]?[0-9]*)`)
@@ -113,7 +116,7 @@ func runProgram(r registers, instructions []instruction) (registers, int) {
 	return r, highVal
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	r, _ := runProgram(make(registers, 0), getInstructions(inputData))
 
 	test := 0
@@ -125,19 +128,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(test), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	_, highVal := runProgram(make(registers, 0), getInstructions(inputData))
 	return strconv.Itoa(highVal), nil
-}
-
-func (td testDay) Day() int {
-	return 8
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "I Heard You Like Registers"
 }

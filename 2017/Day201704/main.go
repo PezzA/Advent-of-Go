@@ -7,9 +7,13 @@ import (
 	"strings"
 )
 
-var Entry testDay
+var Entry dayEntry
 
-type testDay bool
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2017, 04, "High-Entropy Passphrases"
+}
 
 func stringToRuneSlice(s string) []rune {
 	var r []rune
@@ -62,7 +66,7 @@ func noDupedWord(input string) bool {
 	return true
 }
 
-func (td testDay) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -74,7 +78,7 @@ func (td testDay) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(total), nil
 }
 
-func (td testDay) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string) (string, error) {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -84,16 +88,4 @@ func (td testDay) PartTwo(inputData string) (string, error) {
 	}
 
 	return strconv.Itoa(total), nil
-}
-
-func (td testDay) Day() int {
-	return 04
-}
-
-func (td testDay) Year() int {
-	return 2017
-}
-
-func (td testDay) Title() string {
-	return "High-Entropy Passphrases"
 }

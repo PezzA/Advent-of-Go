@@ -1,10 +1,8 @@
 package main
 
-type dayRunner interface {
-	Day() int
-	Year() int
-	Title() string
+type dailyPuzzle interface {
+	Describe() (int, int, string)
 	PartOne(string) (string, error)
 	PartTwo(string) (string, error)
-	GetData() string
+	PuzzleInput() string
 }
