@@ -9,10 +9,17 @@ import (
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	Expect(spin("abcde", 1)).Should(Equal("eabcd"))
-	Expect(exchangePos("eabcd", 3, 4)).Should(Equal("eabdc"))
-	Expect(exchangeProg("e", "b", "eabdc")).Should(Equal("baedc"))
-	Expect(doDance("abcde", getInstructions("s1,x3/4,pe/b"))).Should(Equal("baedc"))
+	pl := progList("abcde")
+
+	pl = pl.spin(1)
+	Expect(pl).Should(Equal(progList("eabcd")))
+	pl = pl.exchangePos(3, 4)
+	Expect(pl).Should(Equal(progList("eabdc")))
+	pl = pl.exchangeProg("e", "b")
+	Expect(pl).Should(Equal(progList("baedc")))
+
+	pl = progList("abcde")
+	Expect(pl.doDance(getInstructions("s1,x3/4,pe/b"))).Should(Equal(progList("baedc")))
 
 }
 
