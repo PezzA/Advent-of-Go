@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 15, "--- (2015) Day 5: Doesn't He Have Intern-Elves For This? ---"
+	return 2015, 5, "--- (2015) Day 5: Doesn't He Have Intern-Elves For This? ---"
 }
 
 var vowels = "aeiou"
