@@ -55,7 +55,7 @@ func runner(puzzle dailyPuzzle, mode int) {
 				complete = true
 			}
 
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(20 * time.Millisecond)
 		}
 	}
 }
