@@ -1,21 +1,55 @@
 package Day201717
 
+import (
+	"container/list"
+	"fmt"
+)
+
 type dayEntry bool
 
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string) {
-	return 2017, 17, "Getting the boilerplate in place"
+	return 2017, 17, "Spinlock"
+}
+
+func addValue(val int, steps int, pos *list.Element, sl *list.List) *list.Element {
+	for i := 0; i < steps; i++ {
+		pos = pos.Next()
+
+		if pos == nil {
+			pos = sl.Front()
+		}
+	}
+	return sl.InsertAfter(val, pos)
 }
 
 func (td dayEntry) PartOne(inputData string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+	newsl, steps := list.New(), 355
+	newpos := newsl.PushFront(0)
+
+	for i := 1; i < 2018; i++ {
+		newpos = addValue(i, steps, newpos, newsl)
+	}
+
+	return fmt.Sprint(newpos.Next().Value), nil
 }
 
 func (td dayEntry) PartTwo(inputData string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+	newsl, steps := list.New(), 355
+	newpos := newsl.PushFront(0)
+
+	for i := 1; i < 50000000; i++ {
+		newpos = addValue(i, steps, newpos, newsl)
+
+		if i%100000 == 0 {
+			fmt.Println(i)
+		}
+	}
+
+	return fmt.Sprint(newsl.Front().Next().Value), nil
 }
 
 func (td dayEntry) PuzzleInput() string {
-	return "Actual Data"
+	return "355"
 }
