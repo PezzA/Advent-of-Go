@@ -1,18 +1,20 @@
 package main
 
+import "github.com/pezza/Aoc2017/cli"
+
 func main() {
 
-	year, day, error := checkParams()
+	year, day, error := cli.CheckParams()
 
 	if error != nil {
-		outputUseage(error)
+		cli.OutputUseage(error)
 		return
 	}
 
 	puzzle, error := getPuzzle(day, year)
 
 	if error != nil {
-		outputUseage(error)
+		cli.OutputUseage(error)
 		return
 	}
 

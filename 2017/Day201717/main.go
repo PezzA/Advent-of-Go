@@ -24,7 +24,7 @@ func addValue(val int, steps int, pos *list.Element, sl *list.List) *list.Elemen
 	return sl.InsertAfter(val, pos)
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	newsl, steps := list.New(), 355
 	newpos := newsl.PushFront(0)
 
@@ -35,15 +35,15 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return fmt.Sprint(newpos.Next().Value), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	newsl, steps := list.New(), 355
 	newpos := newsl.PushFront(0)
 
 	for i := 1; i < 50000000; i++ {
 		newpos = addValue(i, steps, newpos, newsl)
 
-		if i%100000 == 0 {
-			fmt.Println(i)
+		if i%10000 == 0 {
+			updateChan <- []string{fmt.Sprintf("Running %v of %v", i, 50000000)}
 		}
 	}
 

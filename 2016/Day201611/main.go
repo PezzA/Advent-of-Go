@@ -17,12 +17,12 @@ func (d dayEntry) Describe() (int, int, string) {
 }
 
 // PartOne returns the solution to day11 part one
-func (d dayEntry) PartOne(input string) (string, error) {
+func (d dayEntry) PartOne(input string, updateChan chan []string) (string, error) {
 	return "", nil
 }
 
 // PartTwo returns the solution to day11 part two
-func (d dayEntry) PartTwo(input string) (string, error) {
+func (d dayEntry) PartTwo(input string, updateChan chan []string) (string, error) {
 	return "", nil
 }
 

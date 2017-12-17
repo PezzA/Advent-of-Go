@@ -116,7 +116,7 @@ func (g grid) countLights() int {
 	return lights
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	grid, instructions := getGrid(1000, 1000), getInstructions(inputData)
 
 	for _, ins := range instructions {
@@ -133,7 +133,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(grid.countLights()), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	grid, instructions := getGrid(1000, 1000), getInstructions(inputData)
 
 	for _, ins := range instructions {
