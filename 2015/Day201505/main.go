@@ -66,17 +66,20 @@ func noInvalidMatches(input string) bool {
 }
 
 func hasRepeatNoOverlap(input string) bool {
-	bits := make(map[string]int, 0)
+	bits, span := make(map[string]int, 0), ""
 
 	for i := 0; i < len(input)-1; i++ {
-		if _, ok := bits[input[i:i+2]]; ok {
-			bits[input[i:i+2]]++
-		} else {
-			bits[input[i:i+2]] = 1
-		}
 
-		if input[i] == input[i+1] {
-			i++
+		if span == input[i:i+2] {
+			span = ""
+			continue
+		}
+		span = input[i : i+2]
+
+		if _, ok := bits[span]; ok {
+			bits[span]++
+		} else {
+			bits[span] = 1
 		}
 	}
 

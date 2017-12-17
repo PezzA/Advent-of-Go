@@ -4,14 +4,15 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	common "github.com/pezza/AoC2017/Common"
 )
 
 func Test_Stuff(t *testing.T) {
 	RegisterTestingT(t)
-	Expect(getWrappedIndex(0, 10, 0)).Should(Equal(0))
-	Expect(getWrappedIndex(0, 10, 10)).Should(Equal(0))
-	Expect(getWrappedIndex(0, 10, 1)).Should(Equal(1))
-	Expect(getWrappedIndex(0, 10, 15)).Should(Equal(5))
+	Expect(common.GetWrappedIndex(0, 10, 0)).Should(Equal(0))
+	Expect(common.GetWrappedIndex(0, 10, 10)).Should(Equal(0))
+	Expect(common.GetWrappedIndex(0, 10, 1)).Should(Equal(1))
+	Expect(common.GetWrappedIndex(0, 10, 15)).Should(Equal(5))
 }
 
 func Benchmark_PartOne(b *testing.B) {
