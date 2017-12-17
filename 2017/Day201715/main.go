@@ -44,7 +44,7 @@ func nextFactorChan(factor int64, seed int64, requiredDivisor int64, report chan
 	}
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 
 	genASeed, genAFactor := int64(873), int64(16807)
 	genBSeed, genBFactor := int64(583), int64(48271)
@@ -58,11 +58,15 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 		if lowest16bits(genASeed) == lowest16bits(genBSeed) {
 			total++
 		}
+
+		if i%100000 == 0 {
+			updateChan <- []string{fmt.Sprintf("Compared %v of %v matches", i, 40000000)}
+		}
 	}
 	return strconv.Itoa(total), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	genASeed, genAFactor := int64(873), int64(16807)
 	genBSeed, genBFactor := int64(583), int64(48271)
 
@@ -74,6 +78,10 @@ func (td dayEntry) PartTwo(inputData string) (string, error) {
 
 		if lowest16bits(genASeed) == lowest16bits(genBSeed) {
 			total++
+		}
+
+		if i%100000 == 0 {
+			updateChan <- []string{fmt.Sprintf("Compared %v of %v matches", i, 5000000)}
 		}
 	}
 

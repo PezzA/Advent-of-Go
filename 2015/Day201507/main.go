@@ -53,11 +53,11 @@ func getInstructions(input string) []instruction {
 	return ins
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	return " -- Not Yet Implemented --", nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	return " -- Not Yet Implemented --", nil
 }
 

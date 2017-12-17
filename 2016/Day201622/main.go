@@ -14,10 +14,10 @@ func (td dayEntry) Describe() (int, int, string) {
 var regex = "/dev/grid/node-x([0-9]+)-y([0-9]+)     ([0-9]+)T   ([0-9]+)T    ([0-9]+)T   ([0-9]+)%"
 var instructionRegex = regexp.MustCompile(regex)
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	return " -- Not Yet Implemented --", nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	return " -- Not Yet Implemented --", nil
 }

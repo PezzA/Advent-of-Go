@@ -62,7 +62,7 @@ func travelPipes(index int, seenPrograms map[int]bool, pl programList) map[int]b
 	return seenPrograms
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	programs := getPrograms(inputData)
 	seenList := travelPipes(0, make(map[int]bool, 0), programs)
 	return strconv.Itoa(len(seenList)), nil
@@ -70,7 +70,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 
 // Coarse implementation, but getting in early for points.  Once you have a group, remove them from the list of all
 // programs, detect next group and repeat until length of programs is zero.
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	programs := getPrograms(inputData)
 
 	seenList := travelPipes(0, make(map[int]bool, 0), programs)

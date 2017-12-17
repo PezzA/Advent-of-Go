@@ -61,7 +61,7 @@ func getInsList(input string) []int {
 	return ins
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	insList := getInsList(inputData)
 
 	exit := doJumps(insList)
@@ -69,7 +69,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(exit), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	insList := getInsList(inputData)
 
 	exit := doModifiedJumps(insList)

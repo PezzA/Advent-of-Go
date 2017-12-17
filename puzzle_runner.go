@@ -1,71 +1,69 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
-	tm "github.com/buger/goterm"
+	"github.com/pezza/Aoc2017/cli"
 )
+
+type partResult struct {
+	answered bool
+	result   string
+	time     time.Duration
+}
 
 func runner(puzzle dailyPuzzle, mode int) {
 	inputData := puzzle.PuzzleInput()
 	year, day, title := puzzle.Describe()
 
-	part1Answer, part2Answer := "", ""
+	part1Answer, part2Answer := partResult{false, "", 0}, partResult{false, "", 0}
+	part1Update, part2Update := []string{"*"}, []string{"*"}
 
-	part1Chan := make(chan string, 0)
-	part2Chan := make(chan string, 0)
+	part1Chan := make(chan partResult, 0)
+	part2Chan := make(chan partResult, 0)
+
+	part1UpdateChan := make(chan []string, 10)
+	part2UpdateChan := make(chan []string, 10)
+
+	heading := cli.GetHeader(year, day, title)
+
+	cli.DrawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
 	if mode == 0 || mode == 1 {
-		go doPartOne(puzzle, inputData, part1Chan)
+		go doPart(puzzle.PartOne, inputData, part1Chan, part1UpdateChan)
 	}
 
 	if mode == 0 || mode == 2 {
-		go doPartTwo(puzzle, inputData, part2Chan)
+		go doPart(puzzle.PartTwo, inputData, part2Chan, part2UpdateChan)
 	}
 
-	for part1Answer != "" && part2Answer != "" {
+	complete := false
+	for !complete {
 		select {
 		case result := <-part1Chan:
 			part1Answer = result
 		case result := <-part2Chan:
 			part2Answer = result
+		case update := <-part1UpdateChan:
+			part1Update = update
+		case update := <-part2UpdateChan:
+			part2Update = update
 		default:
-			tm.Println(fmt.Sprintf("--- %v Day %v : %v ---", tm.Color(fmt.Sprintf("%v", year), tm.YELLOW), day, tm.Bold(tm.Color(title, tm.WHITE))))
+			cli.DrawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
-			if part1Answer == "" {
-				tm.Println("    Part 1 : *")
-			} else {
-				tm.Println("    Part 1 :", part1Answer)
+			if part1Answer.answered && part2Answer.answered {
+				complete = true
 			}
 
-			if part2Answer == "" {
-				tm.Println("    Part 2 : *")
-			} else {
-				tm.Println("    Part 2 :", part2Answer)
-			}
-			tm.Flush()
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 }
 
-func doPartOne(puzzle dailyPuzzle, inputData string, response chan string) {
-	part1Output, _ := puzzle.PartOne(inputData)
-	response <- part1Output
-}
-
-func doPartTwo(puzzle dailyPuzzle, inputData string, response chan string) {
-	part2Output, _ := puzzle.PartTwo(inputData)
-	response <- part2Output
-}
-
-func printTime() {
-	for {
-		tm.MoveCursorUp(0)
-		tm.ResetLine("")
-		tm.Print("Current Time:", time.Now().Format(time.RFC1123))
-
-		tm.Flush() // Call it every time at the end of rendering
-		time.Sleep(time.Second)
-	}
+func doPart(fn puzzlePart, inputData string, response chan partResult, updateChan chan []string) {
+	start := time.Now()
+	part1Output, _ := fn(inputData, updateChan)
+	end := time.Now()
+	elapsed := end.Sub(start)
+	response <- partResult{true, part1Output, elapsed}
 }

@@ -127,11 +127,11 @@ func buildTree(rootNodeKey string, nl []node) *node {
 	return addNodes(getNode(rootNodeKey, nl), nl)
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	return getRootNode(getNodes(inputData)), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	nodeList := getNodes(inputData)
 
 	rootNode := getRootNode(nodeList)

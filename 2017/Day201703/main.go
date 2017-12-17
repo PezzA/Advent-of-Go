@@ -112,7 +112,7 @@ func getAdjacentValue(x int, y int, smap map[point]int) int {
 	return 0
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	size, _ := strconv.Atoi(inputData)
 
 	spmap, _ := getSpiral(size+1, false)
@@ -126,7 +126,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return "", errors.New("Did not find the specific cell index")
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	size, _ := strconv.Atoi(inputData)
 
 	_, targetVal := getSpiral(size+1, true)

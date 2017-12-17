@@ -113,12 +113,12 @@ func getRegisters(input string) registerList {
 	return registers
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	cycles, _ := distributionCycle(getRegisters(inputData))
 	return strconv.Itoa(cycles), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	cycles, firstLoop := distributionCycle(getRegisters(inputData))
 	return strconv.Itoa(cycles - firstLoop - 1), nil
 }

@@ -116,7 +116,7 @@ func runProgram(r registers, instructions []instruction) (registers, int) {
 	return r, highVal
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	r, _ := runProgram(make(registers, 0), getInstructions(inputData))
 
 	test := 0
@@ -128,7 +128,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(test), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	_, highVal := runProgram(make(registers, 0), getInstructions(inputData))
 	return strconv.Itoa(highVal), nil
 }

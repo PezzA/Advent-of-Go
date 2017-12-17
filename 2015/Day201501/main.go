@@ -11,7 +11,7 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 01, "Not Quite Lisp"
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	floor := 0
 
 	for _, runeValue := range inputData {
@@ -24,7 +24,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(floor), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	floor := 0
 	postition := 0
 	for _, runeValue := range inputData {

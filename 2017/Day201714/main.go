@@ -157,7 +157,7 @@ func (g grid) PrintGrid() {
 	}
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	lines := getLines(inputData, 128)
 
 	total := 0
@@ -169,7 +169,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(total), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 
 	grid := linesToArrays(getLines(inputData, 128))
 

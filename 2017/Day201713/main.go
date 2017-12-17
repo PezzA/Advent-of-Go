@@ -52,7 +52,7 @@ func getPositionForTime(time int, length int) int {
 	return step
 }
 
-func (td dayEntry) PartOne(inputData string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
 	layermap, maxDepth := getLayers(inputData)
 	picoSeconds := 0
 	severity := 0
@@ -69,7 +69,7 @@ func (td dayEntry) PartOne(inputData string) (string, error) {
 	return strconv.Itoa(severity), nil
 }
 
-func (td dayEntry) PartTwo(inputData string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
 	layermap, maxDepth := getLayers(inputData)
 	seedPicoseconds := 0
 	for {
