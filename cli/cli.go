@@ -1,4 +1,4 @@
-package main
+package cli
 
 import (
 	"errors"
@@ -7,7 +7,8 @@ import (
 	"strconv"
 )
 
-func outputUseage(errorMsg error) {
+// OutputUseage outputs useage pattern
+func OutputUseage(errorMsg error) {
 	fmt.Println(errorMsg)
 	fmt.Println("")
 	fmt.Println("	USEAGE: AoC2017 <year> <day> [<part>]")
@@ -15,7 +16,8 @@ func outputUseage(errorMsg error) {
 	fmt.Println("		<day> = day number of puzzle to run.  e.g. 2")
 }
 
-func checkParams() (int, int, error) {
+// CheckParams checks input parameters are correct
+func CheckParams() (int, int, error) {
 	if len(os.Args) < 2 {
 		return 0, 0, errors.New("Not all parameters specified")
 	}
