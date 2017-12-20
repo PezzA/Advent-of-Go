@@ -48,7 +48,7 @@ func runner(puzzle dailyPuzzle) {
 		case update := <-part2UpdateChan:
 			part2Update = update
 		default:
-			cli.NewFrame()
+			cli.NewFrame(4 + len(part1Update) + len(part1Update))
 			cli.DrawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
 			if part1Answer.answered && part2Answer.answered {

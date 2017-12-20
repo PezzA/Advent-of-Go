@@ -66,6 +66,12 @@ func ShowCursor() {
 	tm.Flush()
 }
 
+// Interrupted handles if the console app is told to shut down, Ctrl+C et...
+func Interrupted() {
+	tm.Println(tm.Bold(tm.Color("    Why no finishings?", tm.RED)))
+	ShowCursor()
+}
+
 // DrawFrame takes a bunch of parameters that form the basic view model, then outputs to console
 func DrawFrame(partOneResult string, partOneUpdate []string, partOneDuration time.Duration, partTwoResult string, partTwoUpdate []string, partTwoDuration time.Duration, header string) {
 	tm.Println()
@@ -90,8 +96,9 @@ func DrawFrame(partOneResult string, partOneUpdate []string, partOneDuration tim
 
 }
 
-func NewFrame() {
-	tm.MoveCursorUp(6)
+// NewFrame get ready to draw a new frame, which basically entails moving the cursor back to the top
+func NewFrame(rowsToMoveUp int) {
+	tm.MoveCursorUp(rowsToMoveUp)
 }
 
 func drawResult(prefix string, result string, timeTaken time.Duration) {
