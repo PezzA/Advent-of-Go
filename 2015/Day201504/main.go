@@ -15,7 +15,7 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 04, "The Ideal Stocking Stuffer"
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	hasher := md5.New()
 
 	i := 0
@@ -26,13 +26,13 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 		hash := hex.EncodeToString(hasher.Sum(nil))
 
 		if hash[:5] == "00000" {
-			return strconv.Itoa(i), nil
+			return strconv.Itoa(i)
 		}
 		i++
 	}
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	hasher := md5.New()
 
 	i := 0
@@ -43,7 +43,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		hash := hex.EncodeToString(hasher.Sum(nil))
 
 		if hash[:6] == "000000" {
-			return strconv.Itoa(i), nil
+			return strconv.Itoa(i)
 		}
 		i++
 	}

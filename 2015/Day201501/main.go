@@ -11,7 +11,7 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 01, "Not Quite Lisp"
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	floor := 0
 
 	for _, runeValue := range inputData {
@@ -21,10 +21,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 			floor--
 		}
 	}
-	return strconv.Itoa(floor), nil
+	return strconv.Itoa(floor)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	floor := 0
 	postition := 0
 	for _, runeValue := range inputData {
@@ -39,7 +39,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 			break
 		}
 	}
-	return strconv.Itoa(postition), nil
+	return strconv.Itoa(postition)
 }
 
 func (td dayEntry) PuzzleInput() string {

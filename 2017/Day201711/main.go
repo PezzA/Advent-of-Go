@@ -54,12 +54,12 @@ func travel(input string) (int, int) {
 	return vals[2], max
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	distance, _ := travel(inputData)
-	return strconv.Itoa(distance), nil
+	return strconv.Itoa(distance)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	_, maxDistance := travel(inputData)
-	return strconv.Itoa(maxDistance), nil
+	return strconv.Itoa(maxDistance)
 }

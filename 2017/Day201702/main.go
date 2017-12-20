@@ -66,18 +66,18 @@ func evenDivide(input string) (int, error) {
 	return 0, errors.New("did not find dividing numbers")
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
 		total += diff(scanner.Text())
 	}
 
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -85,5 +85,5 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		total += subtotal
 	}
 
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }

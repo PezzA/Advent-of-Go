@@ -61,18 +61,18 @@ func getInsList(input string) []int {
 	return ins
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	insList := getInsList(inputData)
 
 	exit := doJumps(insList)
 
-	return strconv.Itoa(exit), nil
+	return strconv.Itoa(exit)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	insList := getInsList(inputData)
 
 	exit := doModifiedJumps(insList)
 
-	return strconv.Itoa(exit), nil
+	return strconv.Itoa(exit)
 }

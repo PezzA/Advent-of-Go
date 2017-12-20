@@ -94,7 +94,7 @@ func doTraverse(node *mazeNode, matches chan string) {
 	close(matches)
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	rootNode := &mazeNode{
 		seed: inputData,
 		x:    1,
@@ -115,10 +115,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 			longest = result
 		}
 	}
-	return strings.Replace(shortest, inputData, "", 1), nil
+	return strings.Replace(shortest, inputData, "", 1)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	rootNode := &mazeNode{
 		seed: inputData,
 		x:    1,
@@ -138,7 +138,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 			longest = result
 		}
 	}
-	return strconv.Itoa(len(longest) - len(inputData)), nil
+	return strconv.Itoa(len(longest) - len(inputData))
 }
 
 func (td dayEntry) PuzzleInput() string {

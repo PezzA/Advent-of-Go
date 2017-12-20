@@ -101,7 +101,7 @@ func getDenseHashSection(bits []int) int {
 	return bits[0] ^ bits[1] ^ bits[2] ^ bits[3] ^ bits[4] ^ bits[5] ^ bits[6] ^ bits[7] ^ bits[8] ^ bits[9] ^ bits[10] ^ bits[11] ^ bits[12] ^ bits[13] ^ bits[14] ^ bits[15]
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	bits := strings.Split(inputData, ",")
 
 	lengths := make([]int, 0)
@@ -114,11 +114,11 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 
 	elements, _, _ := doSwaps(lengths, getElements(standardSize), 0, 0)
 
-	return strconv.Itoa(elements[0] * elements[1]), nil
+	return strconv.Itoa(elements[0] * elements[1])
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
-	return DoFullHash(inputData), nil
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
+	return DoFullHash(inputData)
 }
 
 func (td dayEntry) PuzzleInput() string {

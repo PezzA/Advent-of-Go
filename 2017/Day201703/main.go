@@ -1,7 +1,6 @@
 package Day201703
 
 import (
-	"errors"
 	"strconv"
 )
 
@@ -112,26 +111,26 @@ func getAdjacentValue(x int, y int, smap map[point]int) int {
 	return 0
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	size, _ := strconv.Atoi(inputData)
 
 	spmap, _ := getSpiral(size+1, false)
 
 	for key, value := range spmap {
 		if value == size {
-			return strconv.Itoa(intAbs(key.x) + intAbs(key.y)), nil
+			return strconv.Itoa(intAbs(key.x) + intAbs(key.y))
 		}
 	}
 
-	return "", errors.New("Did not find the specific cell index")
+	return "Should not have got here"
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	size, _ := strconv.Atoi(inputData)
 
 	_, targetVal := getSpiral(size+1, true)
 
-	return strconv.Itoa(targetVal), nil
+	return strconv.Itoa(targetVal)
 }
 
 func (td dayEntry) PuzzleInput() string {

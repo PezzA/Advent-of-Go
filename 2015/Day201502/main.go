@@ -65,7 +65,7 @@ func parsePresent(input string) present {
 	}
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -73,10 +73,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 		total += present.paperRequired()
 	}
 
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	total := 0
 	scanner := bufio.NewScanner(strings.NewReader(inputData))
 	for scanner.Scan() {
@@ -84,5 +84,5 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		total += present.ribbonRequired()
 	}
 
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }

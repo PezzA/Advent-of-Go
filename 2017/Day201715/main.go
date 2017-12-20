@@ -44,7 +44,7 @@ func nextFactorChan(factor int64, seed int64, requiredDivisor int64, report chan
 	}
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 	genASeed, genAFactor := int64(873), int64(16807)
 	genBSeed, genBFactor := int64(583), int64(48271)
@@ -63,10 +63,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 			updateChan <- []string{fmt.Sprintf("Compared %v of %v matches", i, 40000000)}
 		}
 	}
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	genASeed, genAFactor := int64(873), int64(16807)
 	genBSeed, genBFactor := int64(583), int64(48271)
 
@@ -85,10 +85,10 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }
 
-func (td dayEntry) PartThree(inputData string) (string, error) {
+func (td dayEntry) PartThree(inputData string) string {
 	genASeed, genAFactor := int64(873), int64(16807)
 	genBSeed, genBFactor := int64(583), int64(48271)
 
@@ -109,7 +109,7 @@ func (td dayEntry) PartThree(inputData string) (string, error) {
 			total++
 		}
 	}
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }
 
 func (td dayEntry) PuzzleInput() string {

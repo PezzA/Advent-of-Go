@@ -55,6 +55,17 @@ func GetHeader(year int, day int, title string) string {
 	return fmt.Sprintf("%v %v - %v : %v %v", epilette, dispYear, dispDay, dispTitle, epilette)
 }
 
+// HideCursor hides the console cursor
+func HideCursor() {
+	tm.Print("\033[?25l")
+}
+
+// ShowCursor hides the console cursor
+func ShowCursor() {
+	tm.Print("\033[?25h")
+	tm.Flush()
+}
+
 // DrawFrame takes a bunch of parameters that form the basic view model, then outputs to console
 func DrawFrame(partOneResult string, partOneUpdate []string, partOneDuration time.Duration, partTwoResult string, partTwoUpdate []string, partTwoDuration time.Duration, header string) {
 	tm.Println()
@@ -76,6 +87,10 @@ func DrawFrame(partOneResult string, partOneUpdate []string, partOneDuration tim
 		drawResult(partTwoPreFix, partTwoResult, partTwoDuration)
 	}
 	tm.Flush()
+
+}
+
+func NewFrame() {
 	tm.MoveCursorUp(6)
 }
 

@@ -180,7 +180,7 @@ func runProgram(ins []instruction, c chip, progressChannel chan int, updateChan 
 	return c.recoveredSound
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	c := chip{
 		registers:      make(registers, 0),
 		lastSound:      0,
@@ -190,10 +190,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 
 	val := runProgram(loadInstructions(inputData), c, nil, nil)
 
-	return strconv.Itoa(val), nil
+	return strconv.Itoa(val)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
 	atob := make(chan int, 10000)
 	btoa := make(chan int, 10000)
@@ -226,5 +226,5 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 	<-progress1
 	prog1messages := <-progress2
 
-	return strconv.Itoa(prog1messages), nil
+	return strconv.Itoa(prog1messages)
 }

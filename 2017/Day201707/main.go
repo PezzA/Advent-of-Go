@@ -127,15 +127,15 @@ func buildTree(rootNodeKey string, nl []node) *node {
 	return addNodes(getNode(rootNodeKey, nl), nl)
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
-	return getRootNode(getNodes(inputData)), nil
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	return getRootNode(getNodes(inputData))
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	nodeList := getNodes(inputData)
 
 	rootNode := getRootNode(nodeList)
 
 	printNode(buildTree(rootNode, nodeList), 0)
-	return " -- Not Yet Implemented --", nil
+	return fmt.Sprintf(" -- Not Yet Implemented --")
 }

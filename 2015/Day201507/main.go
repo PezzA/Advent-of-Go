@@ -2,6 +2,7 @@ package Day201507
 
 import (
 	"bufio"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -53,12 +54,12 @@ func getInstructions(input string) []instruction {
 	return ins
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	return fmt.Sprintf(" -- Not Yet Implemented --")
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
+	return fmt.Sprintf(" -- Not Yet Implemented --")
 }
 
 func (td dayEntry) PuzzleInput() string {

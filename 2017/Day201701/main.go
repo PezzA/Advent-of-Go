@@ -14,7 +14,7 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2017, 1, "Inverse Captcha"
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	total := 0
 	loopSize := len(inputData)
 
@@ -27,10 +27,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 		}
 
 	}
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	total := 0
 	loopSize := len(inputData)
 
@@ -43,5 +43,5 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		}
 
 	}
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }

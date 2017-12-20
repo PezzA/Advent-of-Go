@@ -33,7 +33,7 @@ func (c coord) update(instruction rune) coord {
 	}
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	places := make(map[coord]int, 0)
 
 	position := coord{0, 0}
@@ -49,10 +49,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return strconv.Itoa(len(places)), nil
+	return strconv.Itoa(len(places))
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	places := make(map[coord]int, 0)
 
 	santa := coord{0, 0}
@@ -78,7 +78,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return strconv.Itoa(len(places)), nil
+	return strconv.Itoa(len(places))
 }
 
 func (td dayEntry) PuzzleInput() string {

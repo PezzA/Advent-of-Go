@@ -76,12 +76,12 @@ func scoreTree(n node, score int) int {
 	return score + n.score
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	_, _, cumlative, _ := streamReader(inputData, 0, 0, 0)
-	return strconv.Itoa(cumlative), nil
+	return strconv.Itoa(cumlative)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	_, _, _, garbageCount := streamReader(inputData, 0, 0, 0)
-	return strconv.Itoa(garbageCount), nil
+	return strconv.Itoa(garbageCount)
 }

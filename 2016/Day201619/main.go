@@ -33,7 +33,7 @@ func makeElfCircle(circleSize int) *list.List {
 	return elves
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	circleSize, _ := strconv.Atoi(inputData)
 
 	elfCircle := makeElfCircle(circleSize)
@@ -58,10 +58,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return strconv.Itoa(elfCircle.Front().Value.(int)), nil
+	return strconv.Itoa(elfCircle.Front().Value.(int))
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	circleSize, _ := strconv.Atoi(inputData)
 
 	elfCircle := makeElfCircle(circleSize)
@@ -86,7 +86,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return strconv.Itoa(elfCircle.Front().Value.(int)), nil
+	return strconv.Itoa(elfCircle.Front().Value.(int))
 }
 
 func (td dayEntry) PuzzleInput() string {

@@ -24,7 +24,7 @@ func addValue(val int, steps int, pos *list.Element, sl *list.List) *list.Elemen
 	return sl.InsertAfter(val, pos)
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	newsl, steps := list.New(), 355
 	newpos := newsl.PushFront(0)
 
@@ -32,10 +32,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 		newpos = addValue(i, steps, newpos, newsl)
 	}
 
-	return fmt.Sprint(newpos.Next().Value), nil
+	return fmt.Sprint(newpos.Next().Value)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	newsl, steps := list.New(), 355
 	newpos := newsl.PushFront(0)
 
@@ -47,7 +47,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return fmt.Sprint(newsl.Front().Next().Value), nil
+	return fmt.Sprint(newsl.Front().Next().Value)
 }
 
 func (td dayEntry) PuzzleInput() string {

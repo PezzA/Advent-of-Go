@@ -154,12 +154,12 @@ func getMaze(input string) []string {
 	return maze
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	letters, _ := walkMaze(getMaze(inputData))
-	return letters, nil
+	return letters
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	_, steps := walkMaze(getMaze(inputData))
-	return strconv.Itoa(steps), nil
+	return strconv.Itoa(steps)
 }

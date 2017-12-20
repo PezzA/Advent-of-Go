@@ -1,5 +1,7 @@
 package Day201725
 
+import "fmt"
+
 type dayEntry bool
 
 var Entry dayEntry
@@ -7,14 +9,10 @@ var Entry dayEntry
 func (td dayEntry) Describe() (int, int, string) {
 	return 2017, 25, "Getting the boilerplate in place"
 }
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
-	return " -- Not Yet Implemented --", nil
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	return fmt.Sprintf(" -- Not Yet Implemented --")
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
-	return " -- Not Yet Implemented --", nil
-}
-
-func (td dayEntry) PuzzleInput() string {
-	return "Actual Data"
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
+	return fmt.Sprintf(" -- Not Yet Implemented --")
 }

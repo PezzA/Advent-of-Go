@@ -18,5 +18,5 @@ func main() {
 		return
 	}
 
-	runner(puzzle, 0)
+	runner(puzzle)
 }

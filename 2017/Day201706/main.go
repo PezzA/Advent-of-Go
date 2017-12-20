@@ -113,14 +113,14 @@ func getRegisters(input string) registerList {
 	return registers
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	cycles, _ := distributionCycle(getRegisters(inputData))
-	return strconv.Itoa(cycles), nil
+	return strconv.Itoa(cycles)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	cycles, firstLoop := distributionCycle(getRegisters(inputData))
-	return strconv.Itoa(cycles - firstLoop - 1), nil
+	return strconv.Itoa(cycles - firstLoop - 1)
 }
 
 func (td dayEntry) PuzzleInput() string {

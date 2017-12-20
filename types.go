@@ -1,10 +1,10 @@
 package main
 
-type puzzlePart func(string, chan []string) (string, error)
+type puzzlePart func(string, chan []string) string
 
 type dailyPuzzle interface {
 	Describe() (int, int, string)
-	PartOne(string, chan []string) (string, error)
-	PartTwo(string, chan []string) (string, error)
+	PartOne(string, chan []string) string
+	PartTwo(string, chan []string) string
 	PuzzleInput() string
 }

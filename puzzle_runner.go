@@ -12,7 +12,11 @@ type partResult struct {
 	time     time.Duration
 }
 
-func runner(puzzle dailyPuzzle, mode int) {
+func runner(puzzle dailyPuzzle) {
+	cli.HideCursor()
+
+	defer cli.ShowCursor()
+
 	inputData := puzzle.PuzzleInput()
 	year, day, title := puzzle.Describe()
 
@@ -29,13 +33,8 @@ func runner(puzzle dailyPuzzle, mode int) {
 
 	cli.DrawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
-	if mode == 0 || mode == 1 {
-		go doPart(puzzle.PartOne, inputData, part1Chan, part1UpdateChan)
-	}
-
-	if mode == 0 || mode == 2 {
-		go doPart(puzzle.PartTwo, inputData, part2Chan, part2UpdateChan)
-	}
+	go doPart(puzzle.PartOne, inputData, part1Chan, part1UpdateChan)
+	go doPart(puzzle.PartTwo, inputData, part2Chan, part2UpdateChan)
 
 	complete := false
 	for !complete {
@@ -49,21 +48,22 @@ func runner(puzzle dailyPuzzle, mode int) {
 		case update := <-part2UpdateChan:
 			part2Update = update
 		default:
+			cli.NewFrame()
 			cli.DrawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
 			if part1Answer.answered && part2Answer.answered {
 				complete = true
 			}
 
-			time.Sleep(20 * time.Millisecond)
+			time.Sleep(17 * time.Millisecond)
 		}
 	}
 }
 
 func doPart(fn puzzlePart, inputData string, response chan partResult, updateChan chan []string) {
 	start := time.Now()
-	part1Output, _ := fn(inputData, updateChan)
+	output := fn(inputData, updateChan)
 	end := time.Now()
 	elapsed := end.Sub(start)
-	response <- partResult{true, part1Output, elapsed}
+	response <- partResult{true, output, elapsed}
 }

@@ -17,13 +17,13 @@ func (d dayEntry) Describe() (int, int, string) {
 }
 
 // PartOne returns the solution to day11 part one
-func (d dayEntry) PartOne(input string, updateChan chan []string) (string, error) {
-	return "", nil
+func (d dayEntry) PartOne(input string, updateChan chan []string) string {
+	return ""
 }
 
 // PartTwo returns the solution to day11 part two
-func (d dayEntry) PartTwo(input string, updateChan chan []string) (string, error) {
-	return "", nil
+func (d dayEntry) PartTwo(input string, updateChan chan []string) string {
+	return ""
 }
 
 func (f facility) isValid(elevatorContents []component, floor int) (bool, facility) {

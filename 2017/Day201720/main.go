@@ -195,15 +195,15 @@ func removeCollisions(part []particle) []particle {
 }
 
 // 0, 78, 43, 138
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	particles := getParticles(Entry.PuzzleInput())
 
 	sortByAcclerationVelocityPosition(particles)
 
-	return fmt.Sprintf("%v", particles[0].index), nil
+	return fmt.Sprintf("%v", particles[0].index)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	particles := getParticles(Entry.PuzzleInput())
 
 	prev, same := 0, 0
@@ -222,5 +222,5 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return fmt.Sprintf("%v", prev), nil
+	return fmt.Sprintf("%v", prev)
 }

@@ -157,7 +157,7 @@ func (g grid) PrintGrid() {
 	}
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	lines := getLines(inputData, 128)
 
 	total := 0
@@ -166,10 +166,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) (string, 
 		total += countChar(val, rune('1'))
 	}
 
-	return strconv.Itoa(total), nil
+	return strconv.Itoa(total)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, error) {
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
 	grid := linesToArrays(getLines(inputData, 128))
 
@@ -185,7 +185,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) (string, 
 		}
 	}
 
-	return strconv.Itoa(startRegionCount), nil
+	return strconv.Itoa(startRegionCount)
 }
 
 func (td dayEntry) PuzzleInput() string {
