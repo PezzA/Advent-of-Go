@@ -17,7 +17,3 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	return fmt.Sprintf(" -- Not Yet Implemented --")
 }
-
-func (td dayEntry) PuzzleInput() string {
-	return "Actual Data"
-}
