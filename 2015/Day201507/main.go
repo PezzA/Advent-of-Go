@@ -16,7 +16,7 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 7, "Some Assembly Required"
 }
 
-var instructionRegex = regexp.MustCompile(`(\S*)*( )*(NOT|RSHIFT|LSHIFT|OR|AND)*( )*(\S*) -> (\S*)`)
+var instructionRegex = regexp.MustCompile(`((([a-z0-9]*) (RSHIFT|OR|AND|LSHIFT)|NOT) )*([a-z0-9]*) -> ([a-z0-9]*)`)
 
 type instruction struct {
 	command  string
@@ -26,32 +26,41 @@ type instruction struct {
 }
 
 func getInstructions(input string) []instruction {
+	insList, scanner := make([]instruction, 0), bufio.NewScanner(strings.NewReader(input))
 
-	ins := make([]instruction, 0)
-	scanner := bufio.NewScanner(strings.NewReader(input))
 	for scanner.Scan() {
-		line := scanner.Text()
+		matches := instructionRegex.FindStringSubmatch(scanner.Text())
 
-		matches := instructionRegex.FindStringSubmatch(line)
+		var ins instruction
 
-		switch matches[3] {
-		case "RSHIFT":
-		case "LSHIFT":
-		case "OR":
-		case "AND":
-		case "":
-			if matches[1] == "NOT" {
-				// not operation
-			} else {
-				// assignment
+		switch matches[4] {
+		case "RSHIFT", "LSHIFT", "OR", "AND":
+			ins = instruction{
+				command:  matches[4],
+				operand1: matches[3],
+				operand2: matches[5],
+				output:   matches[6],
 			}
-
+		case "":
+			if matches[2] == "NOT" {
+				ins = instruction{
+					command:  matches[2],
+					operand1: matches[5],
+					operand2: "",
+					output:   matches[6],
+				}
+			} else {
+				ins = instruction{
+					command:  "ASSIGN",
+					operand1: matches[5],
+					operand2: "",
+					output:   matches[6],
+				}
+			}
 		}
-
-		ins = append(ins, instruction{})
+		insList = append(insList, ins)
 	}
-
-	return ins
+	return insList
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

@@ -9,10 +9,33 @@ import (
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
+	/*
+		ins := getInstructions(Entry.PuzzleInput())
+
+		c := chip{
+			registers:      make(registers, 0),
+			index:          0,
+			mulInvocations: 0,
+		}
+
+		fmt.Println(runProgram(ins, c, nil))
+	*/
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
+
+	//ins := getInstructions(Entry.PuzzleInput())
+
+	c := chip{
+		registers:      make(registers, 0),
+		index:          0,
+		mulInvocations: 0,
+	}
+
+	c.registers["a"] = 1
+
+	//fmt.Println(runProgram(ins, c, nil))
 
 }
 

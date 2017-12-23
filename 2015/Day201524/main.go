@@ -39,8 +39,8 @@ func isMatch(source []int, compare []int) bool {
 		return false
 	}
 
-	for index := range source {
-		if source[index] != compare[index] {
+	for index, val := range source {
+		if val != compare[index] {
 			return false
 		}
 	}
@@ -63,34 +63,44 @@ func addNew(combos [][]int, test []int) [][]int {
 }
 
 func combinations(targetWeight int, presents []int, updateChan chan []string) [][]int {
-	totPres := int32(len(presents))
-	loop := int32(math.Pow(float64(2), float64(len(presents))))
+	totPres := len(presents)
+	loop := int32(math.Pow(float64(2), float64(len(presents)+1)))
 
-	loop100, update := loop/100, 0
 	combos := make([][]int, 0)
+	min := 0
+	//	currentEntanglement := 0
 
+	// loop through each possible combination
 	for i := int32(0); i < loop; i++ {
-		test := make([]int, 0)
+		currentCobmination, currentTotal, currentBits := make([]int, 0), 0, 0
 
-		currVal := 0
+		for powers := 1; powers <= totPres; powers++ {
+			digit := powers - 1
 
-		for powers := int32(0); powers < totPres; powers++ {
-			currPower := int32(1)
-
-			if powers > 0 {
-				currPower = int32(math.Pow(float64(2), float64(powers+1)))
-			}
+			currPower := int32(math.Pow(2, float64(powers)))
 
 			if i&currPower != 0 {
-				test = append(test, presents[powers])
-				currVal += presents[powers]
-				if currVal > targetWeight {
+				currentCobmination = append(currentCobmination, presents[digit])
+
+				currentBits++
+				if currentBits > min && min != 0 {
+					break
+				}
+				currentTotal += presents[digit]
+				if currentTotal > targetWeight {
+					continue
+				}
+
+				if currentTotal > targetWeight {
 					break
 				}
 
-				if currVal == targetWeight {
-
-					combos = addNew(combos, test)
+				// gone over abort
+				if currentTotal == targetWeight {
+					if min == 0 || currentBits <= min {
+						min = currentBits
+						combos = addNew(combos, currentCobmination)
+					}
 
 					break
 				}
@@ -98,9 +108,8 @@ func combinations(targetWeight int, presents []int, updateChan chan []string) []
 		}
 
 		if updateChan != nil {
-			if i%loop100 == 0 {
-				update++
-				updateChan <- []string{fmt.Sprintf("%v%% complete, %v matches found.", update, len(combos))}
+			if i%10000000 == 0 {
+				updateChan <- []string{fmt.Sprintf("%v of %v combinations checked, %v matches found.", i, loop, len(combos))}
 			}
 		}
 
@@ -119,25 +128,17 @@ func getQuantumEntanglement(combo []int) int {
 	return qe
 }
 
-func takeSpecificNumber(targetWeight int, numToTake int, presents []int) [][]int {
-	candidates := make([][]int, 0)
-	for _, p1 := range presents {
-		if p1 == targetWeight {
-			candidates = append(candidates, []int{p1})
-		}
-	}
-	return candidates
-}
-
 func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 24, "It Hangs in the Balance"
 }
 
 //31112183811
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-
 	presents := getPresents(inputData)
-	combos := combinations(totalweight(presents)/3, presents, updateChan)
+
+	weight := totalweight(presents)
+
+	combos := combinations(weight/3, presents, updateChan)
 
 	sort.Slice(combos, func(i, j int) bool {
 
@@ -151,5 +152,19 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	presents := getPresents(inputData)
+
+	weight := totalweight(presents)
+
+	combos := combinations(weight/4, presents, updateChan)
+
+	sort.Slice(combos, func(i, j int) bool {
+
+		if len(combos[i]) == len(combos[j]) {
+			return getQuantumEntanglement(combos[i]) < getQuantumEntanglement(combos[j])
+		}
+		return len(combos[i]) < len(combos[j])
+	})
+
+	return fmt.Sprintf("%v", getQuantumEntanglement(combos[0]))
 }

@@ -12,14 +12,16 @@ func getTestPresents() []int {
 	return []int{1, 2, 3, 4, 5, 7, 8, 9, 10, 11}
 }
 
+//31112183811
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	presents := getTestPresents()
+	presents := getPresents(Entry.PuzzleInput())
 
 	weight := totalweight(presents)
 
-	combos := combinations(weight/3, presents)
+	combos := combinations(weight/4, presents, nil)
+	fmt.Println(combos)
 
 	sort.Slice(combos, func(i, j int) bool {
 
@@ -29,7 +31,10 @@ func Test_PartOne(t *testing.T) {
 		return len(combos[i]) < len(combos[j])
 	})
 
-	fmt.Println(fmt.Sprintf("%v", getQuantumEntanglement(combos[0])))
+	for _, val := range combos {
+		fmt.Println(val, "-->", getQuantumEntanglement(val))
+	}
+
 }
 
 func Test_PartTwo(t *testing.T) {
