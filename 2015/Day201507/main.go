@@ -68,13 +68,14 @@ func runCircuitLoop(gates gateList, wires wireList) (bool, wireList, gateList) {
 			case "ASSIGN":
 				hasOp1Signal, op1Signal := getGateOperand(g.operand1, wires)
 
-				// only if the output does not already have a value
+				// only assign if the output wire does not already have a value, part 2 gotcha!
 				hasOutputSignal, _ := wires.signalState(g.output)
 
 				if hasOutputSignal {
 					g.running = true
 					continue
 				}
+
 				if hasOp1Signal {
 					wires[g.output] = op1Signal
 					g.running = true
