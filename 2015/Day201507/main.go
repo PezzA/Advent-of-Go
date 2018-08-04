@@ -118,10 +118,13 @@ func runCircuit(gates gateList, wires wireList) wireList {
 		wires = make(wireList, 0)
 	}
 
-	hasUpdates := true
+	var hasUpdates bool
 
-	for hasUpdates {
+	for {
 		hasUpdates, wires, gates = runCircuitLoop(gates, wires)
+		if !hasUpdates {
+			break
+		}
 	}
 
 	return wires
