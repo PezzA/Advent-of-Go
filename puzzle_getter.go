@@ -41,6 +41,7 @@ import (
 	"github.com/pezza/AoC2017/2017/Day201724"
 	"github.com/pezza/AoC2017/2017/Day201725"
 	"github.com/pezza/AoC2017/TestDay"
+	"github.com/pezza/aoc2017/2015/Day201507"
 )
 
 func getPuzzle(day int, year int) (dailyPuzzle, error) {
@@ -52,6 +53,7 @@ func getPuzzle(day int, year int) (dailyPuzzle, error) {
 		Day201504.Entry,
 		Day201505.Entry,
 		Day201506.Entry,
+		Day201507.Entry,
 		Day201524.Entry,
 		Day201525.Entry,
 		Day201611.Entry,
@@ -92,5 +94,5 @@ func getPuzzle(day int, year int) (dailyPuzzle, error) {
 		}
 	}
 
-	return nil, errors.New("Day specified has not been fully implemented yet")
+	return nil, errors.New("day specified has not been fully implemented yet")
 }

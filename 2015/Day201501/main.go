@@ -26,9 +26,9 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	floor := 0
-	postition := 0
+	position := 0
 	for _, runeValue := range inputData {
-		postition++
+		position++
 		if runeValue == '(' {
 			floor++
 		} else {
@@ -39,7 +39,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 			break
 		}
 	}
-	return strconv.Itoa(postition)
+	return strconv.Itoa(position)
 }
 
 func (td dayEntry) PuzzleInput() string {
