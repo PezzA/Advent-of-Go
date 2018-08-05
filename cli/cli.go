@@ -27,19 +27,19 @@ func OutputUseage(errorMsg error) {
 // CheckParams checks input parameters are correct
 func CheckParams() (int, int, error) {
 	if len(os.Args) < 2 {
-		return 0, 0, errors.New("Not all parameters specified")
+		return 0, 0, errors.New("not all parameters specified")
 	}
 
 	year, err := strconv.Atoi(os.Args[1])
 
 	if err != nil {
-		return 0, 0, errors.New("Called with invalid year")
+		return 0, 0, errors.New("called with invalid year")
 	}
 
 	day, err := strconv.Atoi(os.Args[2])
 
 	if err != nil {
-		return 0, 0, errors.New("Called with invalid day")
+		return 0, 0, errors.New("called with invalid day")
 	}
 
 	return year, day, nil
@@ -60,7 +60,7 @@ func HideCursor() {
 	tm.Print("\033[?25l")
 }
 
-// ShowCursor hides the console cursor
+// ShowCursor shows the console cursor
 func ShowCursor() {
 	tm.Print("\033[?25h")
 	tm.Flush()
