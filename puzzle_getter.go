@@ -44,6 +44,7 @@ import (
 	"github.com/pezza/AoC2017/TestDay"
 	"github.com/pezza/aoc2017/2015/Day201507"
 	"github.com/pezza/aoc2017/2015/Day201510"
+	"github.com/pezza/aoc2017/2015/Day201511"
 )
 
 func getPuzzle(day int, year int) (dailyPuzzle, error) {
@@ -58,6 +59,7 @@ func getPuzzle(day int, year int) (dailyPuzzle, error) {
 		Day201507.Entry,
 		Day201508.Entry,
 		Day201510.Entry,
+		Day201511.Entry,
 		Day201524.Entry,
 		Day201525.Entry,
 		Day201611.Entry,
