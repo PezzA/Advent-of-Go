@@ -6,10 +6,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func Test_PartOne(t *testing.T) {
-	RegisterTestingT(t)
-
-	instructions := getInstructions(`123 -> x
+var testInstructions = getInstructions(`123 -> x
 456 -> y
 x AND y -> d
 x OR y -> e
@@ -18,7 +15,30 @@ y RSHIFT 2 -> g
 NOT x -> h
 NOT y -> i`)
 
-	Expect(instructions[0]).Should(Equal(instruction{"ASSIGN", "123", "", "x"}))
+func Test_PartOne(t *testing.T) {
+	RegisterTestingT(t)
+
+	// test that bitwise operations are returning the expected results!
+	a, b := uint16(123), uint16(456)
+	Expect(a & b).Should(Equal(uint16(72)))
+	Expect(a | b).Should(Equal(uint16(507)))
+	Expect(a << 2).Should(Equal(uint16(492)))
+	Expect(b >> 2).Should(Equal(uint16(114)))
+	Expect(^a).Should(Equal(uint16(65412)))
+
+	Expect(*testInstructions[0]).Should(Equal(gate{"ASSIGN", "123", "", "x", false}))
+
+	gates := testInstructions
+
+	wires := make(wireList, 0)
+
+	var todo bool
+	todo, wires, gates = runCircuitLoop(gates, wires)
+	Expect(todo).Should(Equal(true))
+
+	todo, wires, gates = runCircuitLoop(gates, wires)
+	Expect(todo).Should(Equal(false))
+
 }
 
 func Test_PartTwo(t *testing.T) {
