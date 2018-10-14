@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6c51d3a2-18f1-487c-b56b-52b7c15e6b5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/2015/Day201512/data.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2015/Day201512/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2015/Day201512/main_test.go" afterDir="false" />
+    <list default="true" id="8ef57a8d-e1c3-4834-b45e-c880788d2d31" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/2015/Day201509/data.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2015/Day201509/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2015/Day201509/main_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2015/Day201509/puzzle.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/puzzle_getter.go" beforeDir="false" afterPath="$PROJECT_DIR$/puzzle_getter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2015/Day201508/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/2015/Day201508/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2015/Day201508/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/2015/Day201508/main_test.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,116 +17,144 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FUSProjectUsageTrigger">
-    <session id="1404041200">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="3" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.9" value="1" />
-          <entry key="project.open.time.98" value="1" />
-          <entry key="project.opened" value="4" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="go" value="25" />
-          <entry key="txt" value="3" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="Go" value="25" />
-          <entry key="PLAIN_TEXT" value="3" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="go" value="44" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="Go" value="44" />
-        </counts>
-      </usages-collector>
-    </session>
     <session id="1495158406">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
-          <entry key="project.open.time.16" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.6" value="3" />
-          <entry key="project.opened" value="5" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="go" value="11" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="Go" value="11" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="2844" />
+          <entry key="go" value="1390" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="2844" />
+          <entry key="Go" value="1390" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="go" value="14" />
+          <entry key="txt" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Go" value="14" />
+          <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/2015/Day201511/main_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/2015/Day201512/data.go">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/2015/Day201512/main.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="860">
-              <caret line="47" column="1" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/puzzle_getter.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="55" column="24" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/2015/Day201512/main_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.48294243">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2015/Day201508/main.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="216">
+                  <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+                  <folding>
+                    <element signature="e#19#47#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2015/Day201509/data.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <caret column="17" selection-start-column="17" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2015/Day201509/main_test.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <caret column="17" selection-start-column="17" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2015/Day201509/puzzle.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="360">
+                  <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/2015/Day201509/main.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="324">
+                  <caret line="18" column="52" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/TestDay/main_test.go">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/TestDay/main.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="234">
+                  <caret line="13" column="52" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="52" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://C:/Go/src/strings/strings_amd64.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="468">
+                  <caret line="26" selection-start-line="26" selection-end-line="26" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2015/Day201512/data.go">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/2015/Day201508/data.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="54">
+                  <caret line="3" selection-start-line="3" selection-end-line="3" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/2015/Day201508/main_test.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="252">
+                  <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
@@ -133,20 +163,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/cli/cli.go" />
-        <option value="$PROJECT_DIR$/Common/listloop.go" />
-        <option value="$PROJECT_DIR$/2015/Day201508/main_test.go" />
-        <option value="$PROJECT_DIR$/2015/Day201508/puzzle.txt" />
-        <option value="$PROJECT_DIR$/2015/Day201501/main.go" />
-        <option value="$PROJECT_DIR$/2015/Day201508/main.go" />
         <option value="$PROJECT_DIR$/2015/Day201508/data.go" />
-        <option value="$PROJECT_DIR$/2015/Day201511/data.go" />
-        <option value="$PROJECT_DIR$/2015/Day201511/main.go" />
-        <option value="$PROJECT_DIR$/2015/Day201511/main_test.go" />
-        <option value="$PROJECT_DIR$/2015/Day201512/data.go" />
-        <option value="$PROJECT_DIR$/2015/Day201512/main_test.go" />
-        <option value="$PROJECT_DIR$/2015/Day201512/main.go" />
-        <option value="$PROJECT_DIR$/puzzle_getter.go" />
+        <option value="$PROJECT_DIR$/2015/Day201508/main_test.go" />
+        <option value="$PROJECT_DIR$/2015/Day201508/main.go" />
+        <option value="$PROJECT_DIR$/2015/Day201509/data.go" />
+        <option value="$PROJECT_DIR$/2015/Day201509/main_test.go" />
+        <option value="$PROJECT_DIR$/2015/Day201509/puzzle.txt" />
+        <option value="$PROJECT_DIR$/2015/Day201509/main.go" />
       </list>
     </option>
   </component>
@@ -157,11 +180,12 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="-1805" />
+    <option name="y" value="423" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -183,27 +207,73 @@
               <item name="aoc2017" type="b2602c69:ProjectViewProjectNode" />
               <item name="aoc2017" type="462c0819:PsiDirectoryNode" />
               <item name="2015" type="462c0819:PsiDirectoryNode" />
+              <item name="Day201509" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aoc2017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aoc2017" type="462c0819:PsiDirectoryNode" />
+              <item name="2015" type="462c0819:PsiDirectoryNode" />
               <item name="Day201512" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aoc2017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aoc2017" type="462c0819:PsiDirectoryNode" />
+              <item name="TestDay" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="aoc2017" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="aoc2017" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name=".idea" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="aoc2017" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="2015" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="aoc2017" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="2015" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Day201508" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="aoc2017" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="2015" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Day201510" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="aoc2017" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="2015" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Day201512" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/code/assembly/hello_world" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\John\go\src\github.com\pezza\aoc2017\2015" />
-      <recent name="C:\Users\jperrin\go\src\github.com\pezza\AoC2017\2015\Day201508" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -218,46 +288,91 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="Test_PartTwo in github.com/pezza/aoc2017/2015/Day201511" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="AoC2017" />
-      <working_directory value="$PROJECT_DIR$/2015/Day201511" />
+  <component name="RunManager" selected="Go Test.Test_PartTwo in github.com/pezza/aoc2017/2015/Day201508">
+    <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="aoc2017" />
+      <working_directory value="$PROJECT_DIR$/2015/Day201508" />
       <go_parameters value="-i" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/pezza/aoc2017/2015/Day201511" />
+      <package value="github.com/pezza/aoc2017/2015/Day201508" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^Test_PartOne$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_PartTwo in github.com/pezza/aoc2017/2015/Day201508" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="aoc2017" />
+      <working_directory value="$PROJECT_DIR$/2015/Day201508" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/pezza/aoc2017/2015/Day201508" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
       <pattern value="^Test_PartTwo$" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Go Test.Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" />
+      <item itemvalue="Go Test.Test_PartTwo in github.com/pezza/aoc2017/2015/Day201508" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.Test_PartTwo in github.com/pezza/aoc2017/2015/Day201511" />
+        <item itemvalue="Go Test.Test_PartTwo in github.com/pezza/aoc2017/2015/Day201508" />
+        <item itemvalue="Go Test.Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="Test_PartTwo_in_github_com_pezza_aoc2017_2015_Day201511 - 2018.08.05 at 23h 29m 01s.xml">
-      <configuration name="Test_PartTwo in github.com/pezza/aoc2017/2015/Day201511" configurationId="GoTestRunConfiguration" />
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 00m 30s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 03m 08s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 03m 41s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 05m 13s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 06m 27s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 06m 55s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 07m 58s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartTwo_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 18m 17s.xml">
+      <configuration name="Test_PartTwo in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartOne_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 18m 33s.xml">
+      <configuration name="Test_PartOne in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_PartTwo_in_github_com_pezza_aoc2017_2015_Day201508 - 2018.10.14 at 23h 18m 42s.xml">
+      <configuration name="Test_PartTwo in github.com/pezza/aoc2017/2015/Day201508" configurationId="GoTestRunConfiguration" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-1928" y="-8" width="1936" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15778251" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16257995" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32917964" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3281412" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3286119" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3281412" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -271,79 +386,35 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/2015/Day201508/main_test.go</url>
+          <line>30</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/2015/Day201508/main_test.go</url>
+          <line>11</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cli/cli.go">
+    <entry file="file://$PROJECT_DIR$/2015/Day201511/main_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="32" column="41" lean-forward="true" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
+        <state relative-caret-position="18">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Common/listloop.go">
+    <entry file="file://$PROJECT_DIR$/2015/Day201512/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Common/intmaths.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/types.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201701/data.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201701/puzzle.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201701/main_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201701/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201702/data.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201702/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201702/main_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2017/Day201702/puzzle.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TestDay/data.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TestDay/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TestDay/main_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201508/data.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        <state relative-caret-position="324">
+          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -354,72 +425,101 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201508/main.go">
+    <entry file="file://$PROJECT_DIR$/puzzle_getter.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="162">
+          <caret line="55" column="24" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/puzzle_runner.go">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/2015/Day201512/main_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/strings/replace.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1350" />
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/strings/strings.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="840" selection-start-line="840" selection-end-line="840" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/strings/strings_amd64.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2015/Day201508/data.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/2015/Day201508/main_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        <state relative-caret-position="252">
+          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201501/main.go">
+    <entry file="file://$PROJECT_DIR$/2015/Day201508/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201511/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="715">
-          <caret line="90" column="25" lean-forward="true" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201511/data.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="30" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201511/main_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="216">
+          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+          <folding>
+            <element signature="e#19#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/2015/Day201512/data.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201512/main.go">
+    <entry file="file://$PROJECT_DIR$/2015/Day201509/data.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="860">
-          <caret line="47" column="1" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
+        <state>
+          <caret column="17" selection-start-column="17" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2015/Day201512/main_test.go">
+    <entry file="file://$PROJECT_DIR$/2015/Day201509/main_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2015/Day201509/puzzle.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+          <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/puzzle_getter.go">
+    <entry file="file://$PROJECT_DIR$/TestDay/main_test.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TestDay/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="55" column="24" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
+        <state relative-caret-position="234">
+          <caret line="13" column="52" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2015/Day201509/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="52" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
         </state>
       </provider>
     </entry>
