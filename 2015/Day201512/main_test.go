@@ -1,26 +1,26 @@
-package Day201508
+package Day201512
 
 import (
-	"strings"
 	"testing"
-
-	"fmt"
 
 	. "github.com/onsi/gomega"
 )
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
-	for _, data := range strings.Split(Entry.PuzzleInput(), "\n") {
-		fmt.Println(data, escapeString(data))
-	}
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
-	for _, data := range strings.Split(Entry.PuzzleInput(), "\n") {
-		fmt.Println(data, encodeString(data))
-	}
+
+	Expect(splitAndAdd("[1,2,3]")).Should(Equal(6))
+	Expect(splitAndAdd(`{"a":2,"b":4}`)).Should(Equal(6))
+	Expect(splitAndAdd(`[[[3]]]`)).Should(Equal(3))
+	Expect(splitAndAdd(`{"a":{"b":4},"c":-1}`)).Should(Equal(3))
+	Expect(splitAndAdd(`{"a":[-1,1]}`)).Should(Equal(0))
+	Expect(splitAndAdd(`[-1,{"a":1}]`)).Should(Equal(0))
+	Expect(splitAndAdd(`[]`)).Should(Equal(0))
+	Expect(splitAndAdd(`{}`)).Should(Equal(0))
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

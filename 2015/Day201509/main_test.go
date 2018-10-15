@@ -1,7 +1,6 @@
-package Day201508
+package Day201509
 
 import (
-	"strings"
 	"testing"
 
 	"fmt"
@@ -11,16 +10,26 @@ import (
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
-	for _, data := range strings.Split(Entry.PuzzleInput(), "\n") {
-		fmt.Println(data, escapeString(data))
+	destinations := getData(Entry.PuzzleInput()).extractDestinations()
+
+	resultChan := make(chan []string)
+
+	go permutation(destinations, make([]string, 0), resultChan)
+
+	i := 0
+	for range resultChan {
+		i++
+		if i == factorial(len(destinations)) {
+			close(resultChan)
+		}
 	}
+
+	fmt.Println("done!")
+
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
-	for _, data := range strings.Split(Entry.PuzzleInput(), "\n") {
-		fmt.Println(data, encodeString(data))
-	}
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
