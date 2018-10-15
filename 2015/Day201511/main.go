@@ -10,7 +10,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func updateString(input string, index int, newChar rune) string {
-	var r strings.Builder
+	/*var r strings.Builder
 	if index > 0 {
 		r.WriteString(input[0:index])
 		r.WriteRune(newChar)
@@ -18,8 +18,8 @@ func updateString(input string, index int, newChar rune) string {
 	} else {
 		r.WriteRune(newChar)
 		r.WriteString(input[index+1:])
-	}
-	return r.String()
+	}*/
+	return ""
 }
 
 func increment(input string) string {
