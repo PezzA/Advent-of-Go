@@ -1,6 +1,7 @@
 package Day201512
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -40,6 +41,35 @@ func splitAndAdd(input string) int {
 		}
 	}
 	return count
+}
+
+func parseAndWalk(inputData string) (int, error){
+	var customData interface{}
+	err := json.Unmarshal([]byte(inputData), &customData)
+	if err != nil{
+		return -1, err
+	}
+
+	for _, mapKey := range customData.([]interface{}){
+		switch mapKey.(type){
+		case []interface{}:
+			fmt.Println("list", mapKey)
+		case map[string]interface{}:
+			fmt.Println("map", mapKey)
+		case int:
+			fmt.Println("int", mapKey)
+		case string:
+			fmt.Println("string", mapKey)
+		case float64:
+			fmt.Println("float64", mapKey)
+		default:
+			fmt.Println("Something else")
+		}
+	}
+
+
+
+	return 0, nil
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

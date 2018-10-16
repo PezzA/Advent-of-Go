@@ -21,6 +21,12 @@ func Test_PartTwo(t *testing.T) {
 	Expect(splitAndAdd(`[-1,{"a":1}]`)).Should(Equal(0))
 	Expect(splitAndAdd(`[]`)).Should(Equal(0))
 	Expect(splitAndAdd(`{}`)).Should(Equal(0))
+
+	_, err := parseAndWalk(Entry.PuzzleInput())
+
+	if err!= nil{
+		t.Fatal(err)
+	}
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
