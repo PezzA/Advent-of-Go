@@ -3,8 +3,6 @@ package Day201512
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
-	"strings"
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
@@ -16,67 +14,40 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 12, "JSAbacusFramework.io"
 }
 
-func splitAndAdd(input string) int {
-	count := 0
-	lsb := strings.Split(input, "[")
-	for _, innerLsb := range lsb {
-		rsb := strings.Split(innerLsb, "]")
-		for _, innerRsb := range rsb {
-			lfb := strings.Split(innerRsb, "{")
-			for _, innerLfb := range lfb {
-				rfb := strings.Split(innerLfb, "}")
-				for _, innerRfb := range rfb {
-					colon := strings.Split(innerRfb, ":")
-					for _, innerCol := range colon {
-						comma := strings.Split(innerCol, ",")
-						for _, innerCom := range comma {
-							value, err := strconv.Atoi(innerCom)
-							if err == nil {
-								count += value
-							}
-						}
-					}
-				}
+func parseAndWalk(input interface{}, total int, filter string) int {
+	returnValue := 0
+	switch input.(type) {
+	case map[string]interface{}:
+		subItem := input.(map[string]interface{})
+		for _, v := range subItem {
+			if filter != "" && v == filter {
+				return 0
 			}
+			returnValue += parseAndWalk(v, total, filter)
 		}
-	}
-	return count
-}
-
-func parseAndWalk(inputData string) (int, error){
-	var customData interface{}
-	err := json.Unmarshal([]byte(inputData), &customData)
-	if err != nil{
-		return -1, err
-	}
-
-	for _, mapKey := range customData.([]interface{}){
-		switch mapKey.(type){
-		case []interface{}:
-			fmt.Println("list", mapKey)
-		case map[string]interface{}:
-			fmt.Println("map", mapKey)
-		case int:
-			fmt.Println("int", mapKey)
-		case string:
-			fmt.Println("string", mapKey)
-		case float64:
-			fmt.Println("float64", mapKey)
-		default:
-			fmt.Println("Something else")
+	case []interface{}:
+		subItem := input.([]interface{})
+		for _, v := range subItem {
+			returnValue += parseAndWalk(v, total, filter)
 		}
+	case float64:
+		returnValue = int(input.(float64))
 	}
-
-
-
-	return 0, nil
+	return returnValue
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	val := splitAndAdd(Entry.PuzzleInput())
-	return fmt.Sprintf("%v", val)
+	var customData interface{}
+	json.Unmarshal([]byte(inputData), &customData)
+
+	count := parseAndWalk(customData, 0, "")
+	return fmt.Sprintf("%v", count)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	var customData interface{}
+	json.Unmarshal([]byte(inputData), &customData)
+
+	count := parseAndWalk(customData, 0, "red")
+	return fmt.Sprintf("%v", count)
 }

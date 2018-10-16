@@ -1,6 +1,8 @@
 package Day201512
 
 import (
+	"encoding/json"
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -22,11 +24,19 @@ func Test_PartTwo(t *testing.T) {
 	Expect(splitAndAdd(`[]`)).Should(Equal(0))
 	Expect(splitAndAdd(`{}`)).Should(Equal(0))
 
-	_, err := parseAndWalk(Entry.PuzzleInput())
+	var customData interface{}
+	err := json.Unmarshal([]byte(Entry.PuzzleInput()), &customData)
+	if err != nil {
+		t.Error(err)
+	}
 
-	if err!= nil{
+	count := parseAndWalk(customData, 0, 0)
+
+	if err != nil {
 		t.Fatal(err)
 	}
+
+	fmt.Println(count)
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
