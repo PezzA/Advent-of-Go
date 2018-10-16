@@ -9,20 +9,14 @@ import (
 )
 
 func Test_PartOne(t *testing.T) {
+
 	RegisterTestingT(t)
-	destinations := getData(Entry.PuzzleInput()).extractDestinations()
 
-	resultChan := make(chan []string)
+	destinationMap := getData(Entry.PuzzleInput())
 
-	go permutation(destinations, make([]string, 0), resultChan)
+	destinationList := destinationMap.extractDestinations()
 
-	i := 0
-	for range resultChan {
-		i++
-		if i == factorial(len(destinations)) {
-			close(resultChan)
-		}
-	}
+	fmt.Println(destinationMap.getDistance(destinationList))
 
 	fmt.Println("done!")
 

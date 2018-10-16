@@ -69,6 +69,7 @@ func removeDestination(input []string, target string) []string {
 
 	return retVal
 }
+
 func permutation(destinations []string, acc []string, resultChan chan []string) {
 	if len(destinations) == 1 {
 		resultChan <- append(acc, destinations[0])
@@ -79,29 +80,70 @@ func permutation(destinations []string, acc []string, resultChan chan []string) 
 	}
 }
 
+func (rl routeList) getDistance(path []string) int {
+	distance := 0
+	for i:= 0; i< len(path)-1; i++ {
+		pathSection := route{path[i], path[i+1]}
+
+		if rl[pathSection] == 0{
+			pathSection = route{path[i+1], path[i]}
+		}
+		distance += rl[pathSection]
+		if i == len(path) -1 {
+			break
+		}
+	}
+	return distance
+}
+
 func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 9, "All in a Single Night"
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	destinations := getData(inputData).extractDestinations()
-
+	destinationMap := getData(inputData)
+	destinationList := destinationMap.extractDestinations()
 	resultChan := make(chan []string)
 
-	go permutation(destinations, make([]string, 0), resultChan)
+	go permutation(destinationList, make([]string, 0), resultChan)
 
 	i := 0
-	for range resultChan {
-		i++
-		fmt.Println(i)
+	minDistance := -1
 
-		if i == factorial(len(destinations)) {
+	for path := range resultChan {
+		i++
+		distance := destinationMap.getDistance(path)
+		if minDistance == -1 || distance < minDistance{
+			minDistance = distance
+		}
+		if i == factorial(len(destinationList)) {
 			close(resultChan)
 		}
 	}
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+
+	return fmt.Sprintf("%v", minDistance)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	destinationMap := getData(inputData)
+	destinationList := destinationMap.extractDestinations()
+	resultChan := make(chan []string)
+
+	go permutation(destinationList, make([]string, 0), resultChan)
+
+	i := 0
+	maxDistance := 0
+
+	for path := range resultChan {
+		i++
+		distance := destinationMap.getDistance(path)
+		if distance > maxDistance{
+			maxDistance = distance
+		}
+		if i == factorial(len(destinationList)) {
+			close(resultChan)
+		}
+	}
+
+	return fmt.Sprintf("%v", maxDistance)
 }
