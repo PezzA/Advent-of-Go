@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/pezza/AoC2017/Common"
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
@@ -18,23 +20,6 @@ type route struct {
 
 type routeList map[route]int
 
-func contains(list []string, test string) bool {
-	for _, val := range list {
-		if val == test {
-			return true
-		}
-	}
-	return false
-}
-
-func factorial(n int) (result int) {
-	if n > 0 {
-		result = n * factorial(n-1)
-		return result
-	}
-	return 1
-}
-
 func getData(input string) routeList {
 	routes := make(routeList, 0)
 	for _, line := range strings.Split(input, "\n") {
@@ -48,10 +33,10 @@ func getData(input string) routeList {
 func (rl routeList) extractDestinations() []string {
 	destinations := make([]string, 0)
 	for k := range rl {
-		if !contains(destinations, k.start) {
+		if !common.Contains(destinations, k.start) {
 			destinations = append(destinations, k.start)
 		}
-		if !contains(destinations, k.finish) {
+		if !common.Contains(destinations, k.finish) {
 			destinations = append(destinations, k.finish)
 		}
 	}
@@ -82,14 +67,14 @@ func permutation(destinations []string, acc []string, resultChan chan []string) 
 
 func (rl routeList) getDistance(path []string) int {
 	distance := 0
-	for i:= 0; i< len(path)-1; i++ {
+	for i := 0; i < len(path)-1; i++ {
 		pathSection := route{path[i], path[i+1]}
 
-		if rl[pathSection] == 0{
+		if rl[pathSection] == 0 {
 			pathSection = route{path[i+1], path[i]}
 		}
 		distance += rl[pathSection]
-		if i == len(path) -1 {
+		if i == len(path)-1 {
 			break
 		}
 	}
@@ -113,10 +98,10 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	for path := range resultChan {
 		i++
 		distance := destinationMap.getDistance(path)
-		if minDistance == -1 || distance < minDistance{
+		if minDistance == -1 || distance < minDistance {
 			minDistance = distance
 		}
-		if i == factorial(len(destinationList)) {
+		if i == common.Factorial(len(destinationList)) {
 			close(resultChan)
 		}
 	}
@@ -137,10 +122,10 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	for path := range resultChan {
 		i++
 		distance := destinationMap.getDistance(path)
-		if distance > maxDistance{
+		if distance > maxDistance {
 			maxDistance = distance
 		}
-		if i == factorial(len(destinationList)) {
+		if i == common.Factorial(len(destinationList)) {
 			close(resultChan)
 		}
 	}
