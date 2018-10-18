@@ -9,6 +9,8 @@ import (
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
+
+	fmt.Println(getData(Entry.PuzzleInput()))
 }
 
 func Test_PartTwo(t *testing.T) {
