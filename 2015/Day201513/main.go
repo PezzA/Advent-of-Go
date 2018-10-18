@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pezza/AoC2017/Common"
+	"github.com/pezza/advent-of-code/Common"
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle

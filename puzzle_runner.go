@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/pezza/Aoc2017/cli"
+	"github.com/pezza/advent-of-code/cli"
 )
 
 type partResult struct {

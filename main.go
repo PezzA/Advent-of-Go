@@ -5,7 +5,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/pezza/Aoc2017/cli"
+	"github.com/pezza/advent-of-code/cli"
 )
 
 func main() {

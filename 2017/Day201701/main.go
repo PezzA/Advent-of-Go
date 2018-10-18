@@ -3,7 +3,7 @@ package Day201701
 import (
 	"strconv"
 
-	"github.com/pezza/AoC2017/Common"
+	"github.com/pezza/advent-of-code/Common"
 )
 
 type dayEntry bool

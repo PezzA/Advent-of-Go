@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	Day10 "github.com/pezza/AoC2017/2017/Day201710"
+	Day10 "github.com/pezza/advent-of-code/2017/Day201710"
 )
 
 type dayEntry bool
