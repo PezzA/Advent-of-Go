@@ -114,7 +114,7 @@ func permutation(valueList []string, acc []string, resultChan chan []string) {
 }
 
 func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 13, ""
+	return 2015, 13, "Knights of the Dinner Table"
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
