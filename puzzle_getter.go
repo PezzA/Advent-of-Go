@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+
 	"github.com/pezza/advent-of-code/2015/Day201516"
+	"github.com/pezza/advent-of-code/2015/Day201517"
 
 	"github.com/pezza/advent-of-code/2015/Day201509"
 	"github.com/pezza/advent-of-code/2015/Day201513"
@@ -15,7 +17,11 @@ import (
 	"github.com/pezza/advent-of-code/2015/Day201504"
 	"github.com/pezza/advent-of-code/2015/Day201505"
 	"github.com/pezza/advent-of-code/2015/Day201506"
+	"github.com/pezza/advent-of-code/2015/Day201507"
 	"github.com/pezza/advent-of-code/2015/Day201508"
+	"github.com/pezza/advent-of-code/2015/Day201510"
+	"github.com/pezza/advent-of-code/2015/Day201511"
+	"github.com/pezza/advent-of-code/2015/Day201512"
 	"github.com/pezza/advent-of-code/2015/Day201524"
 	"github.com/pezza/advent-of-code/2015/Day201525"
 	"github.com/pezza/advent-of-code/2016/Day201611"
@@ -48,10 +54,6 @@ import (
 	"github.com/pezza/advent-of-code/2017/Day201724"
 	"github.com/pezza/advent-of-code/2017/Day201725"
 	"github.com/pezza/advent-of-code/TestDay"
-	"github.com/pezza/advent-of-code/2015/Day201507"
-	"github.com/pezza/advent-of-code/2015/Day201510"
-	"github.com/pezza/advent-of-code/2015/Day201511"
-	"github.com/pezza/advent-of-code/2015/Day201512"
 )
 
 func getPuzzle(day int, year int) (dailyPuzzle, error) {
@@ -73,6 +75,7 @@ func getPuzzle(day int, year int) (dailyPuzzle, error) {
 		Day201514.Entry,
 		Day201515.Entry,
 		Day201516.Entry,
+		Day201517.Entry,
 		Day201524.Entry,
 		Day201525.Entry,
 		Day201611.Entry,
