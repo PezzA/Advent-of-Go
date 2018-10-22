@@ -1,22 +1,30 @@
 package Day201518
 
 import (
-	"fmt"
 	"testing"
 
+	"fmt"
+
 	. "github.com/onsi/gomega"
-	common "github.com/pezza/advent-of-code/Common"
 )
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	screen := getData(Entry.PuzzleInput())
+	startFrame := getData(`
+.#.#.#
+...##.
+#....#
+..#...
+#.#..#
+####..`)
 
-	fmt.Println(screen.getNeighbourCount(common.Point{0, 0}))
-	fmt.Println(screen.getNeighbourCount(common.Point{1, 1}))
-	fmt.Println(screen.getNeighbourCount(common.Point{2, 2}))
-	fmt.Println(screen.getNeighbourCount(common.Point{3, 3}))
+	for i := 0; i < 4; i++ {
+		startFrame = startFrame.getNewFrame()
+	}
+	startFrame.drawFrame()
+
+	fmt.Println(startFrame.pixelOnCount())
 
 }
 

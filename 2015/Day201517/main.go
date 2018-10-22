@@ -7,7 +7,6 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func getData(input string) []
 func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 17, "No Such Thing as Too Much"
 }
