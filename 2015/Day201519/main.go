@@ -38,36 +38,14 @@ func getData(input string) (replacements, string) {
 
 type dayEntry bool
 
-func transmogrify(current string, rl replacements, goal string, depth int) int {
-
-	for _, r := range rl {
-
-		foundIndex, currentPosition := 0, 0
-
-		for {
-			foundIndex = strings.Index(current[currentPosition:], r.key)
-			if foundIndex == -1 {
-				break
-			}
-
-			adjustedIndex := currentPosition + foundIndex
-
-			newMolecule := fmt.Sprintf( "%v%v%v",
-				current[:adjustedIndex],
-				r.replacement,
-				current[adjustedIndex+len(r.key):])
-
-			currentPosition = adjustedIndex + len(r.key)
-
-			if
-
-		}
-	}
-}
-
 func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 19, "Medicine for Rudolph"
 }
+
+func getCombinations() []string {
+
+}
+
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	replacementList, molecule := getData(inputData)
 	molecules := make([]string, 0)
@@ -97,7 +75,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 		}
 	}
 
-	return fmt.Sprintf("Not 627, 603, 829 (too high). %v", len(molecules))
+	return fmt.Sprintf("%v", len(molecules))
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
