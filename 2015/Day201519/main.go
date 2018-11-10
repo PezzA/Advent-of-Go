@@ -42,10 +42,6 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 19, "Medicine for Rudolph"
 }
 
-func getCombinations() []string {
-
-}
-
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	replacementList, molecule := getData(inputData)
 	molecules := make([]string, 0)
