@@ -22,26 +22,37 @@ func getData(input string) []int {
 	return jars
 }
 
-func sumInts(ints []int) int {
-	result := 0
-	for _, val := range ints {
-		result += val
+func deepCopy(input []int) []int {
+	result := make([]int, len(input))
+
+	for index, val := range input {
+		result[index] = val
 	}
 	return result
 }
-func combinator(remaining []int, combo []int, depth int, matchChan chan<- []int) {
-	if depth == 0 {
+
+func sum(input []int) int {
+	retval := 0
+
+	for _, val := range input {
+		retval += val
+	}
+	return retval
+}
+
+func combinator(remaining []int, combo []int, matchChan chan<- []int) {
+	if len(combo) == 0 {
 		defer close(matchChan)
 	}
+	for index, nextItem := range remaining {
+		newCombo := deepCopy(append(combo, nextItem))
+		newRemain := deepCopy(remaining[index+1:])
 
-	for i := 0; i < len(remaining); i++ {
-		newCombo := append(combo, remaining[i])
-
-		newRemain := append(remaining[:i], remaining[i+1:]...)
-
-		if len(newRemain) > 0 {
-			combinator(newRemain, newCombo, depth+1, matchChan)
+		if sum(newCombo) == 150 {
+			matchChan <- newCombo
 		}
+
+		combinator(newRemain, newCombo, matchChan)
 	}
 }
 
@@ -50,9 +61,43 @@ func (td dayEntry) Describe() (int, int, string) {
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	matchChan := make(chan []int)
+
+	go combinator(getData(Entry.PuzzleInput()), []int{}, matchChan)
+
+	count := 0
+	for range matchChan {
+		count++
+	}
+
+	return fmt.Sprintf("%v", count)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	matchChan := make(chan []int)
+
+	go combinator(getData(Entry.PuzzleInput()), []int{}, matchChan)
+
+	count := -1
+	var targetSet []int
+	for match := range matchChan {
+		if len(match) < count || count == -1 {
+			count = len(match)
+			targetSet = match
+		}
+	}
+
+	targetLen := len(targetSet)
+
+	matchChan = make(chan []int)
+	go combinator(getData(Entry.PuzzleInput()), []int{}, matchChan)
+
+	finalCount := 0
+	for match := range matchChan {
+		if len(match) == targetLen {
+			finalCount++
+		}
+	}
+
+	return fmt.Sprintf("%v", finalCount)
 }
