@@ -9,6 +9,12 @@ import (
 
 var Entry dayEntry
 
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2015, 19, "Medicine for Rudolph"
+}
+
 type replacement struct {
 	key         string
 	replacement string
@@ -36,14 +42,8 @@ func getData(input string) (replacements, string) {
 	return replacementList, medicineMolecule
 }
 
-type dayEntry bool
-
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 19, "Medicine for Rudolph"
-}
-
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	replacementList, molecule := getData(inputData)
+func getReplacementList(input string) []string {
+	replacementList, molecule := getData(input)
 	molecules := make([]string, 0)
 
 	for _, r := range replacementList {
@@ -71,7 +71,11 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 		}
 	}
 
-	return fmt.Sprintf("%v", len(molecules))
+	return molecules
+}
+
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	return fmt.Sprintf("%v", len(getReplacementList(inputData)))
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
