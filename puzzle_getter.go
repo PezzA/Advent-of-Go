@@ -3,19 +3,6 @@ package main
 import (
 	"errors"
 
-	"github.com/pezza/advent-of-code/2015/Day201516"
-	"github.com/pezza/advent-of-code/2015/Day201517"
-	"github.com/pezza/advent-of-code/2015/Day201518"
-	"github.com/pezza/advent-of-code/2015/Day201519"
-	"github.com/pezza/advent-of-code/2015/Day201520"
-	"github.com/pezza/advent-of-code/2015/Day201521"
-	"github.com/pezza/advent-of-code/2015/Day201523"
-
-	"github.com/pezza/advent-of-code/2015/Day201509"
-	"github.com/pezza/advent-of-code/2015/Day201513"
-	"github.com/pezza/advent-of-code/2015/Day201514"
-	"github.com/pezza/advent-of-code/2015/Day201515"
-
 	"github.com/pezza/advent-of-code/2015/Day201501"
 	"github.com/pezza/advent-of-code/2015/Day201502"
 	"github.com/pezza/advent-of-code/2015/Day201503"
@@ -24,9 +11,21 @@ import (
 	"github.com/pezza/advent-of-code/2015/Day201506"
 	"github.com/pezza/advent-of-code/2015/Day201507"
 	"github.com/pezza/advent-of-code/2015/Day201508"
+	"github.com/pezza/advent-of-code/2015/Day201509"
 	"github.com/pezza/advent-of-code/2015/Day201510"
 	"github.com/pezza/advent-of-code/2015/Day201511"
 	"github.com/pezza/advent-of-code/2015/Day201512"
+	"github.com/pezza/advent-of-code/2015/Day201513"
+	"github.com/pezza/advent-of-code/2015/Day201514"
+	"github.com/pezza/advent-of-code/2015/Day201515"
+	"github.com/pezza/advent-of-code/2015/Day201516"
+	"github.com/pezza/advent-of-code/2015/Day201517"
+	"github.com/pezza/advent-of-code/2015/Day201518"
+	"github.com/pezza/advent-of-code/2015/Day201519"
+	"github.com/pezza/advent-of-code/2015/Day201520"
+	"github.com/pezza/advent-of-code/2015/Day201521"
+	"github.com/pezza/advent-of-code/2015/Day201522"
+	"github.com/pezza/advent-of-code/2015/Day201523"
 	"github.com/pezza/advent-of-code/2015/Day201524"
 	"github.com/pezza/advent-of-code/2015/Day201525"
 	"github.com/pezza/advent-of-code/2016/Day201611"
@@ -85,6 +84,7 @@ func getPuzzle(day int, year int) (dailyPuzzle, error) {
 		Day201519.Entry,
 		Day201520.Entry,
 		Day201521.Entry,
+		Day201522.Entry,
 		Day201523.Entry,
 		Day201524.Entry,
 		Day201525.Entry,
