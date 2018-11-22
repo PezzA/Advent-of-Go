@@ -9,12 +9,23 @@ import (
 
 var Entry dayEntry
 
+type dayEntry bool
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2015, 19, "Medicine for Rudolph"
+}
+
 type replacement struct {
 	key         string
 	replacement string
 }
 
 type replacements []replacement
+
+type result struct {
+	replacement string
+	match       string
+}
 
 func getData(input string) (replacements, string) {
 	replacementList, medicineMolecule := make(replacements, 0), ""
@@ -36,11 +47,85 @@ func getData(input string) (replacements, string) {
 	return replacementList, medicineMolecule
 }
 
-type dayEntry bool
+func getReverseReplacementList(molecule string, replacementList replacements) []result {
+	molecules := make([]result, 0)
 
-func getCombinations(molecule string, rl replacements) []string {
-	molecules := make([]string, 0)
-	for _, r := range rl {
+	for _, r := range replacementList {
+
+		if r.key == "e" {
+			continue
+		}
+
+		foundIndex, currentPosition := 0, 0
+
+		for {
+			foundIndex = strings.Index(molecule[currentPosition:], r.replacement)
+			if foundIndex == -1 {
+				break
+			}
+
+			adjustedIndex := currentPosition + foundIndex
+
+			newMolecule := fmt.Sprintf("%v%v%v",
+				molecule[:adjustedIndex],
+				r.key,
+				molecule[adjustedIndex+len(r.replacement):])
+
+			currentPosition = adjustedIndex + len(r.replacement)
+
+			newList := make([]string, len(molecules))
+
+			for index, val := range molecules {
+				newList[index] = val.replacement
+			}
+
+			if !common.Contains(newList, newMolecule) {
+				molecules = append(molecules, result{newMolecule, r.replacement})
+			}
+		}
+	}
+
+	return molecules
+
+}
+
+var seenList = []string{}
+
+func makeMolecule(currentMolecule string, targetMolecule string, rl replacements, depth int) int {
+
+	if common.Contains(seenList, currentMolecule) {
+		return -1
+	}
+
+	seenList = append(seenList, currentMolecule)
+
+	replacements := getReverseReplacementList(currentMolecule, rl)
+	depth++
+
+	//fmt.Println(currentMolecule, depth)
+
+	for _, newMolecule := range replacements {
+		if len(newMolecule.replacement) == 0 {
+			continue
+		}
+
+		if newMolecule.replacement == targetMolecule {
+			return depth
+		}
+
+		depth = makeMolecule(newMolecule.replacement, targetMolecule, rl, depth)
+	}
+
+	return depth
+
+}
+
+var seenMap = make(map[string]bool)
+
+func getReplacementList(molecule string, replacementList replacements) []result {
+	molecules := make([]result, 0)
+
+	for _, r := range replacementList {
 		foundIndex, currentPosition := 0, 0
 
 		for {
@@ -58,8 +143,14 @@ func getCombinations(molecule string, rl replacements) []string {
 
 			currentPosition = adjustedIndex + len(r.key)
 
-			if !common.Contains(molecules, newMolecule) {
-				molecules = append(molecules, newMolecule)
+			newList := make([]string, len(molecules))
+
+			for index, val := range molecules {
+				newList[index] = val.replacement
+			}
+			if _, ok := seenMap[newMolecule]; !ok {
+				seenMap[newMolecule] = true
+				molecules = append(molecules, result{newMolecule, r.replacement})
 			}
 		}
 	}
@@ -67,16 +158,45 @@ func getCombinations(molecule string, rl replacements) []string {
 	return molecules
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 19, "Medicine for Rudolph"
+func doPass(list []string, rl replacements, target string) ([]string, bool) {
+
+	newList := make([]string, 0)
+
+	for _, item := range list {
+		for _, newItem := range getReplacementList(item, rl) {
+			if newItem.replacement == target {
+				return []string{newItem.replacement}, true
+			}
+
+			if !common.Contains(newList, newItem.replacement) {
+				newList = append(newList, newItem.replacement)
+			}
+		}
+	}
+
+	return newList, false
+
+}
+
+func (r replacements) getStarterList() []string {
+	rl := make([]string, 0)
+	for _, replacement := range r {
+		if replacement.key == "e" {
+			rl = append(rl, replacement.replacement)
+		}
+	}
+	return rl
+
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	replacementList, molecule := getData(inputData)
-	molecules := getCombinations(molecule, replacementList)
-	return fmt.Sprintf("%v", len(molecules))
+
+	return fmt.Sprintf("%v", len(getReplacementList(molecule, replacementList)))
+
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
+
 	return fmt.Sprintf(" -- Not Yet Implemented --")
 }

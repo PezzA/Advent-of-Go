@@ -20,19 +20,33 @@ func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
 	//replacementList, molecule := getData(Entry.PuzzleInput())
-	replacementList, molecule := getTestData()
-	molecules := getCombinations(molecule, replacementList)
-	fmt.Println(len(molecules))
+	//replacementList, molecule := getTestData()
+	//molecules := getCombinations(molecule, replacementList)
+	//fmt.Println(len(molecules))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
-	replacementList, molecule := getTestData()
 
-	for {
-		molecules := getCombinations(molecule, replacementList)
+	//	replacementList, targetMolecule := getData(`e => H
+	//e => O
+	//H => HO
+	//H => OH
+	//O => HH
+	//
+	//HOH`)
+
+	replacementList, targetMolecule := getData(Entry.PuzzleInput())
+
+	list := replacementList.getStarterList()
+
+	found, count := false, 0
+	for !found {
+		fmt.Println(count, len(list), len(seenMap))
+		list, found = doPass(list, replacementList, targetMolecule)
+		count++
+
 	}
-
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
