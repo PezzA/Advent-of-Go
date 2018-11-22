@@ -2,10 +2,7 @@ package Day201519
 
 import (
 	"fmt"
-	"strings"
 	"testing"
-
-	"github.com/pezza/advent-of-code/Common"
 
 	. "github.com/onsi/gomega"
 )
@@ -24,44 +21,16 @@ func Test_PartOne(t *testing.T) {
 
 	//replacementList, molecule := getData(Entry.PuzzleInput())
 	replacementList, molecule := getTestData()
-	molecules := make([]string, 0)
-
-	for _, r := range replacementList {
-
-		foundIndex, currentPosition := 0, 0
-
-		for {
-			foundIndex = strings.Index(molecule[currentPosition:], r.key)
-			if foundIndex == -1 {
-				break
-			}
-
-			adjustedIndex := currentPosition + foundIndex
-
-			newMolecule := fmt.Sprintf("%v%v%v",
-				molecule[:adjustedIndex],
-				r.replacement,
-				molecule[adjustedIndex+len(r.key):])
-
-			currentPosition = adjustedIndex + len(r.key)
-
-			if !common.Contains(molecules, newMolecule) {
-				molecules = append(molecules, newMolecule)
-			}
-		}
-	}
+	molecules := getCombinations(molecule, replacementList)
 	fmt.Println(len(molecules))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
-
 	replacementList, molecule := getTestData()
 
-	for _, r := range replacementList {
-		if r.key == "e" {
-
-		}
+	for {
+		molecules := getCombinations(molecule, replacementList)
 	}
 
 }

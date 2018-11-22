@@ -38,20 +38,9 @@ func getData(input string) (replacements, string) {
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 19, "Medicine for Rudolph"
-}
-
-func getCombinations() []string {
-
-}
-
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	replacementList, molecule := getData(inputData)
+func getCombinations(molecule string, rl replacements) []string {
 	molecules := make([]string, 0)
-
-	for _, r := range replacementList {
-
+	for _, r := range rl {
 		foundIndex, currentPosition := 0, 0
 
 		for {
@@ -75,6 +64,16 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 		}
 	}
 
+	return molecules
+}
+
+func (td dayEntry) Describe() (int, int, string) {
+	return 2015, 19, "Medicine for Rudolph"
+}
+
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	replacementList, molecule := getData(inputData)
+	molecules := getCombinations(molecule, replacementList)
 	return fmt.Sprintf("%v", len(molecules))
 }
 
