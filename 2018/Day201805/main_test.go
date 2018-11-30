@@ -1,4 +1,4 @@
-package Day201522
+package Day201805
 
 import (
 	"testing"
@@ -8,8 +8,6 @@ import (
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
-
-	Expect(getBoss(Entry.PuzzleInput())).Should(Equal(character{58, 9}))
 }
 
 func Test_PartTwo(t *testing.T) {

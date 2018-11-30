@@ -12,6 +12,9 @@ import (
 
 func getTestData() (replacements, string) {
 	replacementList := make(replacements, 0)
+
+	replacementList = append(replacementList, replacement{"e", "H"})
+	replacementList = append(replacementList, replacement{"e", "O"})
 	replacementList = append(replacementList, replacement{"H", "HO"})
 	replacementList = append(replacementList, replacement{"H", "OH"})
 	replacementList = append(replacementList, replacement{"O", "HH"})
@@ -19,6 +22,19 @@ func getTestData() (replacements, string) {
 	return replacementList, "HOHOHO"
 }
 
+func Test_ReverseList(t *testing.T) {
+	RegisterTestingT(t)
+
+	rlist, target := getData(Entry.PuzzleInput())
+	//rlist, target := getTestData()
+
+	starts := rlist.getStarterList()
+
+	for _, start := range starts {
+		fmt.Println(makeMol2(target, start, rlist, 0))
+	}
+
+}
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
