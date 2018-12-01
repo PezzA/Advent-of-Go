@@ -3,7 +3,6 @@ package cli
 import (
 	"errors"
 	"fmt"
-	"os"
 	"strconv"
 	"time"
 
@@ -19,24 +18,26 @@ var partTwoPreFix = tm.Color("    Part Two --> ", tm.WHITE)
 func OutputUseage(errorMsg error) {
 	fmt.Println(errorMsg)
 	fmt.Println("")
-	fmt.Println("	USEAGE: AoC2017 <year> <day> [<part>]")
+	fmt.Println("	USEAGE: advent-of-code.exe [-vis] <year> <day>")
 	fmt.Println("		<year> = year number of puzzle to run.  e.g. 2017")
 	fmt.Println("		<day> = day number of puzzle to run.  e.g. 2")
+	fmt.Println("		")
+	fmt.Println("		-vis = Perform visualisation for given puzzle (if supported)")
 }
 
 // CheckParams checks input parameters are correct
-func CheckParams() (int, int, error) {
-	if len(os.Args) < 2 {
+func CheckParams(args []string) (int, int, error) {
+	if len(args) < 2 {
 		return 0, 0, errors.New("not all parameters specified")
 	}
 
-	year, err := strconv.Atoi(os.Args[1])
+	year, err := strconv.Atoi(args[0])
 
 	if err != nil {
 		return 0, 0, errors.New("called with invalid year")
 	}
 
-	day, err := strconv.Atoi(os.Args[2])
+	day, err := strconv.Atoi(args[1])
 
 	if err != nil {
 		return 0, 0, errors.New("called with invalid day")

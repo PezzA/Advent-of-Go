@@ -2,9 +2,18 @@ package main
 
 type puzzlePart func(string, chan []string) string
 
-type dailyPuzzle interface {
+type contenter interface {
 	Describe() (int, int, string)
+	PuzzleInput() string
+}
+
+type dailyPuzzle interface {
+	contenter
 	PartOne(string, chan []string) string
 	PartTwo(string, chan []string) string
-	PuzzleInput() string
+}
+
+type visualiser interface {
+	contenter
+	Visualise(chan<- []string)
 }

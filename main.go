@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"os"
 	"os/signal"
 	"syscall"
@@ -19,19 +20,29 @@ func main() {
 		os.Exit(1)
 	}()
 
-	year, day, error := cli.CheckParams()
+	visualisePtr := flag.Bool("vis", false, "Perform visualisation for this puzzle (if supported)")
+	flag.Parse()
+
+	year, day, error := cli.CheckParams(flag.Args())
 
 	if error != nil {
 		cli.OutputUseage(error)
 		return
 	}
 
-	puzzle, error := getPuzzle(day, year)
-
-	if error != nil {
-		cli.OutputUseage(error)
-		return
+	if !*visualisePtr {
+		if puzzle, err := getPuzzle(day, year); err != nil {
+			cli.OutputUseage(error)
+			return
+		} else {
+			runner(puzzle)
+		}
 	}
 
-	runner(puzzle)
+	if puzzle, err := getVisualiser(day, year); err != nil {
+		cli.OutputUseage(error)
+		return
+	} else {
+		visualise(puzzle)
+	}
 }

@@ -68,6 +68,20 @@ import (
 	"github.com/pezza/advent-of-code/TestDay"
 )
 
+func getVisualiser(day int, year int) (visualiser, error) {
+	visualisers := []visualiser{
+		Day201801.Entry,
+	}
+
+	for _, puzzle := range visualisers {
+		puzzleYear, puzzleDay, _ := puzzle.Describe()
+		if puzzleDay == day && puzzleYear == year {
+			return puzzle, nil
+		}
+	}
+
+	return nil, errors.New("visualiser for day specified has not been implemented yet")
+}
 func getPuzzle(day int, year int) (dailyPuzzle, error) {
 	dailyPuzzles := [...]dailyPuzzle{
 		dayEntry.Entry,
