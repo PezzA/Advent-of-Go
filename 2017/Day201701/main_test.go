@@ -16,9 +16,8 @@ func Test_Stuff(t *testing.T) {
 }
 
 func Benchmark_PartOne(b *testing.B) {
-	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
-		Entry.PartOne(data)
+		Entry.PartOne(Entry.PuzzleInput())
 	}
 }
 

@@ -90,6 +90,48 @@ func getReverseReplacementList(molecule string, replacementList replacements) []
 }
 
 var seenList = []string{}
+var bounces = 0
+
+var seenMap map[string]bool
+
+func init() {
+	seenMap = make(map[string]bool)
+}
+func makeMol2(currentMolecule string, targetMolecule string, rl replacements, depth int) int {
+
+	if _, ok := seenMap[currentMolecule]; ok {
+		return 0
+	}
+
+	seenMap[currentMolecule] = true
+
+	if len(seenMap)%100000 == 0 {
+		fmt.Println(targetMolecule, currentMolecule, len(seenMap))
+	}
+
+	// is it a match
+	if currentMolecule == targetMolecule {
+		return depth
+	}
+
+	// the the list of possible replacements
+	replacements := getReverseReplacementList(currentMolecule, rl)
+
+	// if we dont have any more replacements, return unsuccessful
+	if len(replacements) == 0 {
+		return 0
+	}
+
+	for _, newMolecule := range replacements {
+		depth = makeMol2(newMolecule.replacement, targetMolecule, rl, depth+1)
+
+		if depth != 0 {
+			return depth
+		}
+	}
+
+	return 0
+}
 
 func makeMolecule(currentMolecule string, targetMolecule string, rl replacements, depth int) int {
 
@@ -102,8 +144,6 @@ func makeMolecule(currentMolecule string, targetMolecule string, rl replacements
 	replacements := getReverseReplacementList(currentMolecule, rl)
 	depth++
 
-	//fmt.Println(currentMolecule, depth)
-
 	for _, newMolecule := range replacements {
 		if len(newMolecule.replacement) == 0 {
 			continue
@@ -113,14 +153,11 @@ func makeMolecule(currentMolecule string, targetMolecule string, rl replacements
 			return depth
 		}
 
-		depth = makeMolecule(newMolecule.replacement, targetMolecule, rl, depth)
+		depth = makeMolecule(newMolecule.replacement, targetMolecule, rl, depth+1)
 	}
 
 	return depth
-
 }
-
-var seenMap = make(map[string]bool)
 
 func getReplacementList(molecule string, replacementList replacements) []result {
 	molecules := make([]result, 0)

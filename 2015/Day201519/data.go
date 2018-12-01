@@ -1,8 +1,7 @@
 package Day201519
 
 func (td dayEntry) PuzzleInput() string {
-	return `
-Al => ThF
+	return `Al => ThF
 Al => ThRnFAr
 B => BCa
 B => TiB
