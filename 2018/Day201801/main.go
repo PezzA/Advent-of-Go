@@ -16,18 +16,16 @@ func (td dayEntry) Describe() (int, int, string) {
 }
 
 func getData(input string) []int {
-
 	vals := make([]int, 0)
 
 	for _, val := range strings.Split(input, "\n") {
 		testVal, _ := strconv.Atoi(val)
-
 		vals = append(vals, testVal)
 	}
 
 	return vals
-
 }
+
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	retVal := 0
 	for _, value := range getData(inputData) {
@@ -37,13 +35,14 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
+	changes := getData(inputData)
 	freqs := make(map[int]bool)
 
 	retVal := 0
 	found := false
 
 	for !found {
-		for _, value := range getData(inputData) {
+		for _, value := range changes {
 			retVal += value
 
 			if _, ok := freqs[retVal]; ok {
