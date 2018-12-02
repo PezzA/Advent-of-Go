@@ -33,10 +33,12 @@ func main() {
 	if !*visualisePtr {
 		if puzzle, err := getPuzzle(day, year); err != nil {
 			cli.OutputUseage(error)
-			return
+
 		} else {
 			runner(puzzle)
 		}
+
+		return
 	}
 
 	if puzzle, err := getVisualiser(day, year); err != nil {
