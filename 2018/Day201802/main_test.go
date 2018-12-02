@@ -8,6 +8,23 @@ import (
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
+
+	counts := getCounts("abcdef")
+
+	Expect(hasSameLetterCount(2, counts)).Should(Equal(false))
+	Expect(hasSameLetterCount(3, counts)).Should(Equal(false))
+
+	counts = getCounts("bababc")
+	Expect(hasSameLetterCount(2, counts)).Should(Equal(true))
+	Expect(hasSameLetterCount(3, counts)).Should(Equal(true))
+
+	counts = getCounts("abcccd")
+	Expect(hasSameLetterCount(2, counts)).Should(Equal(false))
+	Expect(hasSameLetterCount(3, counts)).Should(Equal(true))
+
+	counts = getCounts("abcdee")
+	Expect(hasSameLetterCount(2, counts)).Should(Equal(true))
+	Expect(hasSameLetterCount(3, counts)).Should(Equal(false))
 }
 
 func Test_PartTwo(t *testing.T) {
