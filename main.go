@@ -32,7 +32,7 @@ func main() {
 
 	if !*visualisePtr {
 		if puzzle, err := getPuzzle(day, year); err != nil {
-			cli.OutputUseage(error)
+			cli.OutputUseage(err)
 
 		} else {
 			runner(puzzle)
@@ -42,7 +42,7 @@ func main() {
 	}
 
 	if puzzle, err := getVisualiser(day, year); err != nil {
-		cli.OutputUseage(error)
+		cli.OutputUseage(err)
 		return
 	} else {
 		visualise(puzzle)

@@ -10,12 +10,12 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func getData(input string) []string {
-	return strings.Split(input, "\n")
-}
-
 func (td dayEntry) Describe() (int, int, string) {
 	return 2018, 2, "Inventory Management System"
+}
+
+func getData(input string) []string {
+	return strings.Split(input, "\n")
 }
 
 func getCounts(input string) map[rune]int {
