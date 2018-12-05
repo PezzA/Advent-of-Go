@@ -5,7 +5,6 @@ import (
 	"strings"
 )
 
-// Entry holds wraps the data and runner interfaces for this puzzle
 var Entry dayEntry
 
 type dayEntry bool
@@ -33,14 +32,14 @@ func fullyReactPolymer(input string) string {
 	return input
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", len(fullyReactPolymer(inputData)))
-}
-
 func removeUnit(unit rune, input string) string {
 	input = strings.Replace(input, string(unit), "", -1)
 	input = strings.Replace(input, string(unit-32), "", -1)
 	return input
+}
+
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	return fmt.Sprintf("%v", len(fullyReactPolymer(inputData)))
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
