@@ -2,6 +2,7 @@ package Day201806
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/pezza/advent-of-code/Common"
@@ -18,7 +19,8 @@ func (td dayEntry) Describe() (int, int, string) {
 // end of scaffolding
 
 type numberedPoint struct {
-	id string
+	id     string
+	charid string
 	common.Point
 }
 
@@ -28,8 +30,8 @@ func getData(inputData string) []numberedPoint {
 	points := make([]numberedPoint, 0)
 
 	startLabel := 65
-	for _, line := range strings.Split(inputData, "\n") {
-		point := numberedPoint{string(startLabel), common.Point{}}
+	for index, line := range strings.Split(inputData, "\n") {
+		point := numberedPoint{strconv.Itoa(index), string(index + 33), common.Point{}}
 		fmt.Sscanf(line, "%d, %d", &point.X, &point.Y)
 		startLabel++
 		points = append(points, point)
@@ -72,13 +74,12 @@ func getNearestPoint(source common.Point, targets []numberedPoint) string {
 	for _, targetPoint := range targets {
 		distance := getMDistance(source, targetPoint.Point)
 		if distance == 0 {
-			return targetPoint.id
+			return targetPoint.charid
 		}
-		distances[targetPoint.id] = distance
+		distances[targetPoint.charid] = distance
 	}
 
 	min := -1
-
 	for _, v := range distances {
 		if min == -1 || v < min {
 			min = v
@@ -95,7 +96,7 @@ func getNearestPoint(source common.Point, targets []numberedPoint) string {
 		}
 	}
 
-	return strings.ToLower(id)
+	return id
 }
 
 func getPlane(points []numberedPoint) infinitePlane {
@@ -112,26 +113,38 @@ func getPlane(points []numberedPoint) infinitePlane {
 	return plane
 }
 
-func countBorders(min common.Point, max common.Point, points []numberedPoint) map[string]int {
-	counts := make(map[string]int)
+func getBorders(min common.Point, max common.Point, points []numberedPoint) infinitePlane {
+	border := make(infinitePlane)
 
 	for i := min.X; i <= max.X; i++ {
-		counts[strings.ToUpper(getNearestPoint(common.Point{i, min.Y}, points))]++
-		counts[strings.ToUpper(getNearestPoint(common.Point{i, max.Y}, points))]++
+		border[common.Point{i, min.Y}] = getNearestPoint(common.Point{i, min.Y}, points)
+		border[common.Point{i, max.Y}] = getNearestPoint(common.Point{i, max.Y}, points)
 	}
 
 	for i := min.Y + 1; i < max.Y; i++ {
-		counts[strings.ToUpper(getNearestPoint(common.Point{min.X, i}, points))]++
-		counts[strings.ToUpper(getNearestPoint(common.Point{max.X, i}, points))]++
+		border[common.Point{min.X, i}] = getNearestPoint(common.Point{min.X, i}, points)
+		border[common.Point{max.X, i}] = getNearestPoint(common.Point{max.X, i}, points)
 	}
 
-	return counts
+	return border
 }
 
+func getCounts(plane infinitePlane) map[string]int {
+	counts := make(map[string]int)
+	for _, v := range plane {
+		counts[v]++
+	}
+	return counts
+}
 func printPlane(min common.Point, max common.Point, plane infinitePlane) {
 	for x := min.X; x <= max.X; x++ {
 		for y := min.Y; y <= max.Y; y++ {
-			fmt.Print(plane[common.Point{y, x}])
+
+			if val, ok := plane[common.Point{x, y}]; ok {
+				fmt.Print(val)
+			} else {
+				fmt.Print("#")
+			}
 		}
 		fmt.Print("\n")
 	}

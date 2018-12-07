@@ -3,6 +3,7 @@ package Day201806
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/pezza/advent-of-code/Common"
 
@@ -21,8 +22,8 @@ func Test_PartOne(t *testing.T) {
 
 	pointList := getData(testInput)
 
-	Expect(pointList[0]).Should(Equal(numberedPoint{"A", common.Point{1, 1}}))
-	Expect(pointList[1]).Should(Equal(numberedPoint{"B", common.Point{1, 6}}))
+	Expect(pointList[0]).Should(Equal(numberedPoint{"A", "A", common.Point{1, 1}}))
+	Expect(pointList[1]).Should(Equal(numberedPoint{"B", "A", common.Point{1, 6}}))
 
 	min, max := getBounds(pointList)
 	Expect(min).Should(Equal(common.Point{1, 1}))
@@ -45,15 +46,33 @@ func Test_PartOne(t *testing.T) {
 }
 
 func Test_PrintGrid(t *testing.T) {
-	pointList := getData(testInput)
-
+	pointList := getData(Entry.PuzzleInput())
 	min, max := getBounds(pointList)
-
 	//printPlane(min, max, getPlane(pointList))
 
-	fmt.Println(countBorders(min, max, pointList))
-	fmt.Println(countBorders(common.Point{min.X - 1, min.Y - 1}, common.Point{max.X + 1, max.Y + 1}, pointList))
+	hitExtremety := false
 
+	count := 0
+	for !hitExtremety {
+		incMin := common.Point{min.X - count, min.Y - count}
+		incMax := common.Point{max.X + count, max.Y + count}
+
+		//printPlane(incMin, incMax, getBorders(incMin, incMax, pointList))
+
+		counts := getCounts(getBorders(incMin, incMax, pointList))
+
+		//fmt.Println(counts)
+
+		for _, val := range pointList {
+			if counts[val.charid] != 0 {
+				fmt.Print(val.charid, ":", counts[val.charid], " | ")
+			}
+		}
+
+		fmt.Print("\n")
+		time.Sleep(500 * time.Millisecond)
+		count++
+	}
 }
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
