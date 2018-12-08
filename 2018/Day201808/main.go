@@ -71,8 +71,8 @@ func advancedCount(n node) int {
 		value += advancedCount(n.childNodes[md-1])
 	}
 	return value
-
 }
+
 func getData(input string) []int {
 	vals := make([]int, 0)
 	for _, field := range strings.Fields(input) {
@@ -83,9 +83,11 @@ func getData(input string) []int {
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	node, _ := getNode(getData(Entry.PuzzleInput()))
+	return fmt.Sprintf("%v", countMetaData(node))
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	node, _ := getNode(getData(Entry.PuzzleInput()))
+	return fmt.Sprintf("%v", advancedCount(node))
 }
