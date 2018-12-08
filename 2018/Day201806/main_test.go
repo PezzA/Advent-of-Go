@@ -1,11 +1,11 @@
 package Day201806
 
 import (
-	"fmt"
 	"testing"
-	"time"
 
 	"github.com/pezza/advent-of-code/Common"
+
+	"fmt"
 
 	. "github.com/onsi/gomega"
 )
@@ -29,8 +29,8 @@ func Test_PartOne(t *testing.T) {
 	Expect(min).Should(Equal(common.Point{1, 1}))
 	Expect(max).Should(Equal(common.Point{8, 9}))
 
-	Expect(getMDistance(common.Point{-3, -3}, common.Point{3, 3})).Should(Equal(12))
-	Expect(getMDistance(common.Point{3, 3}, common.Point{-3, -3})).Should(Equal(12))
+	Expect(common.GetMDistance(common.Point{-3, -3}, common.Point{3, 3})).Should(Equal(12))
+	Expect(common.GetMDistance(common.Point{3, 3}, common.Point{-3, -3})).Should(Equal(12))
 
 	testPoint := common.Point{0, 0}
 	Expect(getNearestPoint(testPoint, pointList)).Should(Equal("a"))
@@ -47,32 +47,53 @@ func Test_PartOne(t *testing.T) {
 
 func Test_PrintGrid(t *testing.T) {
 	pointList := getData(Entry.PuzzleInput())
+
 	min, max := getBounds(pointList)
-	//printPlane(min, max, getPlane(pointList))
+
+	//printPlane(min, max, getPlane(pointList, 0))
 
 	hitExtremety := false
 
 	count := 0
+
+	// keep drawing increasing borders until none of the items are getting smaller
+
+	var lastCounts countMap
 	for !hitExtremety {
 		incMin := common.Point{min.X - count, min.Y - count}
 		incMax := common.Point{max.X + count, max.Y + count}
 
-		//printPlane(incMin, incMax, getBorders(incMin, incMax, pointList))
-
 		counts := getCounts(getBorders(incMin, incMax, pointList))
+		preCounts := counts
 
-		//fmt.Println(counts)
+		hitExtremety = !hasDecreasing(preCounts, counts)
 
-		for _, val := range pointList {
-			if counts[val.charid] != 0 {
-				fmt.Print(val.charid, ":", counts[val.charid], " | ")
-			}
-		}
-
-		fmt.Print("\n")
-		time.Sleep(500 * time.Millisecond)
+		preCounts = counts
+		lastCounts = counts
 		count++
 	}
+
+	nonInfinites := getNonIncludedPoints(lastCounts, pointList)
+
+	plane := getPlane(pointList, count)
+
+	printPlane(min, max, plane)
+	finalCounts := getCounts(plane)
+
+	fmt.Println(finalCounts)
+	areaMax := -1
+	for key, val := range finalCounts {
+
+		if _, ok := nonInfinites[key]; !ok {
+			continue
+		}
+		if areaMax == -1 || val > areaMax {
+			areaMax = val
+		}
+	}
+
+	fmt.Println(areaMax)
+
 }
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
