@@ -1,4 +1,4 @@
-package dayEntry
+package Day201819
 
 import "fmt"
 
