@@ -10,14 +10,6 @@ import (
 	"github.com/pezza/advent-of-code/2016/Day201601"
 	"github.com/pezza/advent-of-code/2016/Day201602"
 
-	"github.com/pezza/advent-of-code/2018/Day201801"
-	"github.com/pezza/advent-of-code/2018/Day201802"
-	"github.com/pezza/advent-of-code/2018/Day201803"
-	"github.com/pezza/advent-of-code/2018/Day201804"
-	"github.com/pezza/advent-of-code/2018/Day201805"
-	"github.com/pezza/advent-of-code/2018/Day201806"
-	"github.com/pezza/advent-of-code/2018/Day201807"
-
 	"github.com/pezza/advent-of-code/2015/Day201501"
 	"github.com/pezza/advent-of-code/2015/Day201502"
 	"github.com/pezza/advent-of-code/2015/Day201503"
@@ -72,6 +64,15 @@ import (
 	"github.com/pezza/advent-of-code/2017/Day201723"
 	"github.com/pezza/advent-of-code/2017/Day201724"
 	"github.com/pezza/advent-of-code/2017/Day201725"
+	"github.com/pezza/advent-of-code/2018/Day201801"
+	"github.com/pezza/advent-of-code/2018/Day201802"
+	"github.com/pezza/advent-of-code/2018/Day201803"
+	"github.com/pezza/advent-of-code/2018/Day201804"
+	"github.com/pezza/advent-of-code/2018/Day201805"
+	"github.com/pezza/advent-of-code/2018/Day201806"
+	"github.com/pezza/advent-of-code/2018/Day201807"
+	"github.com/pezza/advent-of-code/2018/Day201808"
+	"github.com/pezza/advent-of-code/2018/Day201809"
 	"github.com/pezza/advent-of-code/TestDay"
 )
 
@@ -157,6 +158,8 @@ func getPuzzle(day int, year int) (dailyPuzzle, error) {
 		Day201805.Entry,
 		Day201806.Entry,
 		Day201807.Entry,
+		Day201808.Entry,
+		Day201809.Entry,
 	}
 
 	for _, puzzle := range dailyPuzzles {
