@@ -3,6 +3,8 @@ package main
 import (
 	"time"
 
+	"fmt"
+
 	"github.com/pezza/advent-of-code/cli"
 )
 
@@ -37,6 +39,7 @@ func runner(puzzle dailyPuzzle) {
 	go doPart(puzzle.PartTwo, inputData, part2Chan, part2UpdateChan)
 
 	complete := false
+	outputAnswer := ""
 	for !complete {
 		select {
 		case result := <-part1Chan:
@@ -49,7 +52,12 @@ func runner(puzzle dailyPuzzle) {
 			part2Update = update
 		default:
 			cli.NewFrame(4 + len(part1Update) + len(part1Update))
-			cli.DrawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
+			outputAnswer = part1Answer.result
+
+			if year == 2018 && day == 10 {
+				outputAnswer = ""
+			}
+			cli.DrawFrame(outputAnswer, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
 			if part1Answer.answered && part2Answer.answered {
 				complete = true
@@ -57,6 +65,10 @@ func runner(puzzle dailyPuzzle) {
 
 			time.Sleep(17 * time.Millisecond)
 		}
+	}
+
+	if year == 2018 && day == 10 {
+		fmt.Println(part1Answer.result)
 	}
 }
 
