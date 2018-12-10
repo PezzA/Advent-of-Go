@@ -13,7 +13,7 @@ func Test_PartOne(t *testing.T) {
 
 	stars := getData(Entry.PuzzleInput())
 
-	focusStars, seconds := getFocusFrame(stars)
+	focusStars, _ := getFocusFrame(stars)
 	min, max := getBounds(focusStars)
 
 	x := max.X - min.X
