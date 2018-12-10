@@ -3,13 +3,6 @@ package main
 import (
 	"errors"
 
-	"github.com/pezza/advent-of-code/2016/Day201604"
-
-	"github.com/pezza/advent-of-code/2016/Day201603"
-
-	"github.com/pezza/advent-of-code/2016/Day201601"
-	"github.com/pezza/advent-of-code/2016/Day201602"
-
 	"github.com/pezza/advent-of-code/2015/Day201501"
 	"github.com/pezza/advent-of-code/2015/Day201502"
 	"github.com/pezza/advent-of-code/2015/Day201503"
@@ -35,6 +28,10 @@ import (
 	"github.com/pezza/advent-of-code/2015/Day201523"
 	"github.com/pezza/advent-of-code/2015/Day201524"
 	"github.com/pezza/advent-of-code/2015/Day201525"
+	"github.com/pezza/advent-of-code/2016/Day201601"
+	"github.com/pezza/advent-of-code/2016/Day201602"
+	"github.com/pezza/advent-of-code/2016/Day201603"
+	"github.com/pezza/advent-of-code/2016/Day201604"
 	"github.com/pezza/advent-of-code/2016/Day201611"
 	"github.com/pezza/advent-of-code/2016/Day201617"
 	"github.com/pezza/advent-of-code/2016/Day201619"
