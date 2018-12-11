@@ -1,5 +1,5 @@
 package Day201811
 
 func (td dayEntry) PuzzleInput() string {
-	return ``
+	return `8444`
 }
