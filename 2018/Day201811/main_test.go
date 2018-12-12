@@ -19,26 +19,38 @@ func Test_PartOne(t *testing.T) {
 	Expect(getPowerLevel(common.Point{217, 196}, 39)).Should(Equal(0))
 
 	gridSerial := getData(Entry.PuzzleInput())
+
+	computedGrid := make([][]int, 300)
+
+	for index := range computedGrid {
+		computedGrid[index] = make([]int, 300)
+	}
+
+	for index := range computedGrid {
+		for subIndex := range computedGrid[index] {
+			computedGrid[index][subIndex] = getPowerLevel(common.Point{index + 1, subIndex + 1}, gridSerial)
+		}
+	}
+
 	maxPower := -1
 	var powerPoint common.Point
 	for x := 1; x <= 298; x++ {
 		for y := 1; y <= 298; y++ {
 			testPoint := common.Point{x, y}
-			squarePower := getPowerLevel(common.Point{x, y}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x + 1, y}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x + 2, y}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x, y + 1}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x + 1, y + 1}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x + 2, y + 1}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x, y + 2}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x + 1, y + 2}, gridSerial)
-			squarePower += getPowerLevel(common.Point{x + 2, y + 2}, gridSerial)
+			squarePower := computedGrid[x-1][y-1]
+			squarePower += computedGrid[x][y-1]
+			squarePower += computedGrid[x+1][y-1]
+			squarePower += computedGrid[x-1][y]
+			squarePower += computedGrid[x][y]
+			squarePower += computedGrid[x+1][y]
+			squarePower += computedGrid[x-1][y+1]
+			squarePower += computedGrid[x][y+1]
+			squarePower += computedGrid[x+1][y+1]
 
 			if maxPower == -1 || squarePower > maxPower {
 				maxPower = squarePower
 				powerPoint = testPoint
 			}
-			fmt.Println("computing", x, y)
 		}
 	}
 
@@ -49,6 +61,7 @@ func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
 	gridSerial := getData(Entry.PuzzleInput())
+	//gridSerial := 18
 	maxPower := -1
 	var powerPoint common.Point
 	squareSize := -1
@@ -61,11 +74,9 @@ func Test_PartTwo(t *testing.T) {
 
 	for index := range computedGrid {
 		for subIndex := range computedGrid[index] {
-			computedGrid[index][subIndex] = getPowerLevel(common.Point{subIndex + 1, index + 1}, gridSerial)
+			computedGrid[index][subIndex] = getPowerLevel(common.Point{index + 1, subIndex + 1}, gridSerial)
 		}
 	}
-
-	fmt.Println(computedGrid)
 	//for each size
 	for z := 1; z <= 300; z++ {
 		count := 0
@@ -78,24 +89,25 @@ func Test_PartTwo(t *testing.T) {
 				squareCount := 0
 
 				// for each cell in that size
-				for zx := x; zx < z; zx++ {
-					for zy := y; zy < z; zy++ {
+				for zx := x; zx < x+z; zx++ {
+					for zy := y; zy < y+z; zy++ {
 
 						squareCount += computedGrid[zx-1][zy-1]
+
 					}
 				}
 
 				if maxPower == -1 || squareCount > maxPower {
-					fmt.Println("setting max", maxPower)
 					maxPower = squareCount
 					powerPoint = common.Point{x, y}
 					squareSize = z
 				}
 			}
 		}
-		fmt.Println("size ", z, offSet, count)
+		fmt.Println(z, maxPower)
+
 	}
-	// not 20,21,31 // not 21,20,31
+	// not 20,21,31 // not 21,20,31 // not 22,21,32
 	fmt.Println(powerPoint, squareSize)
 }
 
