@@ -2,7 +2,6 @@ package Day201812
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -110,6 +109,27 @@ func regenerate(pl map[int]bool, tl []transform) map[int]bool {
 	return newPl
 }
 
+func drawPlants(input map[int]bool) {
+	_, max := getBounds(input)
+	for i := -10; i < max; i++ {
+		if input[i] {
+			fmt.Print("#")
+		} else {
+			fmt.Print(".")
+		}
+	}
+	fmt.Print("\n")
+}
+
+func isShifted(source map[int]bool, target map[int]bool) bool {
+	for k, _ := range source {
+		if source[k] != target[k+1] {
+			return false
+		}
+	}
+
+	return true
+}
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 	pl, tl := getData(inputData)
@@ -140,22 +160,28 @@ func deepCopy(input map[int]bool) map[int]bool {
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
-	pl, tl := getData(inputData)
+	opl, tl := getData(Entry.PuzzleInput())
 
-	for i := 0; i < 50000000000; i++ {
+	count := 50000000000
+
+	inLoop := false
+	for !inLoop {
+		pl := deepCopy(opl)
 		pl = regenerate(pl, tl)
 
-		if i%100000 == 0 {
-			updateChan <- []string{strconv.Itoa(i)}
+		inLoop = isShifted(opl, pl)
+
+		opl = pl
+		count--
+	}
+
+	finalcount := 0
+	for k, _ := range opl {
+		if opl[k] {
+			finalcount += k + count
 		}
 	}
 
-	count := 0
-
-	for k, v := range pl {
-		if v {
-			count += k
-		}
-	}
-	return fmt.Sprintf("%v", count)
+	// high 2100000000470
+	return fmt.Sprintf("%v", finalcount)
 }

@@ -1,9 +1,8 @@
 package Day201812
 
 import (
-	"testing"
-
 	"fmt"
+	"testing"
 
 	. "github.com/onsi/gomega"
 )
@@ -67,8 +66,10 @@ func Test_PartOne(t *testing.T) {
 ###.. => #
 ###.# => #
 ####. => #`)
+
 	for i := 0; i < 20; i++ {
 		npl3 = regenerate(npl3, transforms3)
+
 	}
 
 	count := 0
@@ -83,44 +84,33 @@ func Test_PartOne(t *testing.T) {
 
 }
 
-func stripEmpty(input map[int]bool) map[int]bool {
-	stripped := make(map[int]bool)
-
-	for k, v := range input {
-		if v {
-			stripped[k] = v
-		}
-	}
-	return stripped
-}
-
-func mapSame(source map[int]bool, target map[int]bool) bool {
-	for k, _ := range source {
-		if source[k] != target[k] {
-			return false
-		}
-	}
-	return true
-}
-
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
 	opl, tl := getData(Entry.PuzzleInput())
 
-	pl := deepCopy(opl)
+	count := 50000000000
 
-	//	startplants := stripEmpty(opl)
-
-	count := 0
-	for {
-		fmt.Println(pl)
+	inLoop := false
+	for !inLoop {
+		pl := deepCopy(opl)
 		pl = regenerate(pl, tl)
 
-		count++
+		inLoop = isShifted(opl, pl)
+
+		opl = pl
+		count--
 	}
 
-	fmt.Println(count)
+	finalcount := 0
+	for k, _ := range opl {
+		if opl[k] {
+			finalcount += k + count
+		}
+	}
+
+	fmt.Println(finalcount)
+	// high 2100000000470
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
