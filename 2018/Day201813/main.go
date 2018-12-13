@@ -2,7 +2,10 @@ package Day201813
 
 import (
 	"fmt"
+	"sort"
 	"strings"
+
+	common "github.com/pezza/advent-of-code/Common"
 )
 
 var Entry dayEntry
@@ -63,7 +66,7 @@ func (c cart) turnLeft() cart {
 	return c
 }
 
-func moveCart(c cart, grid []string, carts []cart) (cart, bool) {
+func moveCart(c cart, grid []string, carts []cart) (cart, cart, bool) {
 	// get the location of where it would move next
 	switch c.direction {
 	case 0:
@@ -79,7 +82,7 @@ func moveCart(c cart, grid []string, carts []cart) (cart, bool) {
 	// See if this will collide with another cart
 	for _, testCart := range carts {
 		if testCart.x == c.x && testCart.y == c.y {
-			return c, true
+			return c, testCart, true
 		}
 	}
 
@@ -121,13 +124,82 @@ func moveCart(c cart, grid []string, carts []cart) (cart, bool) {
 		}
 	}
 
-	return c, false
+	return c, c, false
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	grid, carts := getData(Entry.PuzzleInput())
+
+	crashed := false
+	var point common.Point
+	for {
+		for index := range carts {
+
+			carts[index], _, crashed = moveCart(carts[index], grid, carts)
+			if crashed {
+				point = common.Point{carts[index].x, carts[index].y}
+				break
+			}
+		}
+
+		// sort the carts into x y order
+		sort.Slice(carts, func(i, j int) bool {
+			if carts[i].y == carts[j].y {
+				return carts[i].x < carts[j].x
+			}
+			return carts[i].y < carts[j].y
+		})
+
+		if crashed {
+			break
+		}
+	}
+
+	return fmt.Sprintf("%v,%v", point.X, point.Y)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	grid, carts := getData(Entry.PuzzleInput())
+
+	for {
+		crashIds := make([]int, 0)
+		for index := range carts {
+			crashed := false
+			var otherCrashedCart cart
+
+			carts[index], otherCrashedCart, crashed = moveCart(carts[index], grid, carts)
+
+			if crashed {
+				crashIds = append(crashIds, carts[index].id)
+				crashIds = append(crashIds, otherCrashedCart.id)
+			}
+		}
+
+		if len(crashIds) > 0 {
+			for _, val := range crashIds {
+				foundIndex := 0
+				for searchIndex := range carts {
+					if carts[searchIndex].id == val {
+						foundIndex = searchIndex
+						break
+					}
+				}
+				carts = append(carts[:foundIndex], carts[foundIndex+1:]...)
+			}
+		}
+
+		if len(carts) == 1 {
+			break
+		}
+
+		// sort the carts into x y order
+		sort.Slice(carts, func(i, j int) bool {
+			if carts[i].y == carts[j].y {
+				return carts[i].x < carts[j].x
+			}
+			return carts[i].y < carts[j].y
+		})
+	}
+
+	return fmt.Sprintf("%v,%v", carts[0].x, carts[0].y)
 }
