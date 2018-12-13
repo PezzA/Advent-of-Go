@@ -2,7 +2,6 @@ package Day201813
 
 import (
 	"fmt"
-	"io/ioutil"
 	"strings"
 )
 
@@ -25,13 +24,6 @@ type cart struct {
 func getData(input string) ([]string, []cart) {
 	lines := make([]string, 0)
 	carts := make([]cart, 0)
-
-	b, err := ioutil.ReadFile("grid.txt") // just pass the file name
-	if err != nil {
-		fmt.Print(err)
-	}
-
-	input = string(b) // convert content to a 'string'
 
 	for y, line := range strings.Split(input, "\n") {
 		lines = append(lines, line)
@@ -71,14 +63,7 @@ func (c cart) turnLeft() cart {
 	return c
 }
 
-var testCartId = 0
-
 func moveCart(c cart, grid []string, carts []cart) (cart, bool) {
-
-	if c.id == testCartId {
-		fmt.Printf("(%v,%v)\theading %v\t", c.x, c.y, c.direction)
-	}
-
 	// get the location of where it would move next
 	switch c.direction {
 	case 0:
@@ -91,36 +76,15 @@ func moveCart(c cart, grid []string, carts []cart) (cart, bool) {
 		c.x++
 	}
 
-	if c.id == testCartId {
-		fmt.Printf(" moves to (%v,%v)\t", c.x, c.y)
-	}
-
 	// See if this will collide with another cart
 	for _, testCart := range carts {
-		if testCart.x == c.x && testCart.y == c.y && c.id != testCart.id {
-			fmt.Printf("%v CRASHED WITH %v !\n", c, testCart)
+		if testCart.x == c.x && testCart.y == c.y {
 			return c, true
 		}
 	}
 
-	if c.id == testCartId {
-		fmt.Printf("finds %v ", string(grid[c.y][c.x]))
-	}
-
 	// see if we need to change direction
 	switch grid[c.y][c.x] {
-	case 32:
-		if c.id == testCartId {
-			fmt.Println("p")
-		}
-	case 45:
-		if c.id == testCartId && (c.direction == 0 || c.direction == 180) {
-			fmt.Println("wrong -")
-		}
-	case 124:
-		if c.id == testCartId && (c.direction == 90 || c.direction == 270) {
-			fmt.Println("wrong |")
-		}
 	case 47: // "/"
 		switch c.direction {
 		case 0:
@@ -147,28 +111,14 @@ func moveCart(c cart, grid []string, carts []cart) (cart, bool) {
 	case 43: // "+"
 		switch c.state {
 		case 0:
-			if c.id == testCartId {
-				fmt.Print("L")
-			}
 			c.state = 1
 			c = c.turnLeft()
 		case 1:
-			if c.id == testCartId {
-				fmt.Print("S")
-			}
 			c.state = 2
 		case 2:
-			if c.id == testCartId {
-				fmt.Print("R")
-			}
 			c.state = 0
 			c = c.turnRight()
 		}
-
-	}
-
-	if c.id == testCartId {
-		fmt.Printf("\tand is now heading %v\n", c.direction)
 	}
 
 	return c, false

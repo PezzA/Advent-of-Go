@@ -1,9 +1,8 @@
 package Day201813
 
 import (
-	"testing"
-
 	"fmt"
+	"testing"
 
 	. "github.com/onsi/gomega"
 	"github.com/pezza/advent-of-code/Common"
@@ -33,6 +32,7 @@ func Test_PartOne(t *testing.T) {
 			}
 		}
 
+		// sort the carts into x y order
 		if crashed {
 			break
 		}
