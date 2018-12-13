@@ -9,12 +9,12 @@ import (
 	"github.com/pezza/advent-of-code/Common"
 )
 
-var testData = `/---\
+var testData = `/->-\        
 |   |  /----\
 | /-+--+-\  |
-| | |  | ^  |
+| | |  | v  |
 \-+-/  \-+--/
-  \------/   `
+  \------/`
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
@@ -25,9 +25,11 @@ func Test_PartOne(t *testing.T) {
 	var point common.Point
 	for {
 		for index := range carts {
+
 			carts[index], crashed = moveCart(carts[index], grid, carts)
 			if crashed {
 				point = common.Point{carts[index].x, carts[index].y}
+				break
 			}
 		}
 
