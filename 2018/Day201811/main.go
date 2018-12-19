@@ -8,6 +8,7 @@ import (
 	"github.com/pezza/advent-of-code/Common"
 )
 
+// Entry is the type that implements the runner interface for this puzzle
 var Entry dayEntry
 
 type dayEntry bool
@@ -18,17 +19,17 @@ func (td dayEntry) Describe() (int, int, string) {
 
 func getData(input string) int {
 	val, _ := strconv.Atoi(input)
-
 	return val
 }
-func getPowerLevel(point common.Point, serial int) int {
-	rackId := point.X + 10
 
-	pl := rackId * point.Y
+func getPowerLevel(point common.Point, serial int) int {
+	rackID := point.X + 10
+
+	pl := rackID * point.Y
 
 	pl = pl + serial
 
-	pl = pl * rackId
+	pl = pl * rackID
 
 	hundreds := 0
 
@@ -55,7 +56,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 	for index := range computedGrid {
 		for subIndex := range computedGrid[index] {
-			computedGrid[index][subIndex] = getPowerLevel(common.Point{index + 1, subIndex + 1}, gridSerial)
+			computedGrid[index][subIndex] = getPowerLevel(common.Point{X: index + 1, Y: subIndex + 1}, gridSerial)
 		}
 	}
 
@@ -63,7 +64,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	var powerPoint common.Point
 	for x := 1; x <= 298; x++ {
 		for y := 1; y <= 298; y++ {
-			testPoint := common.Point{x, y}
+			testPoint := common.Point{X: x, Y: y}
 			squarePower := computedGrid[x-1][y-1]
 			squarePower += computedGrid[x][y-1]
 			squarePower += computedGrid[x+1][y-1]
@@ -99,7 +100,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
 	for index := range computedGrid {
 		for subIndex := range computedGrid[index] {
-			computedGrid[index][subIndex] = getPowerLevel(common.Point{index + 1, subIndex + 1}, gridSerial)
+			computedGrid[index][subIndex] = getPowerLevel(common.Point{X: index + 1, Y: subIndex + 1}, gridSerial)
 		}
 	}
 	//for each size
@@ -122,7 +123,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
 				if maxPower == -1 || squareCount > maxPower {
 					maxPower = squareCount
-					powerPoint = common.Point{x, y}
+					powerPoint = common.Point{X: x, Y: y}
 					squareSize = z
 				}
 			}
