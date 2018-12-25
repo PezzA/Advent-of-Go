@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pezza/advent-of-code/Common"
+	common "github.com/pezza/advent-of-code/puzzles/Common"
 )
 
 var Entry dayEntry
@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string) {
-	return 2018, 15, "Getting the boilerplate in place"
+	return 2018, 25, "Four-Dimensional Adventure"
 }
 
 type point struct {
@@ -42,6 +42,7 @@ func notExists(p point, pl []point) bool {
 	}
 	return true
 }
+
 func Get4DMDistance(source point, target point) int {
 	return common.Abs(source.x-target.x) + common.Abs(source.y-target.y) + common.Abs(source.z-target.z) + common.Abs(source.j-target.j)
 }
@@ -56,7 +57,6 @@ func getConstellation(stars []point) constellation {
 		starsAdded = false
 		// loop through each star
 		for _, star := range stars {
-
 			// check it against each star in the current constellation
 			for _, constelStar := range constel {
 				// ignore if the same
@@ -65,13 +65,11 @@ func getConstellation(stars []point) constellation {
 				}
 
 				if Get4DMDistance(star, constelStar) <= 3 && notExists(star, constel) {
-
 					constel = append(constel, star)
 					starsAdded = true
 				}
 			}
 		}
-		fmt.Print(".")
 	}
 
 	return constel
@@ -97,35 +95,16 @@ func removeConstellationFromList(cons constellation, stars []point) []point {
 	return newStars
 }
 
-func sortConstellations(stars []point) []constellation {
-	constellations := make([]constellation, 0)
-
-	for _, star := range stars {
-		if len(constellations) == 0 {
-			constellations = append(constellations, []point{star})
-			continue
-		}
-
-		found := false
-		for index := range constellations {
-			for _, consStar := range constellations[index] {
-				if Get4DMDistance(star, consStar) <= 3 {
-					constellations[index] = append(constellations[index], star)
-					found = true
-				}
-			}
-		}
-
-		if !found {
-			constellations = append(constellations, []point{star})
-		}
-
-	}
-	return constellations
-}
-
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	points := getData(inputData)
+	count := 0
+	for len(points) > 0 {
+		cons := getConstellation(points)
+		points = removeConstellationFromList(cons, points)
+		count++
+	}
+
+	return fmt.Sprintf("%v", count)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
