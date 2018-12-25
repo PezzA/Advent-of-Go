@@ -1,12 +1,12 @@
 package main
 
 import (
-	"flag"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/pezza/advent-of-code/cli"
+	"github.com/pezza/advent-of-code/puzzles"
 )
 
 func main() {
@@ -20,31 +20,19 @@ func main() {
 		os.Exit(1)
 	}()
 
-	visualisePtr := flag.Bool("vis", false, "Perform visualisation for this puzzle (if supported)")
-	flag.Parse()
+	year, day, err := cli.CheckParams()
 
-	year, day, error := cli.CheckParams(flag.Args())
-
-	if error != nil {
-		cli.OutputUseage(error)
-		return
-	}
-
-	if !*visualisePtr {
-		if puzzle, err := getPuzzle(day, year); err != nil {
-			cli.OutputUseage(err)
-
-		} else {
-			runner(puzzle)
-		}
-
-		return
-	}
-
-	if puzzle, err := getVisualiser(day, year); err != nil {
+	if err != nil {
 		cli.OutputUseage(err)
 		return
-	} else {
-		visualise(puzzle)
 	}
+
+	if puzzle, err := puzzles.GetPuzzle(day, year); err != nil {
+		cli.OutputUseage(err)
+
+	} else {
+		runner(puzzle)
+	}
+
+	return
 }
