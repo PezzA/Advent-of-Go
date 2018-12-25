@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
-	"fmt"
-
 	"github.com/pezza/advent-of-code/cli"
+	"github.com/pezza/advent-of-code/puzzles"
 )
 
 type partResult struct {
@@ -14,7 +14,7 @@ type partResult struct {
 	time     time.Duration
 }
 
-func runner(puzzle dailyPuzzle) {
+func runner(puzzle puzzles.DailyPuzzle) {
 	cli.HideCursor()
 
 	defer cli.ShowCursor()
@@ -72,7 +72,7 @@ func runner(puzzle dailyPuzzle) {
 	}
 }
 
-func doPart(fn puzzlePart, inputData string, response chan partResult, updateChan chan []string) {
+func doPart(fn puzzles.PuzzlePart, inputData string, response chan partResult, updateChan chan []string) {
 	start := time.Now()
 	output := fn(inputData, updateChan)
 	end := time.Now()

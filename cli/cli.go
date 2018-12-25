@@ -3,6 +3,7 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strconv"
 	"time"
 
@@ -26,18 +27,19 @@ func OutputUseage(errorMsg error) {
 }
 
 // CheckParams checks input parameters are correct
-func CheckParams(args []string) (int, int, error) {
-	if len(args) < 2 {
+func CheckParams() (int, int, error) {
+
+	if len(os.Args) < 3 {
 		return 0, 0, errors.New("not all parameters specified")
 	}
 
-	year, err := strconv.Atoi(args[0])
+	year, err := strconv.Atoi(os.Args[1])
 
 	if err != nil {
 		return 0, 0, errors.New("called with invalid year")
 	}
 
-	day, err := strconv.Atoi(args[1])
+	day, err := strconv.Atoi(os.Args[2])
 
 	if err != nil {
 		return 0, 0, errors.New("called with invalid day")

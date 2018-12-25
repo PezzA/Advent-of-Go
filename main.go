@@ -1,15 +1,12 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/pezza/advent-of-code/cli"
+	"github.com/pezza/advent-of-code/puzzles"
 )
 
 func main() {
@@ -22,44 +19,19 @@ func main() {
 		cli.Interrupted()
 		os.Exit(1)
 	}()
+	W
+	year, day, err := cli.CheckParams()
 
-	web := flag.Bool("web", false, "Run Aoc Web-Server")
-	year := flag.Int("year", 0, "Year of puzzle")
-	day := flag.Int("day", 0, "Day of puzzle")
-	flag.Parse()
-
-	if *web {
-		runWeb(*year, *day)
+	if err != nil {
+		cli.OutputUseage(err)
 		return
 	}
 
-	runCli(*year, *day)
-}
+	if puzzle, err := puzzles.GetPuzzle(day, year); err != nil {
 
-func runCli(year int, day int) {
-	if puzzle, err := getPuzzle(day, year); err != nil {
 		cli.OutputUseage(err)
-		return
+
 	} else {
 		runner(puzzle)
 	}
-}
-
-func runWeb(year int, day int) {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/puzzles", puzzleHandler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
-
-func puzzleHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(`<ul>`)
-	for _, puzzle := range puzzles {
-		year, day, name := puzzle.Describe()
-
-	}
-	fmt.Println(`</ul>`)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
