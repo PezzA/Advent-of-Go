@@ -2,6 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -20,31 +23,43 @@ func main() {
 		os.Exit(1)
 	}()
 
-	visualisePtr := flag.Bool("vis", false, "Perform visualisation for this puzzle (if supported)")
+	web := flag.Bool("web", false, "Run Aoc Web-Server")
+	year := flag.Int("year", 0, "Year of puzzle")
+	day := flag.Int("day", 0, "Day of puzzle")
 	flag.Parse()
 
-	year, day, error := cli.CheckParams(flag.Args())
-
-	if error != nil {
-		cli.OutputUseage(error)
+	if *web {
+		runWeb(*year, *day)
 		return
 	}
 
-	if !*visualisePtr {
-		if puzzle, err := getPuzzle(day, year); err != nil {
-			cli.OutputUseage(err)
+	runCli(*year, *day)
+}
 
-		} else {
-			runner(puzzle)
-		}
-
-		return
-	}
-
-	if puzzle, err := getVisualiser(day, year); err != nil {
+func runCli(year int, day int) {
+	if puzzle, err := getPuzzle(day, year); err != nil {
 		cli.OutputUseage(err)
 		return
 	} else {
-		visualise(puzzle)
+		runner(puzzle)
 	}
+}
+
+func runWeb(year int, day int) {
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/puzzles", puzzleHandler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func puzzleHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(`<ul>`)
+	for _, puzzle := range puzzles {
+		year, day, name := puzzle.Describe()
+
+	}
+	fmt.Println(`</ul>`)
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }

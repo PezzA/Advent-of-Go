@@ -112,6 +112,59 @@ func Test_Battlefield1(t *testing.T) {
 	fmt.Println("not 261036 (too low). not 263780")
 }
 
+func Test_m1(t *testing.T) {
+	RegisterTestingT(t)
+
+	cave := getData(`#######
+#######
+#.E..G#
+#.#####
+#G#####
+#######
+#######`)
+
+	cave.runRound()
+	cave.draw(nil)
+
+}
+
+func Test_m2(t *testing.T) {
+	RegisterTestingT(t)
+
+	cave := getData(`####
+#GG#
+#.E#
+####`)
+
+	cave.runRound()
+	cave.draw(nil)
+
+}
+
+func Test_m3(t *testing.T) {
+	RegisterTestingT(t)
+
+	cave := getData(`########
+#..E..G#
+#G######
+########`)
+
+	cave.runRound()
+	cave.draw(nil)
+}
+func Test_m4(t *testing.T) {
+	RegisterTestingT(t)
+
+	cave := getData(`#######
+#.E..G#
+#.....#
+#G....#
+#######`)
+
+	cave.runRound()
+	cave.draw(nil)
+}
+
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 }

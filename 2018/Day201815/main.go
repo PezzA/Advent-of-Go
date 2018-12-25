@@ -57,9 +57,7 @@ func (c cave) runRound() (cave, bool, bool) {
 	killList := make([]mob, 0)
 	victorEmerged, fullRound := false, false
 
-	nc := c
-
-	all := nc.getAllMobs()
+	all := c.getAllMobs()
 	for roundIndex, m := range all {
 
 		alreadyDiedThisRound := false
@@ -79,23 +77,23 @@ func (c cave) runRound() (cave, bool, bool) {
 		for _, dir := range common.Cardinal4 {
 			tp := m.Point.Add(dir)
 
-			if nc[tp.Y][tp.X].posType == 2 && nc[tp.Y][tp.X].faction != m.faction {
+			if c[tp.Y][tp.X].posType == 2 && c[tp.Y][tp.X].faction != m.faction {
 				enemyMap[tp] = 0
 			}
 		}
 
 		// no? move towards the nearest if possible
 		if len(enemyMap) == 0 {
-			target, acquired := nc.getTarget(m)
+			target, acquired := c.getTarget(m)
 
 			if acquired {
-				dm := nc.getDistanceMap(target)
+				dm := c.getDistanceMap(target)
 				adj := dm.filterAdjacent(m.Point)
 				next := adj.getTop()
 
-				if nc[next.Y][next.X].posType == 0 {
-					nc[m.Y][m.X] = position{0, mob{}}
-					nc[next.Y][next.X] = position{2, mob{m.id, m.faction, common.Point{X: next.X, Y: next.Y}, m.hp, m.atk}}
+				if c[next.Y][next.X].posType == 0 {
+					c[m.Y][m.X] = position{0, mob{}}
+					c[next.Y][next.X] = position{2, mob{m.id, m.faction, common.Point{X: next.X, Y: next.Y}, m.hp, m.atk}}
 					m.Point = next
 				}
 			}
@@ -106,27 +104,27 @@ func (c cave) runRound() (cave, bool, bool) {
 		for _, dir := range common.Cardinal4 {
 			tp := m.Point.Add(dir)
 
-			if nc[tp.Y][tp.X].posType == 2 && nc[tp.Y][tp.X].faction != m.faction {
+			if c[tp.Y][tp.X].posType == 2 && c[tp.Y][tp.X].faction != m.faction {
 				enemyMap[tp] = 0
 			}
 		}
 
 		if len(enemyMap) > 0 {
 			// if we do, attack!
-			minHps := nc.getMinHp(enemyMap)
+			minHps := c.getMinHp(enemyMap)
 			target := minHps.getTop()
 
-			nc[target.Y][target.X].hp -= m.atk
+			c[target.Y][target.X].hp -= m.atk
 
-			if nc[target.Y][target.X].hp <= 0 {
+			if c[target.Y][target.X].hp <= 0 {
 				// mob killed
-				faction := nc[target.Y][target.X].faction
-				killList = append(killList, nc[target.Y][target.X].mob)
-				nc[target.Y][target.X].posType = 0
-				nc[target.Y][target.X].mob = mob{}
+				faction := c[target.Y][target.X].faction
+				killList = append(killList, c[target.Y][target.X].mob)
+				c[target.Y][target.X].posType = 0
+				c[target.Y][target.X].mob = mob{}
 
 				// check to see if we have an exit condition
-				if len(nc.getFaction(faction)) == 0 {
+				if len(c.getFaction(faction)) == 0 {
 					victorEmerged = true
 					fullRound = roundIndex == len(all)-1
 					break
@@ -135,7 +133,7 @@ func (c cave) runRound() (cave, bool, bool) {
 		}
 	}
 
-	return nc, victorEmerged, fullRound
+	return c, victorEmerged, fullRound
 }
 
 func (c cave) draw(d distanceMap) {
@@ -258,12 +256,15 @@ func (c cave) getMinHp(dm distanceMap) distanceMap {
 	return minimums
 
 }
+
+// given a distancemap, will return the
 func (dm distanceMap) getTop() common.Point {
 	minPoint := -1
 	var targetLocation common.Point
 
 	for k, v := range dm {
-		// if equal and higher in reading order replace
+
+		// if its the same value, use it if it is higher up in reading order
 		if minPoint == v {
 			if k.Y < targetLocation.Y {
 				minPoint = v
@@ -276,6 +277,7 @@ func (dm distanceMap) getTop() common.Point {
 			}
 		}
 
+		// if it's closer, user it
 		if minPoint == -1 || v < minPoint {
 			minPoint = v
 			targetLocation = k
@@ -292,10 +294,7 @@ func runBattle(input string) int {
 
 	round := 1
 	for {
-		//	fmt.Println(round)
 		cave, factionRisesVictorious, fullRound = cave.runRound()
-
-		//cave.draw(nil)
 
 		if factionRisesVictorious {
 			if !fullRound {
