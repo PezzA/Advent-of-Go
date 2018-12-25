@@ -19,7 +19,7 @@ func main() {
 		cli.Interrupted()
 		os.Exit(1)
 	}()
-	W
+
 	year, day, err := cli.CheckParams()
 
 	if err != nil {
