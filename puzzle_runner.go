@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pezza/advent-of-code/cli"
 	"github.com/pezza/advent-of-code/puzzles"
 )
 
@@ -15,9 +14,9 @@ type partResult struct {
 }
 
 func runner(puzzle puzzles.DailyPuzzle) {
-	cli.HideCursor()
+	hideCursor()
 
-	defer cli.ShowCursor()
+	defer showCursor()
 
 	inputData := puzzle.PuzzleInput()
 	year, day, title := puzzle.Describe()
@@ -31,9 +30,9 @@ func runner(puzzle puzzles.DailyPuzzle) {
 	part1UpdateChan := make(chan []string, 10)
 	part2UpdateChan := make(chan []string, 10)
 
-	heading := cli.GetHeader(year, day, title)
+	heading := getHeader(year, day, title)
 
-	cli.DrawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
+	drawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
 	go doPart(puzzle.PartOne, inputData, part1Chan, part1UpdateChan)
 	go doPart(puzzle.PartTwo, inputData, part2Chan, part2UpdateChan)
@@ -51,13 +50,13 @@ func runner(puzzle puzzles.DailyPuzzle) {
 		case update := <-part2UpdateChan:
 			part2Update = update
 		default:
-			cli.NewFrame(4 + len(part1Update) + len(part1Update))
+			newFrame(4 + len(part1Update) + len(part1Update))
 			outputAnswer = part1Answer.result
 
 			if year == 2018 && day == 10 {
 				outputAnswer = ""
 			}
-			cli.DrawFrame(outputAnswer, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
+			drawFrame(outputAnswer, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
 
 			if part1Answer.answered && part2Answer.answered {
 				complete = true

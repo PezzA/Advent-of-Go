@@ -9,7 +9,6 @@ import (
 
 	"flag"
 
-	"github.com/pezza/advent-of-code/cli"
 	"github.com/pezza/advent-of-code/puzzles"
 )
 
@@ -20,7 +19,7 @@ func main() {
 
 	go func() {
 		<-c
-		cli.Interrupted()
+		interrupted()
 		os.Exit(1)
 	}()
 
@@ -30,16 +29,16 @@ func main() {
 		log.Fatal(http.ListenAndServe(":8000", http.FileServer(http.Dir("..\\advent-of-wasm\\Content"))))
 	}
 
-	year, day, err := cli.CheckParams()
+	year, day, err := checkParams()
 
 	if err != nil {
-		cli.OutputUseage(err)
+		outputUseage(err)
 		return
 	}
 
 	if puzzle, err := puzzles.GetPuzzle(day, year); err != nil {
 
-		cli.OutputUseage(err)
+		outputUseage(err)
 
 	} else {
 		runner(puzzle)
