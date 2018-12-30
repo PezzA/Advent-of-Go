@@ -47,7 +47,7 @@ func getData(input string) Cave {
 			case 35: //#
 				cave[y][x] = Position{1, Mob{}}
 			case 69, 71: //E, G
-				cave[y][x] = Position{2, Mob{len(cave.getAllMobs()), string(char), common.Point{X: x, Y: y}, startingHp, startingAtk}}
+				cave[y][x] = Position{2, Mob{len(cave.GetAllMobs()), string(char), common.Point{X: x, Y: y}, startingHp, startingAtk}}
 			}
 		}
 	}
@@ -59,7 +59,7 @@ func (c Cave) runRound() (Cave, bool, bool) {
 	killList := make([]Mob, 0)
 	victorEmerged, fullRound := false, false
 
-	all := c.getAllMobs()
+	all := c.GetAllMobs()
 	for roundIndex, m := range all {
 
 		alreadyDiedThisRound := false
@@ -168,7 +168,7 @@ func (c Cave) draw(d distanceMap) {
 	}
 }
 
-func (c Cave) getAllMobs() []Mob {
+func (c Cave) GetAllMobs() []Mob {
 	fl := make([]Mob, 0)
 	for y := range c {
 		for x := range c[y] {
@@ -352,7 +352,9 @@ func (c Cave) getTarget(m Mob) (common.Point, bool) {
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+
+	val := runBattle(inputData)
+	return fmt.Sprintf("%v", val)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {

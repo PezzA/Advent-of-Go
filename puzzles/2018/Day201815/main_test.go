@@ -3,8 +3,6 @@ package Day201815
 import (
 	"testing"
 
-	"fmt"
-
 	. "github.com/onsi/gomega"
 	"github.com/pezza/advent-of-code/puzzles/Common"
 )
@@ -23,7 +21,7 @@ func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 	cave := getData(moveTest)
 
-	mob := cave.getAllMobs()[0]
+	mob := cave.GetAllMobs()[0]
 
 	nextTarget, found := cave.getTarget(mob)
 	Expect(found).Should(Equal(true))
@@ -32,18 +30,6 @@ func Test_PartOne(t *testing.T) {
 	moveLoc := cave.getDistanceMap(nextTarget).filterAdjacent(mob.Point).getTop()
 
 	Expect(moveLoc).Should(Equal(common.Point{2, 1}))
-}
-
-func Test_Move(t *testing.T) {
-	RegisterTestingT(t)
-	cave := getData(moveTest)
-	cave.draw(nil)
-	cave, _, _ = cave.runRound()
-	cave.draw(nil)
-	cave, _, _ = cave.runRound()
-	cave.draw(nil)
-	cave, _, _ = cave.runRound()
-	cave.draw(nil)
 }
 
 var b0 = `#######
@@ -106,63 +92,10 @@ func Test_Battlefield1(t *testing.T) {
 	Expect(runBattle(b3)).Should(Equal(27755))
 	Expect(runBattle(b4)).Should(Equal(28944))
 	Expect(runBattle(b5)).Should(Equal(18740))
-	Expect(runBattle(real)).Should(Not(Equal(261036)))
-	Expect(runBattle(real)).Should(Not(Equal(263780)))
+	//	Expect(runBattle(real)).Should(Not(Equal(261036)))
+	//	Expect(runBattle(real)).Should(Not(Equal(263780)))
 
-	fmt.Println("not 261036 (too low). not 263780")
-}
-
-func Test_m1(t *testing.T) {
-	RegisterTestingT(t)
-
-	cave := getData(`#######
-#######
-#.E..G#
-#.#####
-#G#####
-#######
-#######`)
-
-	cave.runRound()
-	cave.draw(nil)
-
-}
-
-func Test_m2(t *testing.T) {
-	RegisterTestingT(t)
-
-	cave := getData(`####
-#GG#
-#.E#
-####`)
-
-	cave.runRound()
-	cave.draw(nil)
-
-}
-
-func Test_m3(t *testing.T) {
-	RegisterTestingT(t)
-
-	cave := getData(`########
-#..E..G#
-#G######
-########`)
-
-	cave.runRound()
-	cave.draw(nil)
-}
-func Test_m4(t *testing.T) {
-	RegisterTestingT(t)
-
-	cave := getData(`#######
-#.E..G#
-#.....#
-#G....#
-#######`)
-
-	cave.runRound()
-	cave.draw(nil)
+	//	fmt.Println("not 261036 (too low). not 263780")
 }
 
 func Test_PartTwo(t *testing.T) {
