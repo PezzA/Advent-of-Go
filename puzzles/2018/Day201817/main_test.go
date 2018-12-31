@@ -1,6 +1,7 @@
 package Day201817
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -8,6 +9,14 @@ import (
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
+
+	lines := getData(Entry.PuzzleInput())
+
+	for _, line := range lines {
+		fmt.Println(line)
+	}
+
+	fmt.Println(lines.getBoundaries())
 }
 
 func Test_PartTwo(t *testing.T) {
