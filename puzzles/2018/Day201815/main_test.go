@@ -7,6 +7,10 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/Common"
 )
 
+func Test_Movement(t *testing.T) {
+	RegisterTestingT(t)
+}
+
 var moveTest = `#########
 #G..G..G#
 #.......#
