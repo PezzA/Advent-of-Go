@@ -59,17 +59,16 @@ func getData(input string) cave {
 	return cave
 }
 
-func getBlankDistanceMap(x int, y int) distanceMap {
-	dm := make(distanceMap, y)
-
+func (c cave) getBlankDistanceMap() distanceMap {
+	dm := make(distanceMap, len(c))
 	for index := range dm {
-		dm[index] = make([]int, x)
+		dm[index] = make([]int, len(c[index]))
 	}
 	return dm
 }
 
 func (c cave) getDistanceMap(start common.Point) distanceMap {
-	dm := getBlankDistanceMap(len(c), len(c))
+	dm := c.getBlankDistanceMap()
 	dm[start.Y][start.X] = -1
 	return c.minimumSteps(start, 1, dm)
 }
@@ -90,7 +89,22 @@ func (c cave) minimumSteps(start common.Point, step int, dMap distanceMap) dista
 	return dMap
 }
 
+func (dm distanceMap) draw() {
+	fmt.Println()
+	for y := range dm {
+		for x := range dm[y] {
+			if dm[y][x] == -1 {
+				fmt.Print(".")
+			} else {
+				fmt.Print(dm[y][x])
+			}
+		}
+		fmt.Print("\n")
+	}
+}
+
 func (c cave) draw(dm distanceMap) {
+	fmt.Println()
 	for y := range c {
 		lineMobs := make([]mob, 0)
 		for x := range c[y] {
@@ -105,7 +119,6 @@ func (c cave) draw(dm distanceMap) {
 				} else {
 					fmt.Print(".")
 				}
-
 			case 1:
 				fmt.Print("#")
 			case 2:
@@ -168,16 +181,16 @@ func getFirstInReadingOrder(pl []common.Point, dm distanceMap) common.Point {
 func (c cave) getTarget(m mob) (common.Point, bool) {
 	targetList := make([]common.Point, 0)
 
-	dMap := c.minimumSteps(m.Point, 1, nil)
+	dMap := c.getDistanceMap(m.Point)
 
 	faction := "G"
 	if m.Faction == "G" {
 		faction = "E"
 	}
 
-	for _, m := range c.getFaction(faction) {
+	for _, fm := range c.getFaction(faction) {
 		for _, dir := range common.Cardinal4 {
-			tp := m.Point.Add(dir)
+			tp := fm.Point.Add(dir)
 			if c[tp.Y][tp.X].PosType == 0 && dMap[tp.Y][tp.X] > 0 {
 				targetList = append(targetList, tp)
 			}
