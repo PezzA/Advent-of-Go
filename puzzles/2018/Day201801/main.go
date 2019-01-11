@@ -55,7 +55,3 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	}
 	return fmt.Sprintf("%v", retVal)
 }
-
-func main() {
-	fmt.Println("hello, Go/WASM!")
-}

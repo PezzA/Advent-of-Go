@@ -40,7 +40,7 @@ func getData(input string) (map[string][]string, time.Time, time.Time) {
 
 	sort.Slice(orderedData, func(i, j int) bool { return orderedData[i].timeStamp.Before(orderedData[j].timeStamp) })
 
-	days := make(map[string][]string, 0)
+	days := make(map[string][]string)
 
 	currGuard, falls := "", 0
 

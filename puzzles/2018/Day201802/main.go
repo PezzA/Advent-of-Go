@@ -78,5 +78,5 @@ func findCommonLetters(ids []string) string {
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(findCommonLetters(getData(inputData)))
+	return fmt.Sprint(findCommonLetters(getData(inputData)))
 }

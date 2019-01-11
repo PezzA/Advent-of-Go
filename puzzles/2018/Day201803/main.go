@@ -83,7 +83,7 @@ func applyClaims(claims []claim) ([][]int, [][][]string) {
 func countOverlaps(cloth [][]int) int {
 	result := 0
 	for x, col := range cloth {
-		for y, _ := range col {
+		for y := range col {
 			if cloth[x][y] > 1 {
 				result++
 			}
@@ -100,7 +100,7 @@ func getNonOverlappedClaim(taggedCloth [][][]string, claims []claim) string {
 	}
 
 	for x, col := range taggedCloth {
-		for y, _ := range col {
+		for y := range col {
 			if len(taggedCloth[x][y]) > 1 {
 				for _, id := range taggedCloth[x][y] {
 					delete(candidates, id)
@@ -111,7 +111,7 @@ func getNonOverlappedClaim(taggedCloth [][][]string, claims []claim) string {
 	}
 
 	result := ""
-	for k, _ := range candidates {
+	for k := range candidates {
 		result = k
 	}
 	return result
