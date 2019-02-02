@@ -1,11 +1,10 @@
 package Day201604
 
 import (
+	"github.com/pezza/advent-of-code/puzzles/Common"
 	"sort"
 	"strconv"
 	"strings"
-
-	"github.com/pezza/advent-of-go/mapSorter"
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
@@ -83,7 +82,7 @@ func (r roomData) getCheckSum() string {
 		}
 	}
 
-	sortedMap := mapsorter.MapToList(alphaMap)
+	sortedMap := common.MapToList(alphaMap)
 
 	sort.Sort(sort.Reverse(sortedMap))
 
