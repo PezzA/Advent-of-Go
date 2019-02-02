@@ -60,9 +60,9 @@ func getData(input string) cave {
 }
 
 func (c cave) getBlankDistanceMap() distanceMap {
-	dm := make(distanceMap, len(c))
-	for index := range dm {
-		dm[index] = make([]int, len(c[index]))
+	dm := make(distanceMap, 0)
+	for index := range c {
+		dm = append(dm, make([]int, len(c[index])))
 	}
 	return dm
 }
@@ -178,6 +178,30 @@ func getFirstInReadingOrder(pl []common.Point, dm distanceMap) common.Point {
 	return targetLocation
 }
 
+// getAdjacentPoints will return each adjacent position to the mob that registers
+// on the distance map.
+func (m mob) getAdjacentPoints(dmap distanceMap) []common.Point {
+	points := make([]common.Point, 0)
+
+	for _, p := range common.Cardinal4 {
+		tp := m.Point.Add(p)
+		if dmap[tp.Y][tp.X] > 0 {
+			points = append(points, tp)
+		}
+	}
+	return points
+}
+
+func (c cave) getNextStep(m mob, t common.Point) common.Point {
+	dMap := c.getDistanceMap(t)
+
+	starts := m.getAdjacentPoints(dMap)
+
+	next := getFirstInReadingOrder(starts, dMap)
+
+	return next
+}
+
 func (c cave) getTarget(m mob) (common.Point, bool) {
 	targetList := make([]common.Point, 0)
 
@@ -204,12 +228,12 @@ func (c cave) getTarget(m mob) (common.Point, bool) {
 	return getFirstInReadingOrder(targetList, dMap), true
 }
 
-func (c cave) getFaction(i string) []mob {
+func (c cave) getFaction(faction string) []mob {
 	fl := make([]mob, 0)
 
 	for y := range c {
 		for x := range c[y] {
-			if c[y][x].PosType == 2 && c[y][x].Faction == i {
+			if c[y][x].PosType == 2 && c[y][x].Faction == faction {
 				fl = append(fl, c[y][x].mob)
 			}
 		}
