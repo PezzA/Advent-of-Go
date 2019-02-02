@@ -24,8 +24,8 @@ func runner(puzzle puzzles.DailyPuzzle) {
 	part1Answer, part2Answer := partResult{false, "", 0}, partResult{false, "", 0}
 	part1Update, part2Update := []string{"*"}, []string{"*"}
 
-	part1Chan := make(chan partResult, 0)
-	part2Chan := make(chan partResult, 0)
+	part1Chan := make(chan partResult)
+	part2Chan := make(chan partResult)
 
 	part1UpdateChan := make(chan []string, 10)
 	part2UpdateChan := make(chan []string, 10)

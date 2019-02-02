@@ -17,7 +17,7 @@ func Test_PartOne(t *testing.T) {
 	testPolymer, _ = reactPolymer(testPolymer)
 	Expect(testPolymer).Should(Equal("dabCBAcCcaDA"))
 
-	testPolymer, final = reactPolymer(testPolymer)
+	testPolymer, _ = reactPolymer(testPolymer)
 	Expect(testPolymer).Should(Equal("dabCBAcaDA"))
 
 	testPolymer, final = reactPolymer(testPolymer)

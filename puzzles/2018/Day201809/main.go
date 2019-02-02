@@ -13,8 +13,6 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2018, 9, "Marble Mania"
 }
 
-type playerList map[int]int
-
 func getData(input string) (int, int) {
 	players, lastMarbleValue := 0, 0
 	fmt.Sscanf(input, "%d players; last marble is worth %d points", &players, &lastMarbleValue)
