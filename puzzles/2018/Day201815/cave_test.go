@@ -1,6 +1,8 @@
-package Day201915
+package Day201815
 
 import (
+	"fmt"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pezza/advent-of-code/puzzles/Common"
@@ -22,8 +24,8 @@ var _ = Describe("Cave", func() {
 
 	It("Should be able to parse the puzzle input", func() {
 		By("Actors in the right position")
-		Expect(c[0][0].PosType).Should(Equal(1))
-		Expect(c[1][1].PosType).Should(Equal(2))
+		Expect(c[0][0].PosType).Should(Equal(wall))
+		Expect(c[1][1].PosType).Should(Equal(occupied))
 		Expect(c[1][1].mob).Should(Equal(mob{0, "E", common.Point{X: 1, Y: 1}, 200, 3}))
 
 		By("Should contain 4 mobs")
@@ -138,6 +140,140 @@ var _ = Describe("Cave", func() {
 
 		nextStep := cave.getNextStep(mob, target)
 		Expect(nextStep).Should(Equal(common.Point{X: 2, Y: 1}))
+	})
 
+	It("Should be able to detect an adjacent enemy", func() {
+		cave := getData(`#######
+#.....#
+#.....#
+#.E.G.#
+#.....#
+#.....#
+#######`)
+
+		Expect(cave.getAdjacentEnemy(cave.getAllMobs()[0])).Should(Equal(false))
+
+		cave = getData(`#######
+#.....#
+#.E...#
+#.E.G.#
+#.....#
+#.....#
+#######`)
+
+		Expect(cave.getAdjacentEnemy(cave.getAllMobs()[0])).Should(Equal(false))
+
+		cave = getData(`#######
+#GGGGG#
+#G...G#
+#G.E.G#
+#G...G#
+#GGGGG#
+#######`)
+
+		hasEnemy, _ := cave.getAdjacentEnemy(cave.getAllMobs()[8])
+		Expect(hasEnemy).Should(Equal(false))
+
+		cave = getData(`#######
+#.....#
+#.....#
+#.GE..#
+#.....#
+#.....#
+#######`)
+
+		hasEnemy, enemy := cave.getAdjacentEnemy(cave.getAllMobs()[1])
+		Expect(hasEnemy).Should(Equal(true))
+		Expect(enemy.Point).Should(Equal(common.Point{X: 2, Y: 3}))
+
+		cave = getData(`#######
+#.....#
+#..G..#
+#.GEG.#
+#..G..#
+#.....#
+#######`)
+
+		hasEnemy, enemy = cave.getAdjacentEnemy(cave.getAllMobs()[2])
+		Expect(hasEnemy).Should(Equal(true))
+		Expect(enemy.Point).Should(Equal(common.Point{X: 3, Y: 2}))
+
+		hasEnemy, enemy = cave.getAdjacentEnemy(cave.getAllMobs()[0])
+		Expect(hasEnemy).Should(Equal(true))
+		Expect(enemy.Point).Should(Equal(common.Point{X: 3, Y: 3}))
+	})
+
+	It("Should be able to run a battle A", func() {
+		startingCave := getData(`#######   
+#.G...#
+#...EG#
+#.#.#G#
+#..G#E#
+#.....#
+#######`)
+		//	startingCave.draw(nil, 0)
+		i := 0
+		for {
+			i++
+			startingCave.runRound()
+			//		startingCave.draw(nil, i)
+			if len(startingCave.getFaction("E")) == 0 || len(startingCave.getFaction("G")) == 0 {
+				break
+			}
+
+		}
+	})
+
+	It("Should be able to run a battle B", func() {
+		startingCave := getData(`#######
+#G..#E#
+#E#E.E#
+#G.##.#
+#...#E#
+#...E.#
+#######`)
+		//startingCave.draw(nil, 0)
+		rounds := 0
+		for {
+
+			fullRound, startingCave := startingCave.runRound()
+
+			if fullRound {
+				rounds++
+			}
+
+			//	startingCave.draw(nil, rounds)
+
+			if len(startingCave.getFaction("E")) == 0 || len(startingCave.getFaction("G")) == 0 {
+				break
+			}
+		}
+	})
+
+	It("Should be able to run a battle c", func() {
+		startingCave := getData(Entry.PuzzleInput())
+		startingCave.draw(nil, 0)
+		rounds := 0
+		for {
+
+			fullRound, startingCave := startingCave.runRound()
+
+			if fullRound {
+				rounds++
+			}
+
+			startingCave.draw(nil, rounds)
+
+			if len(startingCave.getFaction("E")) == 0 || len(startingCave.getFaction("G")) == 0 {
+				break
+			}
+		}
+
+		hp := 0
+		for _, mob := range startingCave.getAllMobs() {
+			hp += mob.Hp
+		}
+
+		fmt.Println(rounds * hp)
 	})
 })

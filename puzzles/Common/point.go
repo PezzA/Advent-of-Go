@@ -11,11 +11,18 @@ func GetMDistance(s Point, t Point) int {
 	return Abs(s.X-t.X) + Abs(s.Y-t.Y)
 }
 
+var Cardinal4ReadingOrder = []Point{
+	{X: 0, Y: -1}, // North
+	{X: -1, Y: 0}, // West
+	{X: 1, Y: 0},  // East
+	{X: 0, Y: 1},  // South
+}
+
 var Cardinal4 = []Point{
-	{X: 0, Y: -1},
-	{X: 1, Y: 0},
-	{X: 0, Y: 1},
-	{X: -1, Y: 0},
+	{X: 0, Y: -1}, // North
+	{X: 1, Y: 0},  // East
+	{X: 0, Y: 1},  // South
+	{X: -1, Y: 0}, // West
 }
 
 var Cardinal8 = []Point{

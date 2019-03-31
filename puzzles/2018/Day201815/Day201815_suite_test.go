@@ -1,4 +1,4 @@
-package Day201915
+package Day201815
 
 import (
 	"testing"
@@ -9,5 +9,5 @@ import (
 
 func TestDay201915(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Day201915 Suite")
+	RunSpecs(t, "Day201815 Suite")
 }
