@@ -46,10 +46,10 @@ const (
 	untraversed   = -1
 	startingPoint = 0
 	startingHp    = 200
-	startingAtk   = 3
+	baseAttack    = 3
 )
 
-func getData(input string) cave {
+func getData(input string, elfAttack int) cave {
 	cave := make(cave, 0)
 
 	mobCount := 0
@@ -62,10 +62,14 @@ func getData(input string) cave {
 				cave[y][x] = position{wall, mob{}}
 			// E, G
 			case 69, 71:
+				atk := baseAttack
+				if string(char) == "E" {
+					atk = elfAttack
+				}
 				cave[y][x] = position{occupied, mob{
 					mobCount,
 					string(char),
-					common.Point{X: x, Y: y}, startingHp, startingAtk}}
+					common.Point{X: x, Y: y}, startingHp, atk}}
 				mobCount++
 			}
 		}
@@ -154,6 +158,7 @@ func (c cave) draw(dm distanceMap, round int) {
 		}
 		fmt.Print("\n")
 	}
+	fmt.Println()
 }
 
 func (c cave) getAllMobs() []mob {
@@ -193,7 +198,7 @@ func (c cave) getAdjacentEnemy(m mob) (bool, mob) {
 		}
 	}
 
-	// no adajcent enemies detected
+	// no adacent enemies detected
 	if len(enemies) == 0 {
 		return false, mob{}
 	}
@@ -207,7 +212,7 @@ func (c cave) getAdjacentEnemy(m mob) (bool, mob) {
 	return false, mob{}
 }
 
-func (c cave) runRound() (bool, cave) {
+func (c cave) runRound(round int) (bool, cave) {
 	killList := make([]mob, 0)
 
 	// loop over each mob
@@ -236,21 +241,18 @@ func (c cave) runRound() (bool, cave) {
 
 				nextPosition := c.getNextStep(currMob, target)
 
+				targetMob := c[currMob.Y][currMob.X]
 				c[currMob.Y][currMob.X] = position{space, mob{}}
 
 				currMob = mob{
-					currMob.Id,
-					currMob.Faction,
+					targetMob.Id,
+					targetMob.Faction,
 					common.Point{X: nextPosition.X, Y: nextPosition.Y},
-					currMob.Hp,
-					currMob.Atk}
+					targetMob.Hp,
+					targetMob.Atk}
 
 				c[nextPosition.Y][nextPosition.X] = position{occupied, currMob}
 			}
-		}
-
-		if currMob.X == 0 || currMob.Y == 0 {
-			fmt.Println("Bad things man....")
 		}
 
 		if hasTarget, target := c.getAdjacentEnemy(currMob); hasTarget {
@@ -362,28 +364,72 @@ func (c cave) getFaction(faction string) []mob {
 	return fl
 }
 
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	cave, rounds, hp := getData(inputData), 0, 0
+func (c cave) resolveBattle(debug bool) (int, cave) {
+	rounds := 0
+
+	if debug {
+		c.draw(nil, rounds)
+	}
 
 	for {
-		fullRound, cave := cave.runRound()
+
+		round := -1
+
+		if debug {
+			round = rounds
+		}
+
+		fullRound, c := c.runRound(round)
 
 		if fullRound {
 			rounds++
 		}
 
-		if len(cave.getFaction("E")) == 0 || len(cave.getFaction("G")) == 0 {
+		if debug {
+			c.draw(nil, rounds)
+		}
+
+		if len(c.getFaction("E")) == 0 || len(c.getFaction("G")) == 0 {
 			break
 		}
 	}
 
-	for _, mob := range cave.getAllMobs() {
+	return rounds, c
+}
+
+func escalateBattle(inputData string) (int, int, cave) {
+	elfAttack := baseAttack + 1
+
+	for {
+		cave := getData(inputData, elfAttack)
+		startingElves := len(cave.getFaction("E"))
+
+		rounds, caveEndState := cave.resolveBattle(false)
+
+		if len(caveEndState.getFaction("E")) == startingElves {
+			return elfAttack, rounds, caveEndState
+		}
+
+		elfAttack++
+	}
+}
+
+func (c cave) getRemainingHp() int {
+	hp := 0
+	for _, mob := range c.getAllMobs() {
 		hp += mob.Hp
 	}
 
-	return fmt.Sprintf("%v", rounds*hp)
+	return hp
+}
+
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	cave := getData(inputData, baseAttack)
+	rounds, caveEndState := cave.resolveBattle(false)
+	return fmt.Sprintf("%v", caveEndState.getRemainingHp()*rounds)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	_, rounds, c := escalateBattle(inputData)
+	return fmt.Sprintf("%v", rounds*c.getRemainingHp())
 }
