@@ -202,6 +202,33 @@ func (rs registerSet) Same(cmp registerSet) bool {
 	return rs[0] == cmp[0] && rs[1] == cmp[1] && rs[2] == cmp[2] && rs[3] == cmp[3]
 }
 
+func testCode(ocs opCodes, t test) []string {
+	codes := make([]string, 0)
+
+	for k, v := range ocs {
+
+		if t.after.Same(v.process(t.before.deepCopy(), t.codes[1], t.codes[2], t.codes[3])) {
+			codes = append(codes, k)
+		}
+	}
+
+	return codes
+}
+
+func testList(ocs opCodes, tests []test) {
+	count := 0
+	for index := range tests {
+		results := testCode(ocs, tests[index])
+
+		fmt.Println(tests[index], results)
+
+		if len(results) >= 3 {
+			count++
+		}
+	}
+	fmt.Println("COUNT", count)
+}
+
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	return fmt.Sprintf(" -- Not Yet Implemented --")
 }
