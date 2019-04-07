@@ -9,10 +9,15 @@ import (
 
 var _ = Describe("OpCodes", func() {
 
-	It("Should be able to process all the op-codes", func() {
-
+	It("Should be able to work out all opcodes", func() {
 		ops := getOpCodes()
+		testCodeDebug(ops, createQuick(`Before: [0, 1, 2, 1]
+5 1 3 1
+After:  [0, 1, 2, 1]`))
+	})
 
+	It("Should be able to process all the op-codes", func() {
+		ops := getOpCodes()
 		By("addr")
 		reg := make(registerSet)
 		reg[0] = 1
@@ -191,10 +196,123 @@ var _ = Describe("OpCodes", func() {
 		Expect(ops["eqrr"].process(reg.deepCopy(), 1, 2, 3)).Should(
 			Equal(registerSet{0: 4, 1: 5, 2: 5, 3: 1}))
 
-		tests, _ := getData(Entry.PuzzleInput())
+		Expect(len(testCode(ops, createQuick(`Before: [3, 2, 1, 1]
+9 2 1 2
+After:  [3, 2, 2, 1]`)))).Should(Equal(3))
 
-		testList(ops, tests)
+		Expect(len(testCode(ops, createQuick(`Before: [2, 1, 2, 3]
+1 3 3 2
+After:  [2, 1, 3, 3]
+`)))).Should(Equal(6))
+
+		Expect(len(testCode(ops, createQuick(`Before: [2, 3, 2, 3]
+14 3 2 3
+After:  [2, 3, 2, 2]`)))).Should(Equal(2))
+
+		Expect(len(testCode(ops, createQuick(`Before: [3, 3, 1, 1]
+8 2 3 1
+After:  [3, 1, 1, 1]`)))).Should(Equal(7))
+
+		Expect(len(testCode(ops, createQuick(`Before: [0, 1, 0, 0]
+0 3 1 3
+After:  [0, 1, 0, 1]`)))).Should(Equal(5))
+
+		Expect(len(testCode(ops, createQuick(`Before: [2, 1, 1, 2]
+15 0 1 1
+After:  [2, 3, 1, 2]`)))).Should(Equal(4))
+
+		Expect(len(testCode(ops, createQuick(`Before: [0, 2, 2, 1]
+15 0 2 1
+After:  [0, 2, 2, 1]`)))).Should(Equal(4))
+
+		Expect(len(testCode(ops, createQuick(`Before: [0, 2, 1, 0]
+3 0 0 1
+After:  [0, 0, 1, 0]`)))).Should(Equal(13))
+
+		Expect(len(testCode(ops, createQuick(`Before: [3, 1, 2, 0]
+0 3 1 2
+After:  [3, 1, 1, 0]`)))).Should(Equal(5))
+
+		Expect(len(testCode(ops, createQuick(`Before: [0, 1, 2, 1]
+5 1 3 1
+After:  [0, 1, 2, 1]`)))).Should(Equal(8))
+
+		Expect(len(testCode(ops, createQuick(`Before: [2, 2, 2, 3]
+11 3 3 1
+After:  [2, 9, 2, 3]`)))).Should(Equal(2))
+
+		Expect(len(testCode(ops, createQuick(`Before: [2, 1, 0, 3]
+14 2 1 2
+After:  [2, 1, 1, 3]`)))).Should(Equal(5))
 
 		fmt.Println("NOT 527")
 	})
 })
+
+/*
+
+
+
+
+
+
+Before: [0, 3, 2, 2]
+4 0 2 0
+After:  [0, 3, 2, 2]
+// 12
+
+
+Before: [1, 0, 3, 3]
+12 3 1 1
+After:  [1, 3, 3, 3]
+// 6
+
+
+Before: [0, 2, 3, 2]
+7 2 3 3
+After:  [0, 2, 3, 2]
+// 2
+
+
+Before: [1, 1, 2, 3]
+10 1 3 3
+After:  [1, 1, 2, 3]
+// 4
+
+
+Before: [2, 2, 2, 1]
+6 3 2 1
+After:  [2, 3, 2, 1]
+// 5
+
+
+Before: [2, 1, 2, 0]
+2 0 3 1
+After:  [2, 3, 2, 0]
+// 1
+
+
+Before: [1, 2, 3, 3]
+11 2 3 1
+After:  [1, 9, 3, 3]
+// 2
+
+
+Before: [2, 1, 2, 2]
+13 1 3 2
+After:  [2, 1, 3, 2]
+
+*/
+func createQuick(input string) test {
+	a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3 := 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+	fmt.Sscanf(input, `Before: [%d, %d, %d, %d]
+%d %d %d %d
+After:  [%d, %d, %d, %d]`, &a1, &b1, &c1, &d1, &a2, &b2, &c2, &d2, &a3, &b3, &c3, &d3)
+
+	return test{
+		registerSet{0: a1, 1: b1, 2: c1, 3: d1},
+		[]int{a2, b2, c2, d2},
+		registerSet{0: a3, 1: b3, 2: c3, 3: d3},
+	}
+}

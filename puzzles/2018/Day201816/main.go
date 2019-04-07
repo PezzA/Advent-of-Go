@@ -15,6 +15,14 @@ func (td dayEntry) Describe() (int, int, string) {
 
 type registerSet map[int]int
 
+func (rs registerSet) String() string {
+	return fmt.Sprintf("[%v %v %v %v]", rs[0], rs[1], rs[2], rs[3])
+}
+
+func (t test) String() string {
+	return fmt.Sprintf("%v -> %v -> %v", t.before.String(), t.codes, t.after.String())
+}
+
 type processor interface {
 	process(input registerSet, a int, b int, c int) registerSet
 }
@@ -159,6 +167,25 @@ func getOpCodes() opCodes {
 	return ops
 }
 
+var opCodeSort = []string{
+	"addr",
+	"addi",
+	"mulr",
+	"muli",
+	"setr",
+	"seti",
+	"banr",
+	"bani",
+	"borr",
+	"bori",
+	"gtir",
+	"gtri",
+	"gtrr",
+	"eqir",
+	"eqri",
+	"eqrr",
+}
+
 type test struct {
 	before registerSet
 	codes  []int
@@ -206,7 +233,6 @@ func testCode(ocs opCodes, t test) []string {
 	codes := make([]string, 0)
 
 	for k, v := range ocs {
-
 		if t.after.Same(v.process(t.before.deepCopy(), t.codes[1], t.codes[2], t.codes[3])) {
 			codes = append(codes, k)
 		}
@@ -215,14 +241,23 @@ func testCode(ocs opCodes, t test) []string {
 	return codes
 }
 
+func testCodeDebug(ocs opCodes, t test) {
+	for _, opName := range opCodeSort {
+		processed := ocs[opName].process(t.before.deepCopy(), t.codes[1], t.codes[2], t.codes[3])
+
+		fmt.Println(opName, t.before, t.codes, processed, t.after, processed.Same(t.after))
+	}
+}
+
 func testList(ocs opCodes, tests []test) {
 	count := 0
 	for index := range tests {
 		results := testCode(ocs, tests[index])
 
-		fmt.Println(tests[index], results)
-
 		if len(results) >= 3 {
+
+			fmt.Println(tests[index], results)
+
 			count++
 		}
 	}
