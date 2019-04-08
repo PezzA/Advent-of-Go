@@ -9,11 +9,12 @@ import (
 
 var _ = Describe("OpCodes", func() {
 
-	It("Should be able to work out all opcodes", func() {
-		ops := getOpCodes()
-		testCodeDebug(ops, createQuick(`Before: [0, 1, 2, 1]
-5 1 3 1
-After:  [0, 1, 2, 1]`))
+	It("Should be able to read the test data", func(){
+		_, program := getData(Entry.PuzzleInput())
+
+		for _, line := range program{
+			fmt.Println(line)
+		}
 	})
 
 	It("Should be able to process all the op-codes", func() {
@@ -245,64 +246,9 @@ After:  [2, 9, 2, 3]`)))).Should(Equal(2))
 14 2 1 2
 After:  [2, 1, 1, 3]`)))).Should(Equal(5))
 
-		fmt.Println("NOT 527")
 	})
 })
 
-/*
-
-
-
-
-
-
-Before: [0, 3, 2, 2]
-4 0 2 0
-After:  [0, 3, 2, 2]
-// 12
-
-
-Before: [1, 0, 3, 3]
-12 3 1 1
-After:  [1, 3, 3, 3]
-// 6
-
-
-Before: [0, 2, 3, 2]
-7 2 3 3
-After:  [0, 2, 3, 2]
-// 2
-
-
-Before: [1, 1, 2, 3]
-10 1 3 3
-After:  [1, 1, 2, 3]
-// 4
-
-
-Before: [2, 2, 2, 1]
-6 3 2 1
-After:  [2, 3, 2, 1]
-// 5
-
-
-Before: [2, 1, 2, 0]
-2 0 3 1
-After:  [2, 3, 2, 0]
-// 1
-
-
-Before: [1, 2, 3, 3]
-11 2 3 1
-After:  [1, 9, 3, 3]
-// 2
-
-
-Before: [2, 1, 2, 2]
-13 1 3 2
-After:  [2, 1, 3, 2]
-
-*/
 func createQuick(input string) test {
 	a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3 := 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
