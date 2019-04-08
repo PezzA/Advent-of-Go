@@ -98,49 +98,55 @@ func (op bori) process(input registerSet, a int, b int, c int) registerSet {
 }
 
 func (op gtir) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = 0
 	if a > input[b] {
 		input[c] = 1
+	} else {
+		input[c] = 0
 	}
 	return input
 }
 
 func (op gtri) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = 0
 	if input[a] > b {
 		input[c] = 1
+	} else {
+		input[c] = 0
 	}
 	return input
 }
 
 func (op gtrr) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = 0
 	if input[a] > input[b] {
 		input[c] = 1
+	} else {
+		input[c] = 0
 	}
 	return input
 }
 
 func (op eqir) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = 0
 	if a == input[b] {
 		input[c] = 1
+	} else {
+		input[c] = 0
 	}
 	return input
 }
 
 func (op eqri) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = 0
 	if input[a] == b {
 		input[c] = 1
+	} else {
+		input[c] = 0
 	}
 	return input
 }
 
 func (op eqrr) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = 0
 	if input[a] == input[b] {
 		input[c] = 1
+	} else {
+		input[c] = 0
 	}
 	return input
 }
@@ -249,23 +255,26 @@ func testCodeDebug(ocs opCodes, t test) {
 	}
 }
 
-func testList(ocs opCodes, tests []test) {
+func testList(ocs opCodes, tests []test) int {
 	count := 0
 	for index := range tests {
 		results := testCode(ocs, tests[index])
 
 		if len(results) >= 3 {
 
-			fmt.Println(tests[index], results)
-
 			count++
 		}
 	}
-	fmt.Println("COUNT", count)
+
+	return count
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	ocs := getOpCodes()
+
+	tests, _ := getData(inputData)
+
+	return fmt.Sprintf("%v", testList(ocs, tests))
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
