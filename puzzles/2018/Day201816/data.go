@@ -3,7 +3,7 @@ package Day201816
 func (td dayEntry) PuzzleInput() string {
 	return `Before: [1, 1, 0, 1]
 0 1 0 1
-After:  [1, 1, 0, 1]
+After:  [1, 1, 0, 1] 
 
 Before: [2, 2, 2, 1]
 2 1 2 2

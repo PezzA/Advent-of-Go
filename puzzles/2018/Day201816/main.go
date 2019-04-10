@@ -3,8 +3,11 @@ package Day201816
 import (
 	"fmt"
 	"strings"
+
+	"github.com/pezza/advent-of-code/puzzles/2018/ChronalCompiler"
 )
 
+// Boiler Plate
 var Entry dayEntry
 
 type dayEntry bool
@@ -13,204 +16,22 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2018, 16, "Chronal Classification"
 }
 
-type registerSet map[int]int
-
-func (rs registerSet) String() string {
-	return fmt.Sprintf("[%v %v %v %v]", rs[0], rs[1], rs[2], rs[3])
+// Start
+type test struct {
+	before ChronalCompiler.RegisterSet
+	codes  []int
+	after  ChronalCompiler.RegisterSet
 }
 
 func (t test) String() string {
 	return fmt.Sprintf("%v -> %v -> %v", t.before.String(), t.codes, t.after.String())
 }
 
-type processor interface {
-	process(input registerSet, a int, b int, c int) registerSet
-}
-
-type opCodes map[string]processor
-
-// create the 16 types
-type addr bool
-type addi bool
-type mulr bool
-type muli bool
-type setr bool
-type seti bool
-type banr bool
-type bani bool
-type borr bool
-type bori bool
-type gtir bool
-type gtri bool
-type gtrr bool
-type eqir bool
-type eqri bool
-type eqrr bool
-
-func (op addr) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] + input[b]
-	return input
-}
-
-func (op addi) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] + b
-	return input
-}
-
-func (op mulr) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] * input[b]
-	return input
-}
-
-func (op muli) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] * b
-	return input
-}
-
-func (op setr) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a]
-	return input
-}
-
-func (op seti) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = a
-	return input
-}
-
-func (op banr) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] & input[b]
-	return input
-}
-
-func (op bani) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] & b
-	return input
-}
-
-func (op borr) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] | input[b]
-	return input
-}
-
-func (op bori) process(input registerSet, a int, b int, c int) registerSet {
-	input[c] = input[a] | b
-	return input
-}
-
-func (op gtir) process(input registerSet, a int, b int, c int) registerSet {
-	if a > input[b] {
-		input[c] = 1
-	} else {
-		input[c] = 0
-	}
-	return input
-}
-
-func (op gtri) process(input registerSet, a int, b int, c int) registerSet {
-	if input[a] > b {
-		input[c] = 1
-	} else {
-		input[c] = 0
-	}
-	return input
-}
-
-func (op gtrr) process(input registerSet, a int, b int, c int) registerSet {
-	if input[a] > input[b] {
-		input[c] = 1
-	} else {
-		input[c] = 0
-	}
-	return input
-}
-
-func (op eqir) process(input registerSet, a int, b int, c int) registerSet {
-	if a == input[b] {
-		input[c] = 1
-	} else {
-		input[c] = 0
-	}
-	return input
-}
-
-func (op eqri) process(input registerSet, a int, b int, c int) registerSet {
-	if input[a] == b {
-		input[c] = 1
-	} else {
-		input[c] = 0
-	}
-	return input
-}
-
-func (op eqrr) process(input registerSet, a int, b int, c int) registerSet {
-	if input[a] == input[b] {
-		input[c] = 1
-	} else {
-		input[c] = 0
-	}
-	return input
-}
-
-func getOpCodes() opCodes {
-	ops := make(opCodes)
-	ops["addr"] = new(addr)
-	ops["addi"] = new(addi)
-	ops["mulr"] = new(mulr)
-	ops["muli"] = new(muli)
-	ops["setr"] = new(setr)
-	ops["seti"] = new(seti)
-	ops["banr"] = new(banr)
-	ops["bani"] = new(bani)
-	ops["borr"] = new(borr)
-	ops["bori"] = new(bori)
-	ops["gtir"] = new(gtir)
-	ops["gtri"] = new(gtri)
-	ops["gtrr"] = new(gtrr)
-	ops["eqir"] = new(eqir)
-	ops["eqri"] = new(eqri)
-	ops["eqrr"] = new(eqrr)
-
-	return ops
-}
-
-var opCodeSort = []string{
-	"addr",
-	"addi",
-	"mulr",
-	"muli",
-	"setr",
-	"seti",
-	"banr",
-	"bani",
-	"borr",
-	"bori",
-	"gtir",
-	"gtri",
-	"gtrr",
-	"eqir",
-	"eqri",
-	"eqrr",
-}
-
-type test struct {
-	before registerSet
-	codes  []int
-	after  registerSet
-}
-
-func (rs registerSet) deepCopy() registerSet {
-	retVal := make(registerSet)
-	for k, v := range rs {
-		retVal[k] = v
-	}
-	return retVal
-}
-
 func getData(input string) ([]test, [][]int) {
 	tests := make([]test, 0)
 	codes := make([][]int, 0)
 	lines := strings.Split(input, "\n")
-	for i :=0; i < len(lines); i++  {
+	for i := 0; i < len(lines); i++ {
 		if strings.HasPrefix(lines[i], "Before") {
 			a1, b1, c1, d1 := 0, 0, 0, 0
 			fmt.Sscanf(lines[i], "Before: [%d, %d, %d, %d]", &a1, &b1, &c1, &d1)
@@ -222,9 +43,9 @@ func getData(input string) ([]test, [][]int) {
 			fmt.Sscanf(lines[i], "After:  [%d, %d, %d, %d]", &a3, &b3, &c3, &d3)
 
 			tests = append(tests, test{
-				registerSet{0: a1, 1: b1, 2: c1, 3: d1},
+				ChronalCompiler.RegisterSet{0: a1, 1: b1, 2: c1, 3: d1},
 				[]int{a2, b2, c2, d2},
-				registerSet{0: a3, 1: b3, 2: c3, 3: d3}})
+				ChronalCompiler.RegisterSet{0: a3, 1: b3, 2: c3, 3: d3}})
 			continue
 		}
 
@@ -238,15 +59,11 @@ func getData(input string) ([]test, [][]int) {
 	return tests, codes
 }
 
-func (rs registerSet) Same(cmp registerSet) bool {
-	return rs[0] == cmp[0] && rs[1] == cmp[1] && rs[2] == cmp[2] && rs[3] == cmp[3]
-}
-
-func testCode(ocs opCodes, t test) []string {
+func getTestMatches(ocs ChronalCompiler.OpCodes, t test) []string {
 	codes := make([]string, 0)
 
 	for k, v := range ocs {
-		if t.after.Same(v.process(t.before.deepCopy(), t.codes[1], t.codes[2], t.codes[3])) {
+		if t.after.Same(v.Process(t.before.DeepCopy(), t.codes[1], t.codes[2], t.codes[3])) {
 			codes = append(codes, k)
 		}
 	}
@@ -254,23 +71,9 @@ func testCode(ocs opCodes, t test) []string {
 	return codes
 }
 
-func testList(ocs opCodes, tests []test) int {
-	count := 0
-	for index := range tests {
-		results := testCode(ocs, tests[index])
-
-		if len(results) >= 3 {
-
-			count++
-		}
-	}
-
-	return count
-}
-
-func getUniques(codes opCodes, tests []test, uniques map[int]string) map[int]string{
+func getUniques(codes ChronalCompiler.OpCodes, tests []test, uniques map[int]string) map[int]string {
 	for _, test := range tests {
-		results := testCode(codes, test)
+		results := getTestMatches(codes, test)
 
 		if len(results) == 1 {
 			uniques[test.codes[0]] = results[0]
@@ -280,8 +83,8 @@ func getUniques(codes opCodes, tests []test, uniques map[int]string) map[int]str
 	return uniques
 }
 
-func determineCodeMap(codes opCodes, tests []test) map[int]string{
-	codeMap := make(map[int]string,0)
+func determineCodeMap(codes ChronalCompiler.OpCodes, tests []test) map[int]string {
+	codeMap := make(map[int]string, 0)
 
 	for len(codes) > 0 {
 		getUniques(codes, tests, codeMap)
@@ -295,22 +98,22 @@ func determineCodeMap(codes opCodes, tests []test) map[int]string{
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	ocs := getOpCodes()
-
 	tests, _ := getData(inputData)
 
-	return fmt.Sprintf("%v", testList(ocs, tests))
+	count := 0
+	for index := range tests {
+		results := getTestMatches(ChronalCompiler.GetOpCodes(), tests[index])
+
+		if len(results) >= 3 {
+
+			count++
+		}
+	}
+
+	return fmt.Sprintf("%v", count)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-
-	tests, _ := getData(inputData)
-	codeMap := determineCodeMap(getOpCodes(),tests)
-
-
-	startingSet := registerSet{0:0, 1:0, 2:0, 3:0}
-
-
 
 	return fmt.Sprintf(" -- Not Yet Implemented --")
 }
