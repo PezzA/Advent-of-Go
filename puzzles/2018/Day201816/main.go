@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pezza/advent-of-code/puzzles/2018/ChronalCompiler"
+	cc "github.com/pezza/advent-of-code/puzzles/2018/chronalcompiler"
 )
+
+type dayEntry bool
 
 // Boiler Plate
 var Entry dayEntry
-
-type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string) {
 	return 2018, 16, "Chronal Classification"
@@ -18,9 +18,9 @@ func (td dayEntry) Describe() (int, int, string) {
 
 // Start
 type test struct {
-	before ChronalCompiler.RegisterSet
+	before cc.RegisterSet
 	codes  []int
-	after  ChronalCompiler.RegisterSet
+	after  cc.RegisterSet
 }
 
 func (t test) String() string {
@@ -43,9 +43,9 @@ func getData(input string) ([]test, [][]int) {
 			fmt.Sscanf(lines[i], "After:  [%d, %d, %d, %d]", &a3, &b3, &c3, &d3)
 
 			tests = append(tests, test{
-				ChronalCompiler.RegisterSet{0: a1, 1: b1, 2: c1, 3: d1},
+				cc.RegisterSet{0: a1, 1: b1, 2: c1, 3: d1},
 				[]int{a2, b2, c2, d2},
-				ChronalCompiler.RegisterSet{0: a3, 1: b3, 2: c3, 3: d3}})
+				cc.RegisterSet{0: a3, 1: b3, 2: c3, 3: d3}})
 			continue
 		}
 
@@ -59,7 +59,7 @@ func getData(input string) ([]test, [][]int) {
 	return tests, codes
 }
 
-func getTestMatches(ocs ChronalCompiler.OpCodes, t test) []string {
+func getTestMatches(ocs cc.OpCodes, t test) []string {
 	codes := make([]string, 0)
 
 	for k, v := range ocs {
@@ -71,7 +71,7 @@ func getTestMatches(ocs ChronalCompiler.OpCodes, t test) []string {
 	return codes
 }
 
-func getUniques(codes ChronalCompiler.OpCodes, tests []test, uniques map[int]string) map[int]string {
+func getUniques(codes cc.OpCodes, tests []test, uniques map[int]string) map[int]string {
 	for _, test := range tests {
 		results := getTestMatches(codes, test)
 
@@ -83,7 +83,7 @@ func getUniques(codes ChronalCompiler.OpCodes, tests []test, uniques map[int]str
 	return uniques
 }
 
-func determineCodeMap(codes ChronalCompiler.OpCodes, tests []test) map[int]string {
+func determineCodeMap(codes cc.OpCodes, tests []test) map[int]string {
 	codeMap := make(map[int]string, 0)
 
 	for len(codes) > 0 {
@@ -102,10 +102,9 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 	count := 0
 	for index := range tests {
-		results := getTestMatches(ChronalCompiler.GetOpCodes(), tests[index])
+		results := getTestMatches(cc.GetOpCodes(), tests[index])
 
 		if len(results) >= 3 {
-
 			count++
 		}
 	}

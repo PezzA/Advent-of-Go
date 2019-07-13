@@ -3,7 +3,7 @@ package Day201816
 import (
 	"fmt"
 
-	"github.com/pezza/advent-of-code/puzzles/2018/ChronalCompiler"
+	cc "github.com/pezza/advent-of-code/puzzles/2018/chronalcompiler"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -20,7 +20,7 @@ var _ = Describe("OpCodes", func() {
 
 	It("Should be able to determine the code map from the tests given", func() {
 		tests, _ := getData(Entry.PuzzleInput())
-		codeMap := determineCodeMap(ChronalCompiler.GetOpCodes(), tests)
+		codeMap := determineCodeMap(cc.GetOpCodes(), tests)
 
 		Expect(codeMap[11]).Should(Equal("eqrr"))
 		Expect(codeMap[1]).Should(Equal("addr"))
@@ -28,10 +28,10 @@ var _ = Describe("OpCodes", func() {
 
 	It("Should be able to run a program", func() {
 		tests, program := getData(Entry.PuzzleInput())
-		codeMap := determineCodeMap(ChronalCompiler.GetOpCodes(), tests)
-		startingSet := ChronalCompiler.RegisterSet{0: 0, 1: 0, 2: 0, 3: 0}
+		codeMap := determineCodeMap(cc.GetOpCodes(), tests)
+		startingSet := cc.RegisterSet{0: 0, 1: 0, 2: 0, 3: 0}
 
-		opCodes := ChronalCompiler.GetOpCodes()
+		opCodes := cc.GetOpCodes()
 
 		for _, line := range program {
 			startingSet = opCodes[codeMap[line[0]]].Process(startingSet, line[1], line[2], line[3])
@@ -43,184 +43,184 @@ var _ = Describe("OpCodes", func() {
 	})
 
 	It("Should be able to process all the op-codes", func() {
-		ops := ChronalCompiler.GetOpCodes()
+		ops := cc.GetOpCodes()
 		By("addr")
-		reg := make(ChronalCompiler.RegisterSet)
+		reg := make(cc.RegisterSet)
 		reg[0] = 1
 		reg[1] = 1
 
 		// Reg 0 + Reg 1 = 2
 		Expect(ops["addr"].Process(reg.DeepCopy(), 0, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 1, 3: 2}))
+			Equal(cc.RegisterSet{0: 1, 1: 1, 3: 2}))
 
 		Expect(ops["addr"].Process(reg.DeepCopy(), 0, 1, 1)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 2}))
+			Equal(cc.RegisterSet{0: 1, 1: 2}))
 
 		By("addi")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 1
 		reg[1] = 4
 
 		// Reg 0 + Reg 1 = (4 + 4) = 8
 		Expect(ops["addi"].Process(reg.DeepCopy(), 1, 4, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 4, 3: 8}))
+			Equal(cc.RegisterSet{0: 1, 1: 4, 3: 8}))
 
 		Expect(ops["addi"].Process(reg.DeepCopy(), 0, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 4, 3: 2}))
+			Equal(cc.RegisterSet{0: 1, 1: 4, 3: 2}))
 
 		By("mulr")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 1
 		reg[1] = 1
 
 		// Reg 0 + Reg 1 = 2
 		Expect(ops["mulr"].Process(reg.DeepCopy(), 0, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 1, 3: 1}))
+			Equal(cc.RegisterSet{0: 1, 1: 1, 3: 1}))
 
 		Expect(ops["mulr"].Process(reg.DeepCopy(), 0, 1, 1)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 1}))
+			Equal(cc.RegisterSet{0: 1, 1: 1}))
 
 		By("muli")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 1
 		reg[1] = 4
 
 		// Reg 0 + Reg 1 = (4 + 4) = 8
 		Expect(ops["muli"].Process(reg.DeepCopy(), 1, 4, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 4, 3: 16}))
+			Equal(cc.RegisterSet{0: 1, 1: 4, 3: 16}))
 
 		Expect(ops["muli"].Process(reg.DeepCopy(), 0, 10, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 4, 3: 10}))
+			Equal(cc.RegisterSet{0: 1, 1: 4, 3: 10}))
 
 		By("setr")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 1
 		reg[1] = 4
 
 		Expect(ops["setr"].Process(reg.DeepCopy(), 1, -1, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 4, 2: 4}))
+			Equal(cc.RegisterSet{0: 1, 1: 4, 2: 4}))
 
 		Expect(ops["setr"].Process(reg.DeepCopy(), 0, -1, 1)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 1}))
+			Equal(cc.RegisterSet{0: 1, 1: 1}))
 
 		By("seti")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 5
 		reg[1] = 22
 
 		Expect(ops["seti"].Process(reg.DeepCopy(), 1, -1, 0)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 22}))
+			Equal(cc.RegisterSet{0: 1, 1: 22}))
 
 		Expect(ops["seti"].Process(reg.DeepCopy(), -1, -1, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 5, 1: 22, 2: -1}))
+			Equal(cc.RegisterSet{0: 5, 1: 22, 2: -1}))
 
 		By("banr")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 5
 		reg[1] = 3
 
 		Expect(ops["banr"].Process(reg.DeepCopy(), 0, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 5, 1: 3, 3: 1}))
+			Equal(cc.RegisterSet{0: 5, 1: 3, 3: 1}))
 
 		Expect(ops["banr"].Process(reg.DeepCopy(), 0, 1, 0)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 1, 1: 3}))
+			Equal(cc.RegisterSet{0: 1, 1: 3}))
 
 		By("bani")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 3
 		reg[1] = 11
 
 		Expect(ops["bani"].Process(reg.DeepCopy(), 0, 2, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 3, 1: 11, 2: 2}))
+			Equal(cc.RegisterSet{0: 3, 1: 11, 2: 2}))
 
 		Expect(ops["bani"].Process(reg.DeepCopy(), 0, 2, 0)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 2, 1: 11}))
+			Equal(cc.RegisterSet{0: 2, 1: 11}))
 
 		By("borr")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 5
 		reg[1] = 3
 
 		Expect(ops["borr"].Process(reg.DeepCopy(), 0, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 5, 1: 3, 3: 7}))
+			Equal(cc.RegisterSet{0: 5, 1: 3, 3: 7}))
 
 		Expect(ops["borr"].Process(reg.DeepCopy(), 0, 1, 0)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 7, 1: 3}))
+			Equal(cc.RegisterSet{0: 7, 1: 3}))
 
 		By("bori")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 3
 		reg[1] = 11
 
 		Expect(ops["bori"].Process(reg.DeepCopy(), 0, 5, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 3, 1: 11, 2: 7}))
+			Equal(cc.RegisterSet{0: 3, 1: 11, 2: 7}))
 
 		Expect(ops["bori"].Process(reg.DeepCopy(), 0, 5, 0)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 7, 1: 11}))
+			Equal(cc.RegisterSet{0: 7, 1: 11}))
 
 		By("gtir")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 4
 		reg[1] = 5
 		Expect(ops["gtir"].Process(reg.DeepCopy(), 5, 1, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 0}))
 		Expect(ops["gtir"].Process(reg.DeepCopy(), 6, 1, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 1}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 1}))
 		Expect(ops["gtir"].Process(reg.DeepCopy(), 4, 1, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 0}))
 
 		By("gtri")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 4
 		reg[1] = 5
 		Expect(ops["gtri"].Process(reg.DeepCopy(), 0, 3, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 1}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 1}))
 		Expect(ops["gtri"].Process(reg.DeepCopy(), 0, 4, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 0}))
 		Expect(ops["gtri"].Process(reg.DeepCopy(), 0, 5, 2)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 0}))
 
 		By("gtrr")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 4
 		reg[1] = 5
 		reg[2] = 5
 		Expect(ops["gtrr"].Process(reg.DeepCopy(), 0, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
 		Expect(ops["gtrr"].Process(reg.DeepCopy(), 1, 0, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
 		Expect(ops["gtrr"].Process(reg.DeepCopy(), 1, 2, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
 
 		By("eqir")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 4
 		reg[1] = 5
 		reg[2] = 5
 		Expect(ops["eqir"].Process(reg.DeepCopy(), 5, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
 		Expect(ops["eqir"].Process(reg.DeepCopy(), 4, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
 
 		By("eqri")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 4
 		reg[1] = 5
 		reg[2] = 5
 		Expect(ops["eqri"].Process(reg.DeepCopy(), 0, 4, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
 		Expect(ops["eqri"].Process(reg.DeepCopy(), 1, 4, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
 
 		By("eqrr")
-		reg = make(ChronalCompiler.RegisterSet)
+		reg = make(cc.RegisterSet)
 		reg[0] = 4
 		reg[1] = 5
 		reg[2] = 5
 		Expect(ops["eqrr"].Process(reg.DeepCopy(), 0, 1, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 0}))
 		Expect(ops["eqrr"].Process(reg.DeepCopy(), 1, 2, 3)).Should(
-			Equal(ChronalCompiler.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
+			Equal(cc.RegisterSet{0: 4, 1: 5, 2: 5, 3: 1}))
 
 		Expect(len(getTestMatches(ops, createQuick(`Before: [3, 2, 1, 1]
 9 2 1 2
@@ -282,8 +282,8 @@ func createQuick(input string) test {
 After:  [%d, %d, %d, %d]`, &a1, &b1, &c1, &d1, &a2, &b2, &c2, &d2, &a3, &b3, &c3, &d3)
 
 	return test{
-		ChronalCompiler.RegisterSet{0: a1, 1: b1, 2: c1, 3: d1},
+		cc.RegisterSet{0: a1, 1: b1, 2: c1, 3: d1},
 		[]int{a2, b2, c2, d2},
-		ChronalCompiler.RegisterSet{0: a3, 1: b3, 2: c3, 3: d3},
+		cc.RegisterSet{0: a3, 1: b3, 2: c3, 3: d3},
 	}
 }
