@@ -5,7 +5,7 @@ import (
 
 	"strconv"
 
-	"github.com/pezza/advent-of-code/puzzles/Common"
+	common "github.com/pezza/advent-of-code/puzzles/Common"
 )
 
 // Entry is the type that implements the runner interface for this puzzle
