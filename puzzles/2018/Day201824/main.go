@@ -3,6 +3,7 @@ package Day201824
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -16,6 +17,7 @@ func (td dayEntry) Describe() (int, int, string) {
 }
 
 type group struct {
+	isImmune   bool
 	id         int
 	units      int
 	hp         int
@@ -99,6 +101,7 @@ func getData(input string) ([]group, []group) {
 
 		newGroup := group{
 			id:         index,
+			isImmune:   !isInfectionList,
 			units:      units,
 			hp:         hp,
 			attack:     atk,
@@ -117,6 +120,48 @@ func getData(input string) ([]group, []group) {
 
 	return immuneGroup, infectionGroup
 }
+
+func (g group) effectivePower() int {
+	return g.units * g.attack
+}
+
+func (g group) deepCopy() group {
+	return group{
+		id:         g.id,
+		isImmune:   g.isImmune,
+		units:      g.units,
+		hp:         g.hp,
+		attack:     g.attack,
+		initative:  g.initative,
+		attackType: g.attackType,
+		weaknesses: g.weaknesses,
+		immunites:  g.immunites,
+	}
+}
+
+func getOrderList(a1 []group, a2 []group) []group {
+
+	fullList := make([]group, 0)
+
+	for _, g := range a1 {
+		fullList = append(fullList, g.deepCopy())
+	}
+
+	for _, g := range a2 {
+		fullList = append(fullList, g.deepCopy())
+	}
+
+	sort.Slice(fullList, func(i, j int) bool {
+		if fullList[i].effectivePower() == fullList[j].effectivePower() {
+			return fullList[i].initative >= fullList[j].initative
+		}
+
+		return fullList[i].effectivePower() > fullList[j].effectivePower()
+	})
+
+	return fullList
+}
+
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	return fmt.Sprintf(" -- Not Yet Implemented --")
 }
