@@ -16,8 +16,11 @@ func (td dayEntry) Describe() (int, int, string) {
 	return 2018, 24, "Immune System Simulator 20XX"
 }
 
+const immuneArmy = "Immune"
+const infectionArmy = "Infection"
+
 type group struct {
-	isImmune   bool
+	army       string
 	id         int
 	units      int
 	hp         int
@@ -28,8 +31,23 @@ type group struct {
 	immunites  []string
 }
 
+type battle struct {
+	attackInitiative int
+	attackID         int
+	attackArmy       string
+	defendID         int
+}
+
 var groupParser = regexp.MustCompile(`(?P<units>[0-9]*) units each with (?P<HP>[0-9]*) hit points( \((?P<mods>.*)*\))* with an attack that does (?P<atk>[0-9]*) (?P<atkType>\S*) damage at initiative (?P<init>[0-9]*)`)
 var groupParserNames = groupParser.SubexpNames()
+
+func (g group) String() string {
+	return fmt.Sprintf("%v group %v. U:%v HP:%v A:%v AT:%v W:%v I:%v", g.army, g.id, g.units, g.hp, g.attack, g.attackType, g.weaknesses, g.immunites)
+}
+
+func (b battle) String() string {
+	return fmt.Sprintf("[%v] %v group %v attacks defending group %v.", b.attackInitiative, b.attackArmy, b.attackID, b.defendID)
+}
 
 func parseAttributes(input string) ([]string, []string) {
 	input = strings.TrimSpace(input)
@@ -68,7 +86,7 @@ func getData(input string) ([]group, []group) {
 	lines := strings.Split(input, "\n")
 
 	isInfectionList := false
-	for index, line := range lines {
+	for _, line := range lines {
 		line = strings.TrimSpace(line)
 
 		if line == "" {
@@ -99,22 +117,30 @@ func getData(input string) ([]group, []group) {
 		atk, _ := strconv.Atoi(matchData["atk"])
 		init, _ := strconv.Atoi(matchData["init"])
 
-		newGroup := group{
-			id:         index,
-			isImmune:   !isInfectionList,
-			units:      units,
-			hp:         hp,
-			attack:     atk,
-			initative:  init,
-			attackType: matchData["atkType"],
-			weaknesses: weaknesses,
-			immunites:  immunities,
-		}
-
 		if isInfectionList {
-			infectionGroup = append(infectionGroup, newGroup)
+			infectionGroup = append(infectionGroup, group{
+				id:         len(infectionGroup) + 1,
+				army:       infectionArmy,
+				units:      units,
+				hp:         hp,
+				attack:     atk,
+				initative:  init,
+				attackType: matchData["atkType"],
+				weaknesses: weaknesses,
+				immunites:  immunities,
+			})
 		} else {
-			immuneGroup = append(immuneGroup, newGroup)
+			immuneGroup = append(immuneGroup, group{
+				id:         len(immuneGroup) + 1,
+				army:       immuneArmy,
+				units:      units,
+				hp:         hp,
+				attack:     atk,
+				initative:  init,
+				attackType: matchData["atkType"],
+				weaknesses: weaknesses,
+				immunites:  immunities,
+			})
 		}
 	}
 
@@ -128,7 +154,7 @@ func (g group) effectivePower() int {
 func (g group) deepCopy() group {
 	return group{
 		id:         g.id,
-		isImmune:   g.isImmune,
+		army:       g.army,
 		units:      g.units,
 		hp:         g.hp,
 		attack:     g.attack,
@@ -139,7 +165,53 @@ func (g group) deepCopy() group {
 	}
 }
 
-func getOrderList(a1 []group, a2 []group) []group {
+func (g group) receiveAttack(attacker group) (group, int) {
+	attack := attacker.attackingPower(g)
+
+	if attack == 0 {
+		return g, 0
+	}
+
+	unitsLost := attack / g.hp
+
+	if unitsLost > g.units {
+		unitsLost = g.units
+	}
+
+	g.units = g.units - unitsLost
+
+	return g, unitsLost
+}
+
+func getInitativeOrder(a1 []group, a2 []group) []group {
+	fullList := make([]group, 0)
+
+	for _, g := range a1 {
+		fullList = append(fullList, g.deepCopy())
+	}
+
+	for _, g := range a2 {
+		fullList = append(fullList, g.deepCopy())
+	}
+
+	sort.Slice(fullList, func(i, j int) bool {
+		return fullList[i].initative >= fullList[j].initative
+	})
+
+	return fullList
+}
+
+func getGroup(i int, army []group) group {
+	for _, g := range army {
+		if g.id == i {
+			return g
+		}
+	}
+
+	return group{}
+}
+
+func getTargetOrder(a1 []group, a2 []group) []group {
 
 	fullList := make([]group, 0)
 
@@ -160,6 +232,89 @@ func getOrderList(a1 []group, a2 []group) []group {
 	})
 
 	return fullList
+}
+
+func (g group) attackingPower(target group) int {
+	for _, immunity := range target.immunites {
+		if g.attackType == immunity {
+			return 0
+		}
+	}
+
+	for _, weakness := range target.weaknesses {
+		if g.attackType == weakness {
+			return g.effectivePower() * 2
+		}
+	}
+
+	return g.effectivePower()
+}
+
+func isAlreadyAssailed(g group, battleList []battle) bool {
+	for _, b := range battleList {
+		if b.defendID == g.id && g.army != b.attackArmy {
+			return true
+		}
+	}
+
+	return false
+}
+
+func resolveAttackOrder(immunes []group, infections []group) []battle {
+	battles, priorityList := make([]battle, 0), getTargetOrder(immunes, infections)
+
+	for _, contender := range priorityList {
+		checkList := immunes
+
+		if contender.army == immuneArmy {
+			checkList = infections
+		}
+
+		bestAttack, currentTarget := 0, group{}
+		for _, candidate := range checkList {
+			if isAlreadyAssailed(candidate, battles) {
+				continue
+			}
+
+			attack := contender.attackingPower(candidate)
+
+			if attack == 0 || attack < bestAttack {
+				continue
+			}
+
+			if attack > bestAttack {
+				bestAttack = attack
+				currentTarget = candidate
+				continue
+			}
+
+			if attack == bestAttack {
+				if candidate.effectivePower() > currentTarget.effectivePower() {
+					bestAttack = attack
+					currentTarget = candidate
+					continue
+				}
+
+				if candidate.effectivePower() == currentTarget.effectivePower() {
+					if candidate.initative > currentTarget.initative {
+						bestAttack = attack
+						currentTarget = candidate
+					}
+				}
+			}
+		}
+
+		if bestAttack > 0 {
+			battles = append(battles, battle{contender.initative, contender.id, contender.army, currentTarget.id})
+		}
+	}
+
+	// sort battles into descending order of initiative
+	sort.Slice(battles, func(i, j int) bool {
+		return battles[i].attackInitiative >= battles[j].attackInitiative
+	})
+
+	return battles
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
