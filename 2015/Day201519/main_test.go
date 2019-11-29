@@ -1,14 +1,13 @@
 package Day201519
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
 )
 
-func getTestData() (replacements, string) {
-	replacementList := make(replacements, 0)
+func getTestData() ([]replacement, string) {
+	replacementList := make([]replacement, 0)
 
 	replacementList = append(replacementList, replacement{"e", "H"})
 	replacementList = append(replacementList, replacement{"e", "O"})
@@ -19,50 +18,18 @@ func getTestData() (replacements, string) {
 	return replacementList, "HOHOHO"
 }
 
-func Test_ReverseList(t *testing.T) {
-	RegisterTestingT(t)
-
-	rlist, target := getData(Entry.PuzzleInput())
-	//rlist, target := getTestData()
-
-	starts := rlist.getStarterList()
-
-	for _, start := range starts {
-		fmt.Println(makeMol2(target, start, rlist, 0))
-	}
-
-}
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	//replacementList, molecule := getData(Entry.PuzzleInput())
-	//replacementList, molecule := getTestData()
-	//molecules := getCombinations(molecule, replacementList)
-	//fmt.Println(len(molecules))
+	replacementList, molecule := getData(Entry.PuzzleInput())
+
+	list := getAllDistinctReplacements(replacementList, molecule)
+
+	Expect(len(list)).Should(Equal(509))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
-
-	//	replacementList, targetMolecule := getData(`e => H
-	//e => O
-	//H => HO
-	//H => OH
-	//O => HH
-	//
-	//HOH`)
-
-	replacementList, targetMolecule := getData(Entry.PuzzleInput())
-
-	list := replacementList.getStarterList()
-
-	found, count := false, 0
-	for !found {
-		fmt.Println(count, len(list), len(seenMap))
-		list, found = doPass(list, replacementList, targetMolecule)
-		count++
-
-	}
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

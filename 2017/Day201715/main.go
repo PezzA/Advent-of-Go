@@ -59,7 +59,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 			total++
 		}
 
-		if i%100000 == 0 {
+		if i%10000 == 0 && updateChan != nil {
 			updateChan <- []string{fmt.Sprintf("Compared %v of %v matches", i, 40000000)}
 		}
 	}
@@ -79,9 +79,8 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 		if lowest16bits(genASeed) == lowest16bits(genBSeed) {
 			total++
 		}
-
-		if i%100000 == 0 {
-			updateChan <- []string{fmt.Sprintf("Compared %v of %v matches", i, 5000000)}
+		if i%1 == 0 && updateChan != nil {
+			updateChan <- []string{fmt.Sprintf("Compared %v of %v matches", i, 40000000)}
 		}
 	}
 
