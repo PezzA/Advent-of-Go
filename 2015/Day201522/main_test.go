@@ -1,6 +1,7 @@
 package Day201522
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -9,7 +10,29 @@ import (
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	Expect(getBoss(Entry.PuzzleInput())).Should(Equal(character{58, 9}))
+	player := character{
+		class:  clPlayer,
+		health: 50,
+		dmg:    0,
+		mana:   500,
+	}
+
+	boss := getBoss(Entry.PuzzleInput())
+
+	outcomes := runBattle(player, boss)
+
+	lowMan := -1
+	for _, o := range outcomes {
+		if o.winner == clPlayer {
+			if lowMan == -1 || o.mana < lowMan {
+				lowMan = o.mana
+			}
+		}
+	}
+
+	fmt.Println(len(outcomes))
+	fmt.Println("not 1415, 1362")
+	fmt.Println(lowMan)
 }
 
 func Test_PartTwo(t *testing.T) {
