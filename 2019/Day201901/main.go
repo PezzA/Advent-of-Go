@@ -37,19 +37,14 @@ func fuelRequirement(module int) int {
 	return basicFuel
 }
 
-func fuelFuelRequirement(module int) int {
-	req := 0
+func fuel(module int) int {
+	basicFuel := int(math.Floor(float64(module)/3) - 2)
 
-	for {
-		fuel := fuelRequirement(module)
-
-		if fuel == 0 {
-			break
-		}
-		req += fuel
-		module = fuel
+	if basicFuel <= 0 {
+		return 0
 	}
-	return req
+
+	return basicFuel + fuel(basicFuel)
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
@@ -66,7 +61,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	fuelNeeded := 0
 
 	for _, mod := range getData(inputData) {
-		fuelNeeded += fuelFuelRequirement(mod)
+		fuelNeeded += fuel(mod)
 	}
 
 	return fmt.Sprintf("%v", fuelNeeded)

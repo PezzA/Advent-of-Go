@@ -27,7 +27,7 @@ func Test_PartOne(t *testing.T) {
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
-	Expect(fuelFuelRequirement(100756)).Should(Equal(50346))
+	Expect(fuel(100756)).Should(Equal(50346))
 
 	fmt.Println(Entry.PartTwo(Entry.PuzzleInput(), nil))
 }
