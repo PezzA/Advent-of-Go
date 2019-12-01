@@ -2,7 +2,6 @@ package Day201901
 
 import (
 	"fmt"
-	"math"
 	"strconv"
 	"strings"
 )
@@ -29,22 +28,20 @@ func getData(input string) []int {
 }
 
 func fuelRequirement(module int) int {
-	basicFuel := int(math.Floor(float64(module)/3) - 2)
-
-	if basicFuel < 0 {
-		basicFuel = 0
+	req := module/3 - 2
+	if req < 0 {
+		return 0
 	}
-	return basicFuel
+	return req
+
 }
 
 func fuel(module int) int {
-	basicFuel := int(math.Floor(float64(module)/3) - 2)
-
-	if basicFuel <= 0 {
+	req := fuelRequirement(module)
+	if req == 0 {
 		return 0
 	}
-
-	return basicFuel + fuel(basicFuel)
+	return req + fuel(req)
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
