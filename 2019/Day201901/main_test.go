@@ -1,7 +1,6 @@
 package Day201901
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -18,9 +17,7 @@ func Test_PartOne(t *testing.T) {
 	Expect(fuelRequirement(12)).Should(Equal(2))
 	Expect(fuelRequirement(14)).Should(Equal(2))
 	Expect(fuelRequirement(2)).Should(Equal(0))
-
-	fmt.Println("Not 46996")
-	fmt.Println(Entry.PartOne(Entry.PuzzleInput(), nil))
+	Expect(Entry.PartOne(Entry.PuzzleInput(), nil)).Should(Equal("3420719"))
 
 }
 
@@ -28,8 +25,7 @@ func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
 	Expect(fuel(100756)).Should(Equal(50346))
-
-	fmt.Println(Entry.PartTwo(Entry.PuzzleInput(), nil))
+	Expect(Entry.PartTwo(Entry.PuzzleInput(), nil)).Should(Equal("5128195"))
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
