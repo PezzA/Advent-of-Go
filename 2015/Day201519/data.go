@@ -2,41 +2,41 @@ package Day201519
 
 func (td dayEntry) PuzzleInput() string {
 	return `Al => ThF
-Al => ThRnFAr
+Al => ThF
 B => BCa
 B => TiB
-B => TiRnFAr
+B => TiF
 Ca => CaCa
 Ca => PB
-Ca => PRnFAr
-Ca => SiRnFYFAr
-Ca => SiRnMgAr
+Ca => PF
+Ca => SiFYF
+Ca => SiMg
 Ca => SiTh
 F => CaF
 F => PMg
 F => SiAl
-H => CRnAlAr
-H => CRnFYFYFAr
-H => CRnFYMgAr
-H => CRnMgYFAr
+H => CAl
+H => CFYFYF
+H => CFYMg
+H => CMgYF
 H => HCa
-H => NRnFYFAr
-H => NRnMgAr
+H => NFYF
+H => NMg
 H => NTh
 H => OB
-H => ORnFAr
+H => OF
 Mg => BF
 Mg => TiMg
-N => CRnFAr
+N => CF
 N => HSi
-O => CRnFYFAr
-O => CRnMgAr
+O => CFYF
+O => CMg
 O => HP
-O => NRnFAr
+O => NF
 O => OTi
 P => CaP
 P => PTi
-P => SiRnFAr
+P => SiF
 Si => CaSi
 Th => ThCa
 Ti => BP
@@ -45,5 +45,5 @@ e => HF
 e => NAl
 e => OMg
 
-CRnCaSiRnBSiRnFArTiBPTiTiBFArPBCaSiThSiRnTiBPBPMgArCaSiRnTiMgArCaSiThCaSiRnFArRnSiRnFArTiTiBFArCaCaSiRnSiThCaCaSiRnMgArFYSiRnFYCaFArSiThCaSiThPBPTiMgArCaPRnSiAlArPBCaCaSiRnFYSiThCaRnFArArCaCaSiRnPBSiRnFArMgYCaCaCaCaSiThCaCaSiAlArCaCaSiRnPBSiAlArBCaCaCaCaSiThCaPBSiThPBPBCaSiRnFYFArSiThCaSiRnFArBCaCaSiRnFYFArSiThCaPBSiThCaSiRnPMgArRnFArPTiBCaPRnFArCaCaCaCaSiRnCaCaSiRnFYFArFArBCaSiThFArThSiThSiRnTiRnPMgArFArCaSiThCaPBCaSiRnBFArCaCaPRnCaCaPMgArSiRnFYFArCaSiThRnPBPMgAr`
+CCaSiBSiFTiBPTiTiBFPBCaSiThSiTiBPBPMgCaSiTiMgCaSiThCaSiFSiFTiTiBFCaCaSiSiThCaCaSiMgFYSiFYCaFSiThCaSiThPBPTiMgCaPSiAlPBCaCaSiFYSiThCaFCaCaSiPBSiFMgYCaCaCaCaSiThCaCaSiAlCaCaSiPBSiAlBCaCaCaCaSiThCaPBSiThPBPBCaSiFYFSiThCaSiFBCaCaSiFYFSiThCaPBSiThCaSiPMgFPTiBCaPFCaCaCaCaSiCaCaSiFYFFBCaSiThFThSiThSiTiPMgFCaSiThCaPBCaSiBFCaCaPCaCaPMgSiFYFCaSiThPBPMg`
 }
