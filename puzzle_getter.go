@@ -85,6 +85,7 @@ import (
 	"github.com/pezza/advent-of-code/2018/Day201825"
 	"github.com/pezza/advent-of-code/2019/Day201901"
 	"github.com/pezza/advent-of-code/2019/Day201902"
+	"github.com/pezza/advent-of-code/2019/Day201903"
 )
 
 func GetPuzzle(day int, year int) (DailyPuzzle, error) {
@@ -171,6 +172,7 @@ func GetPuzzle(day int, year int) (DailyPuzzle, error) {
 		Day201825.Entry,
 		Day201901.Entry,
 		Day201902.Entry,
+		Day201903.Entry,
 	}
 
 	for _, puzzle := range dailyPuzzles {
