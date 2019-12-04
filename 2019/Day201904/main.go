@@ -106,5 +106,5 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 		}
 	}
 
-	fmt.Println(count)
+	return fmt.Sprintf("%v", count)
 }
