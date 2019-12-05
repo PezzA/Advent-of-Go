@@ -7,6 +7,15 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func correctTests(codes []int) []int {
+
+	for index := range codes {
+		if codes[index] = 
+	}
+
+	return codes
+}
+
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 	min, max := getData(Entry.PuzzleInput())
