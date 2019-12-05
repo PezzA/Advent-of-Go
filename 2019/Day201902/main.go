@@ -42,6 +42,7 @@ func runProgram(opcodes []int) []int {
 
 	return opcodes
 }
+
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	codes := getListIntData(inputData)
 

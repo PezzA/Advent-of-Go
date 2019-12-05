@@ -6,12 +6,19 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func Test_ReadData(t *testing.T) {
+	RegisterTestingT(t)
+
+}
+
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
+
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
+
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
