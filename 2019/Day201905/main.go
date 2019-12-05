@@ -40,12 +40,12 @@ func parseOpCode(input int) opCode {
 		first = 1
 	case 4:
 		code, _ = strconv.Atoi(str[2:])
-		first, _ = strconv.Atoi(str[1:1])
+		first, _ = strconv.Atoi(string(str[1]))
 		second = 1
 	case 5:
 		code, _ = strconv.Atoi(str[3:])
-		first, _ = strconv.Atoi(str[2:2])
-		second, _ = strconv.Atoi(str[1:1])
+		first, _ = strconv.Atoi(string(str[2]))
+		second, _ = strconv.Atoi(string(str[1]))
 		third = 1
 	}
 
@@ -65,8 +65,9 @@ func runProgram(opcodes []int, stdIn int, debug bool) []int {
 
 	outputs := []int{}
 
-	for position < len(opcodes) {
+	for {
 		op := parseOpCode(opcodes[position])
+		fmt.Printf("%v: %v  ==>", position, op)
 
 		if op.codeType == 99 {
 			if debug {
@@ -133,12 +134,12 @@ func runProgram(opcodes []int, stdIn int, debug bool) []int {
 		} else if op.codeType == 5 {
 			param1, param2 := opcodes[position+1], opcodes[position+2]
 
-			fmt.Printf("is %v true? : ", resolveValue(op.firstMode, param1, opcodes))
+			fmt.Printf("jump-if-true is %v true? : ", resolveValue(op.firstMode, param1, opcodes))
 			if resolveValue(op.firstMode, param1, opcodes) != 0 {
-				fmt.Printf("true!")
+				fmt.Printf("yes. ")
 				position = resolveValue(op.secondMode, param2, opcodes)
 			} else {
-				fmt.Printf("false!")
+				fmt.Printf("no. ")
 				position += 3
 			}
 
@@ -149,7 +150,7 @@ func runProgram(opcodes []int, stdIn int, debug bool) []int {
 		} else if op.codeType == 6 {
 			param1, param2 := opcodes[position+1], opcodes[position+2]
 
-			fmt.Printf("is %v false? : ", resolveValue(op.firstMode, param1, opcodes))
+			fmt.Printf("jump-if-false, is %v false? : ", resolveValue(op.firstMode, param1, opcodes))
 			if resolveValue(op.firstMode, param1, opcodes) == 0 {
 				position = resolveValue(op.secondMode, param2, opcodes)
 				fmt.Printf("yes. Jumping to %v\n", position)
@@ -162,14 +163,14 @@ func runProgram(opcodes []int, stdIn int, debug bool) []int {
 			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
 
 			if debug {
-				fmt.Printf("comparing  %v is less then %v", resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes))
+				fmt.Printf("Less-than.  is %v less then %v", resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes))
 			}
 
 			if resolveValue(op.firstMode, param1, opcodes) < resolveValue(op.secondMode, param2, opcodes) {
-				fmt.Printf(": less then! : Setting 1 to %v", param3)
+				fmt.Printf(": yes. : Setting 1 to %v", param3)
 				opcodes[param3] = 1
 			} else {
-				fmt.Printf(": not less then! : Setting 1 to %v", param3)
+				fmt.Printf(": no. : Setting 0 to %v", param3)
 				opcodes[param3] = 0
 			}
 
@@ -179,19 +180,20 @@ func runProgram(opcodes []int, stdIn int, debug bool) []int {
 			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
 
 			if debug {
-				fmt.Printf("comparing %v is equal to %v", resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes))
+				fmt.Printf("equal-to.  is %v equal to %v", resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes))
 			}
 
 			if resolveValue(op.firstMode, param1, opcodes) == resolveValue(op.secondMode, param2, opcodes) {
-				fmt.Printf(": Equal! : Setting 1 to %v", param3)
+				fmt.Printf(": yes. : Setting 1 to %v", param3)
 				opcodes[param3] = 1
 			} else {
-				fmt.Printf(": Not Equal! : Setting 0 to %v", param3)
+				fmt.Printf(": no. : Setting 0 to %v", param3)
 				opcodes[param3] = 0
 			}
 			fmt.Println()
 			position += 4
 		}
+
 	}
 
 	return outputs
