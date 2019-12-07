@@ -37,12 +37,12 @@ func correctTests(codes []int) []int {
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	codes := getListIntData(inputData)
-	testResults := intcode.RunProgram(codes, 1, false)
+	testResults := intcode.RunProgram(codes, []int{1}, false)
 	return fmt.Sprintf("%v", testResults[len(testResults)-1])
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	codes := getListIntData(inputData)
-	testResults := intcode.RunProgram(codes, 5, false)
+	testResults := intcode.RunProgram(codes, []int{5}, false)
 	return fmt.Sprintf("%v", testResults[0])
 }

@@ -3,6 +3,7 @@ package intcode
 import (
 	"fmt"
 	"strconv"
+	"sync"
 )
 
 type OpCode struct {
@@ -47,8 +48,13 @@ func resolveValue(mode int, parameter int, codes []int) int {
 	return codes[parameter]
 }
 
-func RunProgram(opcodes []int, stdIn int, debug bool) []int {
-	position, outputs := 0, []int{}
+func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, outputChan chan int, name string, wg *sync.WaitGroup) []int {
+	if wg != nil {
+		defer wg.Done()
+	}
+	defer fmt.Println(name, "complete")
+	//defer close(inputChan)
+	inputPosition, position, outputs := 0, 0, []int{}
 
 	for {
 		op := parseOpCode(opcodes[position])
@@ -96,17 +102,29 @@ func RunProgram(opcodes []int, stdIn int, debug bool) []int {
 		} else if op.codeType == 3 {
 
 			param1 := opcodes[position+1]
-			opcodes[param1] = stdIn
 
-			if debug {
-				fmt.Printf("Storing input %v into %v\n", stdIn, param1)
+			if inputChan != nil {
+				fmt.Println(name, "waiting on input")
+				opcodes[param1] = <-inputChan
+			} else {
+				opcodes[param1] = inputs[inputPosition]
 			}
 
+			if debug {
+				fmt.Printf("Storing input %v into %v\n", inputs, param1)
+			}
+
+			inputPosition++
 			position += 2
 
 		} else if op.codeType == 4 {
-
 			param1 := opcodes[position+1]
+
+			if outputChan != nil {
+				fmt.Println(name, "waiting on output")
+				outputChan <- resolveValue(op.firstMode, param1, opcodes)
+			}
+
 			outputs = append(outputs, resolveValue(op.firstMode, param1, opcodes))
 
 			if debug {
