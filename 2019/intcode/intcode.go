@@ -13,8 +13,8 @@ type OpCode struct {
 	thirdMode  int
 }
 
-func parseOpCode(input int) OpCode {
-	str := strconv.Itoa(input)
+func parseOpCode(input int64) OpCode {
+	str := strconv.FormatInt(input, 10)
 
 	code, first, second, third := 0, 0, 0, 0
 
@@ -25,36 +25,64 @@ func parseOpCode(input int) OpCode {
 		code, _ = strconv.Atoi(str)
 	case 3:
 		code, _ = strconv.Atoi(str[1:])
-		first = 1
+		first, _ = strconv.Atoi(string(str[0]))
 	case 4:
 		code, _ = strconv.Atoi(str[2:])
 		first, _ = strconv.Atoi(string(str[1]))
-		second = 1
+		second, _ = strconv.Atoi(string(str[0]))
 	case 5:
 		code, _ = strconv.Atoi(str[3:])
 		first, _ = strconv.Atoi(string(str[2]))
 		second, _ = strconv.Atoi(string(str[1]))
-		third = 1
+		third, _ = strconv.Atoi(string(str[0]))
 	}
 
 	return OpCode{code, first, second, third}
 }
-
-func resolveValue(mode int, parameter int, codes []int) int {
-	if mode == 1 {
-		return parameter
+func setValue(parameter int64, codes []int64, mmap map[int64]int64, val int64) {
+	if parameter > int64(len(codes))-1 {
+		mapPos := parameter - int64(len(codes))
+		mmap[mapPos] = val
+		return
 	}
 
-	return codes[parameter]
+	codes[parameter] = val
 }
 
-func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, outputChan chan int, name string, wg *sync.WaitGroup) []int {
+func resolveValue(mode int, parameter int64, codes []int64, rb int64, mmap map[int64]int64) int64 {
+	switch mode {
+	case 0:
+		if parameter > int64(len(codes))-1 {
+			mapPos := parameter - int64(len(codes))
+			return mmap[mapPos]
+		} else {
+			return codes[parameter]
+		}
+
+	case 1:
+		return parameter
+	case 2:
+		if rb+parameter > int64(len(codes))-1 {
+			mapPos := (rb + parameter) - int64(len(codes))
+			return mmap[mapPos]
+		} else {
+			return codes[rb+parameter]
+		}
+
+	default:
+		return -1
+	}
+}
+
+// RunProgram runs an intcode program
+func RunProgram(opcodes []int64, inputs []int64, debug bool, inputChan chan int64, outputChan chan int64, name string, wg *sync.WaitGroup) []int64 {
 	if wg != nil {
 		defer wg.Done()
 	}
-	defer fmt.Println(name, "complete")
 	//defer close(inputChan)
-	inputPosition, position, outputs := 0, 0, []int{}
+	relativeBase, inputPosition, position, outputs := int64(0), 0, int64(0), []int64{}
+
+	memory := make(map[int64]int64, 0)
 
 	for {
 		op := parseOpCode(opcodes[position])
@@ -70,32 +98,26 @@ func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, out
 		} else if op.codeType == 1 {
 
 			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
-			resParam1, resParam2 := resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes)
+			resParam1, resParam2 := resolveValue(op.firstMode, param1, opcodes, relativeBase, memory), resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
 
-			before := opcodes[param3]
-			opcodes[param3] = resParam1 + resParam2
-			after := opcodes[param3]
-
-			if debug {
-				fmt.Printf("%v\t+\t%v\t", resParam1, resParam2)
-				fmt.Println("=>", after, "  :", before)
+			if op.thirdMode == 2 {
+				param3 += relativeBase
 			}
+
+			setValue(param3, opcodes, memory, resParam1+resParam2)
 
 			position += 4
 
 		} else if op.codeType == 2 {
 
 			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
-			resParam1, resParam2 := resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes)
+			resParam1, resParam2 := resolveValue(op.firstMode, param1, opcodes, relativeBase, memory), resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
 
-			before := opcodes[param3]
-			opcodes[param3] = resParam1 * resParam2
-			after := opcodes[param3]
-
-			if debug {
-				fmt.Printf("%v\t*\t%v\t", resParam1, resParam2)
-				fmt.Println("=>", after, "  :", before)
+			if op.thirdMode == 2 {
+				param3 += relativeBase
 			}
+
+			setValue(param3, opcodes, memory, resParam1*resParam2)
 
 			position += 4
 
@@ -105,9 +127,12 @@ func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, out
 
 			if inputChan != nil {
 				fmt.Println(name, "waiting on input")
-				opcodes[param1] = <-inputChan
+				setValue(param1, opcodes, memory, <-inputChan)
 			} else {
-				opcodes[param1] = inputs[inputPosition]
+				if op.firstMode == 2 {
+					param1 += relativeBase
+				}
+				setValue(param1, opcodes, memory, inputs[inputPosition])
 			}
 
 			if debug {
@@ -122,14 +147,14 @@ func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, out
 
 			if outputChan != nil {
 				fmt.Println(name, "waiting on output")
-				outputChan <- resolveValue(op.firstMode, param1, opcodes)
+				outputChan <- resolveValue(op.firstMode, param1, opcodes, relativeBase, memory)
 			}
 
-			outputs = append(outputs, resolveValue(op.firstMode, param1, opcodes))
+			outputs = append(outputs, resolveValue(op.firstMode, param1, opcodes, relativeBase, memory))
 
 			if debug {
 				fmt.Println("===============================")
-				fmt.Println(resolveValue(op.firstMode, param1, opcodes))
+				fmt.Println(resolveValue(op.firstMode, param1, opcodes, relativeBase, memory))
 				fmt.Println()
 				fmt.Println()
 			}
@@ -141,14 +166,14 @@ func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, out
 			param1, param2 := opcodes[position+1], opcodes[position+2]
 
 			if debug {
-				fmt.Printf("jump-if-true is %v true? : ", resolveValue(op.firstMode, param1, opcodes))
+				fmt.Printf("jump-if-true is %v true? : ", resolveValue(op.firstMode, param1, opcodes, relativeBase, memory))
 			}
 
-			if resolveValue(op.firstMode, param1, opcodes) != 0 {
+			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) != 0 {
 				if debug {
 					fmt.Printf("yes. ")
 				}
-				position = resolveValue(op.secondMode, param2, opcodes)
+				position = resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
 			} else {
 				if debug {
 					fmt.Printf("no. ")
@@ -165,14 +190,14 @@ func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, out
 			param1, param2 := opcodes[position+1], opcodes[position+2]
 
 			if debug {
-				fmt.Printf("jump-if-false, is %v false? : ", resolveValue(op.firstMode, param1, opcodes))
+				fmt.Printf("jump-if-false, is %v false? : ", resolveValue(op.firstMode, param1, opcodes, relativeBase, memory))
 			}
 
-			if resolveValue(op.firstMode, param1, opcodes) == 0 {
+			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) == 0 {
 				if debug {
 					fmt.Printf("yes. Jumping to %v\n", position)
 				}
-				position = resolveValue(op.secondMode, param2, opcodes)
+				position = resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
 			} else {
 				if debug {
 					fmt.Printf("no. incrementing by 3")
@@ -184,45 +209,67 @@ func RunProgram(opcodes []int, inputs []int, debug bool, inputChan chan int, out
 
 			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
 
-			if debug {
-				fmt.Printf("Less-than.  is %v less then %v", resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes))
+			if op.thirdMode == 2 {
+				param3 += relativeBase
 			}
 
-			if resolveValue(op.firstMode, param1, opcodes) < resolveValue(op.secondMode, param2, opcodes) {
+			if debug {
+				fmt.Printf("Less-than.  is %v less then %v", resolveValue(op.firstMode, param1, opcodes, relativeBase, memory), resolveValue(op.secondMode, param2, opcodes, relativeBase, memory))
+			}
+
+			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) < resolveValue(op.secondMode, param2, opcodes, relativeBase, memory) {
 				if debug {
 					fmt.Printf(": yes. : Setting 1 to %v", param3)
 				}
-				opcodes[param3] = 1
+				setValue(param3, opcodes, memory, 1)
+
 			} else {
 				if debug {
 					fmt.Printf(": no. : Setting 0 to %v", param3)
 				}
-				opcodes[param3] = 0
+				setValue(param3, opcodes, memory, 0)
 			}
 
-			fmt.Println()
+			if debug {
+				fmt.Println()
+			}
 			position += 4
 		} else if op.codeType == 8 {
 
 			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
 
-			if debug {
-				fmt.Printf("equal-to.  is %v equal to %v", resolveValue(op.firstMode, param1, opcodes), resolveValue(op.secondMode, param2, opcodes))
+			if op.thirdMode == 2 {
+				param3 += relativeBase
 			}
 
-			if resolveValue(op.firstMode, param1, opcodes) == resolveValue(op.secondMode, param2, opcodes) {
+			if debug {
+				fmt.Printf("equal-to.  is %v equal to %v", resolveValue(op.firstMode, param1, opcodes, relativeBase, memory), resolveValue(op.secondMode, param2, opcodes, relativeBase, memory))
+			}
+
+			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) == resolveValue(op.secondMode, param2, opcodes, relativeBase, memory) {
 				if debug {
 					fmt.Printf(": yes. : Setting 1 to %v", param3)
 				}
-				opcodes[param3] = 1
+
+				setValue(param3, opcodes, memory, 1)
+
 			} else {
 				if debug {
 					fmt.Printf(": no. : Setting 0 to %v", param3)
 				}
-				opcodes[param3] = 0
+
+				setValue(param3, opcodes, memory, 0)
 			}
-			fmt.Println()
+
+			if debug {
+				fmt.Println()
+			}
+
 			position += 4
+		} else if op.codeType == 9 {
+			param1 := opcodes[position+1]
+			relativeBase += resolveValue(op.firstMode, param1, opcodes, relativeBase, memory)
+			position += 2
 		}
 
 	}
