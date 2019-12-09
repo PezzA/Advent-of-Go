@@ -2,26 +2,18 @@ package Day201909
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
+
+	"github.com/pezza/advent-of-code/2019/intcode"
 )
 
-func getListIntData(input string) []int64 {
-	retval := []int64{}
-
-	for _, i := range strings.Split(input, ",") {
-		newVal, _ := strconv.ParseInt(i, 10, 64)
-
-		retval = append(retval, newVal)
-	}
-
-	return retval
-}
-
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	vm := intcode.New(Entry.PuzzleInput())
+	results := vm.RunProgram(nil, []int64{1}, nil, nil)
+	return fmt.Sprintf("%v", results[0])
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	vm := intcode.New(Entry.PuzzleInput())
+	results := vm.RunProgram(nil, []int64{2}, nil, nil)
+	return fmt.Sprintf("%v", results[0])
 }

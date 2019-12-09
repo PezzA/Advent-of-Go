@@ -1,8 +1,9 @@
 package intcode
 
 import (
+	"log"
 	"strconv"
-	"sync"
+	"strings"
 )
 
 type OpCode struct {
@@ -10,6 +11,38 @@ type OpCode struct {
 	firstMode  int
 	secondMode int
 	thirdMode  int
+}
+
+type IntCode struct {
+	program       string
+	codes         []int64
+	memory        map[int64]int64
+	position      int64
+	inputPosition int
+	relativeBase  int64
+}
+
+func New(input string) IntCode {
+	return IntCode{
+		program:       input,
+		codes:         nil,
+		memory:        make(map[int64]int64, 0),
+		position:      0,
+		inputPosition: 0,
+		relativeBase:  0,
+	}
+}
+
+func getListIntData(input string) []int64 {
+	retval := []int64{}
+
+	for _, i := range strings.Split(input, ",") {
+		newVal, _ := strconv.ParseInt(i, 10, 64)
+
+		retval = append(retval, newVal)
+	}
+
+	return retval
 }
 
 func parseOpCode(input int64) OpCode {
@@ -38,161 +71,141 @@ func parseOpCode(input int64) OpCode {
 
 	return OpCode{code, first, second, third}
 }
-func setValue(parameter int64, codes []int64, mmap map[int64]int64, val int64) {
-	if parameter > int64(len(codes))-1 {
-		mapPos := parameter - int64(len(codes))
-		mmap[mapPos] = val
+
+func (ic *IntCode) GetValue(pos int64) int64 {
+	if int64(len(ic.codes)+1) >= pos {
+		return ic.codes[0]
+	}
+	return 0
+}
+
+func (ic *IntCode) setValue(mode int, parameter int64, val int64) {
+	if mode == 2 {
+		parameter += ic.relativeBase
+	}
+
+	if parameter > int64(len(ic.codes))-1 {
+		mapPos := parameter - int64(len(ic.codes))
+		ic.memory[mapPos] = val
 		return
 	}
 
-	codes[parameter] = val
+	ic.codes[parameter] = val
 }
 
-func resolveValue(mode int, parameter int64, codes []int64, rb int64, mmap map[int64]int64) int64 {
-	switch mode {
-	case 0:
-		if parameter > int64(len(codes))-1 {
-			mapPos := parameter - int64(len(codes))
-			return mmap[mapPos]
-		} else {
-			return codes[parameter]
-		}
-
-	case 1:
+func (ic *IntCode) resolveValue(mode int, parameter int64) int64 {
+	if mode == 1 {
 		return parameter
-	case 2:
-		if rb+parameter > int64(len(codes))-1 {
-			mapPos := (rb + parameter) - int64(len(codes))
-			return mmap[mapPos]
-		} else {
-			return codes[rb+parameter]
-		}
-
-	default:
-		return -1
 	}
+
+	if mode == 2 {
+		parameter += ic.relativeBase
+	}
+
+	if parameter > int64(len(ic.codes))-1 {
+		mapPos := parameter - int64(len(ic.codes))
+		return ic.memory[mapPos]
+	}
+
+	return ic.codes[parameter]
 }
 
 // RunProgram runs an intcode program
-func RunProgram(opcodes []int64, inputs []int64, debug bool, inputChan chan int64, outputChan chan int64, name string, wg *sync.WaitGroup) []int64 {
-	if wg != nil {
-		defer wg.Done()
-	}
-	relativeBase, inputPosition, position, outputs := int64(0), 0, int64(0), []int64{}
+func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan chan int64, outputChan chan int64) []int64 {
+	outputs := []int64{}
 
-	memory := make(map[int64]int64, 0)
+	ic.codes = getListIntData(ic.program)
+
+	if init != nil {
+		for k, v := range init {
+			ic.codes[k] = v
+		}
+	}
+
+	ic.position = 0
+	ic.memory = make(map[int64]int64, 0)
+	ic.relativeBase = 0
+	ic.inputPosition = 0
 
 	for {
-		op := parseOpCode(opcodes[position])
+		op := parseOpCode(ic.codes[ic.position])
 
-		if op.codeType == 99 {
-			break
-		} else if op.codeType == 1 {
-
-			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
-			resParam1, resParam2 := resolveValue(op.firstMode, param1, opcodes, relativeBase, memory), resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
-
-			if op.thirdMode == 2 {
-				param3 += relativeBase
-			}
-
-			setValue(param3, opcodes, memory, resParam1+resParam2)
-
-			position += 4
-
-		} else if op.codeType == 2 {
-
-			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
-			resParam1, resParam2 := resolveValue(op.firstMode, param1, opcodes, relativeBase, memory), resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
-
-			if op.thirdMode == 2 {
-				param3 += relativeBase
-			}
-
-			setValue(param3, opcodes, memory, resParam1*resParam2)
-
-			position += 4
-
-		} else if op.codeType == 3 {
-			param1 := opcodes[position+1]
+		switch op.codeType {
+		case 1:
+			param1, param2, param3 := ic.codes[ic.position+1], ic.codes[ic.position+2], ic.codes[ic.position+3]
+			resParam1, resParam2 := ic.resolveValue(op.firstMode, param1), ic.resolveValue(op.secondMode, param2)
+			ic.setValue(op.thirdMode, param3, resParam1+resParam2)
+			ic.position += 4
+		case 2:
+			param1, param2, param3 := ic.codes[ic.position+1], ic.codes[ic.position+2], ic.codes[ic.position+3]
+			resParam1, resParam2 := ic.resolveValue(op.firstMode, param1), ic.resolveValue(op.secondMode, param2)
+			ic.setValue(op.thirdMode, param3, resParam1*resParam2)
+			ic.position += 4
+		case 3:
+			param1 := ic.codes[ic.position+1]
 
 			if inputChan != nil {
-				setValue(param1, opcodes, memory, <-inputChan)
+				ic.setValue(op.firstMode, param1, <-inputChan)
 			} else {
-				if op.firstMode == 2 {
-					param1 += relativeBase
-				}
-				setValue(param1, opcodes, memory, inputs[inputPosition])
+				ic.setValue(op.firstMode, param1, inputs[ic.inputPosition])
 			}
 
-			inputPosition++
-			position += 2
-
-		} else if op.codeType == 4 {
-			param1 := opcodes[position+1]
+			ic.inputPosition++
+			ic.position += 2
+		case 4:
+			param1 := ic.codes[ic.position+1]
 
 			if outputChan != nil {
-				outputChan <- resolveValue(op.firstMode, param1, opcodes, relativeBase, memory)
+				outputChan <- ic.resolveValue(op.firstMode, param1)
 			}
 
-			outputs = append(outputs, resolveValue(op.firstMode, param1, opcodes, relativeBase, memory))
+			outputs = append(outputs, ic.resolveValue(op.firstMode, param1))
+			ic.position += 2
+		case 5:
+			param1, param2 := ic.codes[ic.position+1], ic.codes[ic.position+2]
 
-			position += 2
-
-		} else if op.codeType == 5 {
-			param1, param2 := opcodes[position+1], opcodes[position+2]
-
-			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) != 0 {
-				position = resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
+			if ic.resolveValue(op.firstMode, param1) != 0 {
+				ic.position = ic.resolveValue(op.secondMode, param2)
 			} else {
-				position += 3
+				ic.position += 3
 			}
+		case 6:
+			param1, param2 := ic.codes[ic.position+1], ic.codes[ic.position+2]
 
-		} else if op.codeType == 6 {
-			param1, param2 := opcodes[position+1], opcodes[position+2]
-
-			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) == 0 {
-				position = resolveValue(op.secondMode, param2, opcodes, relativeBase, memory)
+			if ic.resolveValue(op.firstMode, param1) == 0 {
+				ic.position = ic.resolveValue(op.secondMode, param2)
 			} else {
-				position += 3
+				ic.position += 3
 			}
-		} else if op.codeType == 7 {
-			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
+		case 7:
+			param1, param2, param3 := ic.codes[ic.position+1], ic.codes[ic.position+2], ic.codes[ic.position+3]
 
-			if op.thirdMode == 2 {
-				param3 += relativeBase
-			}
-
-			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) < resolveValue(op.secondMode, param2, opcodes, relativeBase, memory) {
-				setValue(param3, opcodes, memory, 1)
+			if ic.resolveValue(op.firstMode, param1) < ic.resolveValue(op.secondMode, param2) {
+				ic.setValue(op.thirdMode, param3, 1)
 			} else {
-
-				setValue(param3, opcodes, memory, 0)
+				ic.setValue(op.thirdMode, param3, 0)
 			}
 
-			position += 4
-		} else if op.codeType == 8 {
-			param1, param2, param3 := opcodes[position+1], opcodes[position+2], opcodes[position+3]
+			ic.position += 4
+		case 8:
+			param1, param2, param3 := ic.codes[ic.position+1], ic.codes[ic.position+2], ic.codes[ic.position+3]
 
-			if op.thirdMode == 2 {
-				param3 += relativeBase
-			}
-
-			if resolveValue(op.firstMode, param1, opcodes, relativeBase, memory) == resolveValue(op.secondMode, param2, opcodes, relativeBase, memory) {
-				setValue(param3, opcodes, memory, 1)
+			if ic.resolveValue(op.firstMode, param1) == ic.resolveValue(op.secondMode, param2) {
+				ic.setValue(op.thirdMode, param3, 1)
 
 			} else {
-				setValue(param3, opcodes, memory, 0)
+				ic.setValue(op.thirdMode, param3, 0)
 			}
 
-			position += 4
-		} else if op.codeType == 9 {
-			param1 := opcodes[position+1]
-			relativeBase += resolveValue(op.firstMode, param1, opcodes, relativeBase, memory)
-			position += 2
+			ic.position += 4
+		case 9:
+			param1 := ic.codes[ic.position+1]
+			ic.relativeBase += ic.resolveValue(op.firstMode, param1)
+			ic.position += 2
+		case 99:
+			return outputs
+		default:
+			log.Fatalln("Got unknown command")
 		}
-
 	}
-
-	return outputs
 }

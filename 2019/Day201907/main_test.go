@@ -1,7 +1,6 @@
 package Day201907
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -26,9 +25,9 @@ func Test_PartOne(t *testing.T) {
 	//Expect(amplifySignal([]int{0, 1, 2, 3, 4}, testb)).Should(Equal(54321))
 	//Expect(amplifySignal([]int{1, 0, 4, 3, 2}, testc)).Should(Equal(65210))
 
-	maxSignal := 0
+	maxSignal := int64(0)
 
-	for _, perm := range common.GetPermuations([]int{0, 1, 2, 3, 4}) {
+	for _, perm := range common.GetPermuations([]int64{0, 1, 2, 3, 4}) {
 		result := straightAmplifySignal(perm, Entry.PuzzleInput())
 
 		if result > maxSignal {
@@ -37,15 +36,15 @@ func Test_PartOne(t *testing.T) {
 	}
 
 	//answer!
-	Expect(maxSignal).Should(Equal(440880))
+	Expect(maxSignal).Should(Equal(int64(440880)))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
-	maxSignal := 0
+	maxSignal := int64(0)
 
-	for _, perm := range common.GetPermuations([]int{5, 6, 7, 8, 9}) {
+	for _, perm := range common.GetPermuations([]int64{5, 6, 7, 8, 9}) {
 		result := feedbackAmplifysignal(perm, Entry.PuzzleInput())
 
 		if result > maxSignal {
@@ -53,7 +52,7 @@ func Test_PartTwo(t *testing.T) {
 		}
 	}
 
-	fmt.Println(maxSignal)
+	Expect(maxSignal).Should(Equal(int64(3745599)))
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

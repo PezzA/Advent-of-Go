@@ -2,31 +2,38 @@ package Day201907
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 	"sync"
 
 	"github.com/pezza/advent-of-code/2019/intcode"
+	"github.com/pezza/advent-of-code/common"
 )
 
-func feedbackAmplifysignal(phaseSettings []int, program string) int {
+func feedbackAmplifysignal(phaseSettings []int64, program string) int64 {
+	aInput := make(chan int64, 0)
+	bInput := make(chan int64, 0)
+	cInput := make(chan int64, 0)
+	dInput := make(chan int64, 0)
+	eInput := make(chan int64, 0)
 
-	fmt.Println("making channels")
-	aInput := make(chan int, 0)
-	bInput := make(chan int, 0)
-	cInput := make(chan int, 0)
-	dInput := make(chan int, 0)
-	eInput := make(chan int, 0)
+	ampA := intcode.New(program)
+	ampB := intcode.New(program)
+	ampC := intcode.New(program)
+	ampD := intcode.New(program)
+	ampE := intcode.New(program)
 
 	var wg sync.WaitGroup
 
-	wg.Add(4)
+	wg.Add(1)
 
-	go intcode.RunProgram(getListIntData(program), nil, false, aInput, bInput, "A", &wg)
-	go intcode.RunProgram(getListIntData(program), nil, false, bInput, cInput, "B", &wg)
-	go intcode.RunProgram(getListIntData(program), nil, false, cInput, dInput, "C", &wg)
-	go intcode.RunProgram(getListIntData(program), nil, false, dInput, eInput, "D", &wg)
-	go intcode.RunProgram(getListIntData(program), nil, false, eInput, aInput, "E", nil)
+	go func() {
+		ampA.RunProgram(nil, nil, aInput, bInput)
+		wg.Done()
+	}()
+
+	go ampB.RunProgram(nil, nil, bInput, cInput)
+	go ampC.RunProgram(nil, nil, cInput, dInput)
+	go ampD.RunProgram(nil, nil, dInput, eInput)
+	go ampE.RunProgram(nil, nil, eInput, aInput)
 
 	aInput <- phaseSettings[0]
 	bInput <- phaseSettings[1]
@@ -37,24 +44,28 @@ func feedbackAmplifysignal(phaseSettings []int, program string) int {
 	aInput <- 0
 
 	wg.Wait()
-
-	fmt.Println("we done here")
 	return <-aInput
 }
 
-func straightAmplifySignal(phaseSettings []int, program string) int {
-	aInput := make(chan int, 0)
-	bInput := make(chan int, 0)
-	cInput := make(chan int, 0)
-	dInput := make(chan int, 0)
-	eInput := make(chan int, 0)
-	signal := make(chan int, 0)
+func straightAmplifySignal(phaseSettings []int64, program string) int64 {
+	aInput := make(chan int64, 0)
+	bInput := make(chan int64, 0)
+	cInput := make(chan int64, 0)
+	dInput := make(chan int64, 0)
+	eInput := make(chan int64, 0)
+	signal := make(chan int64, 0)
 
-	go intcode.RunProgram(getListIntData(program), nil, false, aInput, bInput, "A", nil)
-	go intcode.RunProgram(getListIntData(program), nil, false, bInput, cInput, "B", nil)
-	go intcode.RunProgram(getListIntData(program), nil, false, cInput, dInput, "C", nil)
-	go intcode.RunProgram(getListIntData(program), nil, false, dInput, eInput, "D", nil)
-	go intcode.RunProgram(getListIntData(program), nil, false, eInput, signal, "E", nil)
+	ampA := intcode.New(program)
+	ampB := intcode.New(program)
+	ampC := intcode.New(program)
+	ampD := intcode.New(program)
+	ampE := intcode.New(program)
+
+	go ampA.RunProgram(nil, nil, aInput, bInput)
+	go ampB.RunProgram(nil, nil, bInput, cInput)
+	go ampC.RunProgram(nil, nil, cInput, dInput)
+	go ampD.RunProgram(nil, nil, dInput, eInput)
+	go ampE.RunProgram(nil, nil, eInput, signal)
 
 	aInput <- phaseSettings[0]
 	bInput <- phaseSettings[1]
@@ -67,22 +78,29 @@ func straightAmplifySignal(phaseSettings []int, program string) int {
 	return <-signal
 }
 
-func getListIntData(input string) []int {
-	retval := []int{}
+func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
+	maxSignal := int64(0)
 
-	for _, i := range strings.Split(input, ",") {
-		newVal, _ := strconv.Atoi(i)
+	for _, perm := range common.GetPermuations([]int64{0, 1, 2, 3, 4}) {
+		result := straightAmplifySignal(perm, inputData)
 
-		retval = append(retval, newVal)
+		if result > maxSignal {
+			maxSignal = result
+		}
 	}
 
-	return retval
-}
-
-func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	return fmt.Sprintf("%v", maxSignal)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	maxSignal := int64(0)
+
+	for _, perm := range common.GetPermuations([]int64{5, 6, 7, 8, 9}) {
+		result := feedbackAmplifysignal(perm, inputData)
+
+		if result > maxSignal {
+			maxSignal = result
+		}
+	}
+	return fmt.Sprintf("%v", maxSignal)
 }
