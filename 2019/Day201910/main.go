@@ -44,6 +44,10 @@ func isVisible(s common.Point, t common.Point, belt [][]bool) bool {
 	for {
 		check = check.Add(step)
 
+		if check.X > len(belt) || check.Y > len(belt) || check.X < 0 || check.Y < 0 {
+			return false
+		}
+
 		// got to the target, can be seen
 		if check == t {
 			return true
@@ -56,11 +60,56 @@ func isVisible(s common.Point, t common.Point, belt [][]bool) bool {
 	}
 }
 
+func copyBelt(input [][]bool) [][]bool {
+	o := make([][]bool, len(input))
+
+	for i := range o {
+		o[i] = make([]bool, len(input[i]))
+	}
+
+	for y := 0; y < len(input); y++ {
+		for x := 0; x < len(input[y]); x++ {
+			o[y][x] = input[y][x]
+		}
+	}
+	return o
+}
+
+func getVisibleMap(s common.Point, belt [][]bool) [][]bool {
+	newBelt := copyBelt(belt)
+
+	for y := 0; y < len(newBelt); y++ {
+		for x := 0; x < len(newBelt); x++ {
+			if !newBelt[y][x] || (x == s.X && x == s.Y) {
+				continue
+			}
+
+			v := common.Point{
+				X: x - s.X,
+				Y: y - s.Y,
+			}
+
+			start := common.Point{X: x, Y: y}
+			for {
+				start = start.Add(v)
+
+				if start.X < 0 || start.Y < 0 || start.X >= len(belt) || start.Y >= len(belt) {
+					break
+				}
+
+				newBelt[start.Y][start.X] = false
+			}
+		}
+	}
+
+	return newBelt
+}
+
 func getVisibleCount(t common.Point, belt [][]bool) int {
 	vis := 0
 	for y := 0; y < len(belt); y++ {
 		for x := 0; x < len(belt[y]); x++ {
-			if x == t.X && y == t.Y || !belt[y][x] {
+			if (x == t.X && y == t.Y) || !belt[y][x] {
 				continue
 			}
 
@@ -71,6 +120,45 @@ func getVisibleCount(t common.Point, belt [][]bool) int {
 	}
 
 	return vis
+}
+
+func printMap(belt [][]bool) {
+	for y := 0; y < len(belt); y++ {
+		for x := 0; x < len(belt[y]); x++ {
+			if !belt[y][x] {
+				fmt.Print(".")
+				continue
+			}
+			fmt.Print("#")
+		}
+		fmt.Print("\n")
+	}
+}
+
+func getBestStar(belt [][]bool) int {
+	best := 0
+
+	actX, actY := 0, 0
+	for y := 0; y < len(belt); y++ {
+		for x := 0; x < len(belt[y]); x++ {
+
+			if !belt[y][x] {
+				fmt.Print(".. ")
+				continue
+			}
+
+			count := getVisibleCount(common.Point{X: x, Y: y}, belt)
+			fmt.Print(count, "  ")
+			if count > best {
+				actX, actY = x, y
+				best = count
+			}
+		}
+		fmt.Print("\n")
+	}
+
+	fmt.Println(actX, actY, "=>", best)
+	return best
 }
 
 func getStep(s common.Point, t common.Point) common.Point {
