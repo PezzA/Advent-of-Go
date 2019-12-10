@@ -81,18 +81,33 @@ func Test_ReadData(t *testing.T) {
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	belt := getData(testB)
+	count, pos := getBestAsteriod(getData(testA))
+	Expect(count).Should(Equal(8))
+	Expect(pos).Should(Equal(common.Point{X: 3, Y: 4}))
 
-	printMap(belt)
+	count, pos = getBestAsteriod(getData(testB))
+	Expect(count).Should(Equal(33))
+	Expect(pos).Should(Equal(common.Point{X: 5, Y: 8}))
 
-	newBelt := getVisibleMap(common.Point{1, 8}, belt)
+	count, pos = getBestAsteriod(getData(testC))
+	Expect(count).Should(Equal(35))
+	Expect(pos).Should(Equal(common.Point{X: 1, Y: 2}))
 
-	printMap(newBelt)
+	count, pos = getBestAsteriod(getData(testD))
+	Expect(count).Should(Equal(41))
+	Expect(pos).Should(Equal(common.Point{X: 6, Y: 3}))
+
+	count, pos = getBestAsteriod(getData(testE))
+	Expect(count).Should(Equal(210))
+	Expect(pos).Should(Equal(common.Point{X: 11, Y: 13}))
+
+	Expect(Entry.PartOne(Entry.PuzzleInput(), nil)).Should(Equal("260"))
+
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
-
+	Expect(Entry.PartTwo(Entry.PuzzleInput(), nil)).Should(Equal("608"))
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

@@ -2,10 +2,58 @@ package Day201910
 
 import (
 	"fmt"
+	"math"
+	"sort"
 	"strings"
 
 	"github.com/pezza/advent-of-code/common"
 )
+
+type asteriodAngle struct {
+	angle float64
+	dist  int
+	rot   int
+	pos   common.Point
+}
+
+// vector2D are taken from my own package https://github.com/PezzA/maths
+type vector2D struct {
+	X float64
+	Y float64
+}
+
+type point2D common.Point
+
+func (p point2D) getVectorToPoint(p2 point2D) vector2D {
+	return vector2D{
+		X: float64(p2.X - p.X),
+		Y: float64(p2.Y - p.Y),
+	}
+}
+
+//Normalised returns the normalised unit versin of a Vector2D
+func (v vector2D) normalised() vector2D {
+	return v.divideBy(v.getLength())
+}
+
+func (v vector2D) divideBy(s float64) vector2D {
+	return vector2D{
+		X: v.X / s,
+		Y: v.Y / s,
+	}
+}
+
+func (v vector2D) getLength() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func (v vector2D) dotProduct(v2 vector2D) float64 {
+	return v.X*v2.X + v.Y*v2.Y
+}
+
+func (v vector2D) crossProduct(v2 vector2D) float64 {
+	return v.X*v2.X + v.Y*v2.Y
+}
 
 func getData(input string) [][]bool {
 	belt := [][]bool{}
@@ -20,44 +68,6 @@ func getData(input string) [][]bool {
 		belt = append(belt, line)
 	}
 	return belt
-}
-
-func isVisible(s common.Point, t common.Point, belt [][]bool) bool {
-	v := common.Point{
-		X: t.X - s.X,
-		Y: t.Y - s.Y,
-	}
-
-	// if either x or y is 1, nothing can be in the way
-	if common.Abs(v.X) == 1 || common.Abs(v.Y) == 1 {
-		return true
-	}
-
-	step := getStep(s, t)
-
-	if step == v {
-		return true
-	}
-
-	check := s
-	// there is a lot of trust in this loop
-	for {
-		check = check.Add(step)
-
-		if check.X > len(belt) || check.Y > len(belt) || check.X < 0 || check.Y < 0 {
-			return false
-		}
-
-		// got to the target, can be seen
-		if check == t {
-			return true
-		}
-
-		if belt[check.Y][check.X] {
-			// we are blocked
-			return false
-		}
-	}
 }
 
 func copyBelt(input [][]bool) [][]bool {
@@ -75,12 +85,50 @@ func copyBelt(input [][]bool) [][]bool {
 	return o
 }
 
+func countAsteriods(i [][]bool) int {
+	count := 0
+	for y := 0; y < len(i); y++ {
+		for x := 0; x < len(i[y]); x++ {
+			if i[y][x] {
+				count++
+			}
+		}
+	}
+	return count
+}
+
+func getBestAsteriod(belt [][]bool) (int, common.Point) {
+	count, point := 0, common.Point{X: 0, Y: 0}
+	for y := 0; y < len(belt); y++ {
+		for x := 0; x < len(belt[y]); x++ {
+			if !belt[y][x] {
+				continue
+			}
+
+			astPos := common.Point{X: x, Y: y}
+
+			newMap := getVisibleMap(astPos, belt)
+			astVis := countAsteriods(newMap)
+			//printMap(newMap, astPos)
+			//fmt.Println(astVis)
+
+			if astVis > count {
+				count = astVis
+				point = astPos
+			}
+		}
+	}
+
+	return count, point
+}
+
 func getVisibleMap(s common.Point, belt [][]bool) [][]bool {
 	newBelt := copyBelt(belt)
 
+	newBelt[s.Y][s.X] = false
 	for y := 0; y < len(newBelt); y++ {
 		for x := 0; x < len(newBelt); x++ {
-			if !newBelt[y][x] || (x == s.X && x == s.Y) {
+			if !newBelt[y][x] || (x == s.X && y == s.Y) {
 				continue
 			}
 
@@ -89,9 +137,11 @@ func getVisibleMap(s common.Point, belt [][]bool) [][]bool {
 				Y: y - s.Y,
 			}
 
+			vp := getStep(v)
+
 			start := common.Point{X: x, Y: y}
 			for {
-				start = start.Add(v)
+				start = start.Add(vp)
 
 				if start.X < 0 || start.Y < 0 || start.X >= len(belt) || start.Y >= len(belt) {
 					break
@@ -105,68 +155,26 @@ func getVisibleMap(s common.Point, belt [][]bool) [][]bool {
 	return newBelt
 }
 
-func getVisibleCount(t common.Point, belt [][]bool) int {
-	vis := 0
+func printMap(belt [][]bool, h common.Point) {
 	for y := 0; y < len(belt); y++ {
 		for x := 0; x < len(belt[y]); x++ {
-			if (x == t.X && y == t.Y) || !belt[y][x] {
+			if x == h.X && y == h.Y {
+				fmt.Print("@")
 				continue
 			}
-
-			if isVisible(t, common.Point{X: x, Y: y}, belt) {
-				vis++
-			}
-		}
-	}
-
-	return vis
-}
-
-func printMap(belt [][]bool) {
-	for y := 0; y < len(belt); y++ {
-		for x := 0; x < len(belt[y]); x++ {
 			if !belt[y][x] {
 				fmt.Print(".")
 				continue
 			}
+
 			fmt.Print("#")
+
 		}
 		fmt.Print("\n")
 	}
 }
 
-func getBestStar(belt [][]bool) int {
-	best := 0
-
-	actX, actY := 0, 0
-	for y := 0; y < len(belt); y++ {
-		for x := 0; x < len(belt[y]); x++ {
-
-			if !belt[y][x] {
-				fmt.Print(".. ")
-				continue
-			}
-
-			count := getVisibleCount(common.Point{X: x, Y: y}, belt)
-			fmt.Print(count, "  ")
-			if count > best {
-				actX, actY = x, y
-				best = count
-			}
-		}
-		fmt.Print("\n")
-	}
-
-	fmt.Println(actX, actY, "=>", best)
-	return best
-}
-
-func getStep(s common.Point, t common.Point) common.Point {
-	// get the vector between the 2 stars
-	v := common.Point{
-		X: t.X - s.X,
-		Y: t.Y - s.Y,
-	}
+func getStep(v common.Point) common.Point {
 
 	if v.X == v.Y {
 		return common.Point{X: v.X / common.Abs(v.X), Y: v.Y / common.Abs(v.Y)}
@@ -203,9 +211,78 @@ func getCommonLowestFactor(a, b int) int {
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	field := getData(inputData)
+	count, _ := getBestAsteriod(field)
+	return fmt.Sprintf("%v", count)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	field := getData(inputData)
+	_, pos := getBestAsteriod(field)
+
+	up := vector2D{0, 1} // swapped for array plotting
+	right := vector2D{1, 0}
+
+	pos2d := point2D{pos.X, pos.Y}
+
+	astList := []asteriodAngle{}
+
+	for y := 0; y < len(field); y++ {
+		for x := 0; x < len(field[y]); x++ {
+			if !field[y][x] || (y == pos2d.Y && x == pos2d.X) {
+				continue
+			}
+
+			vec := pos2d.getVectorToPoint(point2D{x, y}).
+				normalised()
+
+			upP := vec.dotProduct(up)
+			rightP := vec.dotProduct(right)
+
+			angle := math.Atan2(upP, rightP)*(180/math.Pi) + 90
+
+			if angle < 0 {
+				angle = 360 - math.Abs(angle)
+			}
+
+			astList = append(astList, asteriodAngle{
+				angle,
+				common.GetMDistance(pos, common.Point{X: x, Y: y}),
+				0,
+				common.Point{X: x, Y: y},
+			})
+		}
+	}
+
+	// sort by angle and distance
+	sort.Slice(astList, func(i, j int) bool {
+		if astList[i].angle == astList[j].angle {
+			return astList[i].dist < astList[j].dist
+		}
+		return astList[i].angle < astList[j].angle
+	})
+
+	// go thought the sorted list and where the angle is the same increment rotation
+	prev := float64(-1)
+	rot := 0
+	for index := range astList {
+		if astList[index].angle == prev {
+			rot++
+		} else {
+			rot = 0
+		}
+
+		astList[index].rot = rot
+		prev = astList[index].angle
+	}
+
+	// finally sort by rotation and angle
+	sort.Slice(astList, func(i, j int) bool {
+		if astList[i].rot == astList[j].rot {
+			return astList[i].angle < astList[j].angle
+		}
+		return astList[i].rot < astList[j].rot
+	})
+
+	return fmt.Sprintf("%v", astList[199].pos.X*100+astList[199].pos.Y)
 }
