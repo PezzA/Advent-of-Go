@@ -116,8 +116,6 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 		}
 	}
 
-	fmt.Println(minX, minY, maxX, maxY)
-
 	for y := minY; y <= maxY; y++ {
 		for x := minX; x <= maxX; x++ {
 			if val, ok := hull[common.Point{X: x, Y: y}]; ok {
