@@ -110,6 +110,10 @@ func (ic *IntCode) resolveValue(mode int, parameter int64) int64 {
 	return ic.codes[parameter]
 }
 
+func (ic *IntCode) SetMemory(pos, val int64) {
+	ic.memory[pos] = val
+}
+
 // RunProgram runs an intcode program
 func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan chan int64, outputChan chan int64) []int64 {
 	outputs := []int64{}
@@ -123,7 +127,6 @@ func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan ch
 	}
 
 	ic.position = 0
-	ic.memory = make(map[int64]int64, 0)
 	ic.relativeBase = 0
 	ic.inputPosition = 0
 
