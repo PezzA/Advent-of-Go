@@ -2,55 +2,87 @@ package Day201913
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/pezza/advent-of-code/2019/intcode"
 	"github.com/pezza/advent-of-code/common"
 )
 
-func runGame(input string, freePlay bool) map[common.Point]int64 {
+func runGame(input string, freePlay bool) int {
 
 	in := make(chan int64, 0)
 	out := make(chan int64, 0)
+	request := make(chan bool, 0)
 
+	// run the program
 	go func() {
 		vm := intcode.New(input)
+		init := make(map[int64]int64, 0)
 		if freePlay {
-			vm.SetMemory(0, 2)
+			init[0] = 2
 		}
-		vm.RunProgram(nil, nil, in, out)
+		vm.RunProgram(init, nil, in, out, request)
 		close(out)
+		close(request)
 	}()
 
+	// handle output
 	screen := make(map[common.Point]int64, 0)
 	x, y := 0, 0
 	step := 1
 	score := 0
+	ball, paddle := common.Point{X: 0, Y: 0}, common.Point{X: 0, Y: 0}
+	inputDone, outputDone := false, false
 
-	for val := range out {
-		switch step {
-		case 1:
-			x = int(val)
-			step = 2
-		case 2:
-			y = int(val)
-			step = 3
-		case 3:
-			fmt.Println(x, y)
-			if x == -1 && y == 0 {
-				score = int(val)
-				fmt.Println(score)
-				printScreen(screen)
-				time.Sleep(time.Second)
-				in <- int64(-1)
+	for {
+		select {
+		case val, ok := <-out:
+			if !ok {
+				outputDone = true
+				break
 			}
+			switch step {
+			case 1:
+				x = int(val)
+				step = 2
+			case 2:
+				y = int(val)
+				step = 3
+			case 3:
+				if x == -1 && y == 0 {
+					score = int(val)
+				} else {
+					pos := common.Point{X: int(x), Y: int(y)}
+					screen[pos] = val
 
-			pos := common.Point{int(x), int(y)}
-			screen[pos] = val
-			step = 1
+					if val == 3 {
+						paddle = pos
+					} else if val == 4 {
+						ball = pos
+					}
+				}
+
+				step = 1
+			}
+		case _, ok := <-request:
+			if !ok {
+				inputDone = true
+				break
+			}
+			if ball.X < paddle.X {
+				in <- -1
+			} else if ball.X > paddle.X {
+				in <- 1
+			} else {
+				in <- 0
+			}
+		}
+
+		if inputDone && outputDone {
+			break
 		}
 	}
-	return screen
+
+	return score
 }
 
 func printScreen(screen map[common.Point]int64) {

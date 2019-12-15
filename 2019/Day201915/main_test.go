@@ -1,7 +1,6 @@
-package Day201913
+package Day201915
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -15,9 +14,7 @@ func Test_ReadData(t *testing.T) {
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	score := runGame(Entry.PuzzleInput(), true)
-
-	fmt.Println(score)
+	runProgram(Entry.PuzzleInput())
 
 }
 

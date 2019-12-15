@@ -1,6 +1,8 @@
 package common
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Point struct {
 	X int
@@ -10,6 +12,11 @@ type Point struct {
 func GetMDistance(s Point, t Point) int {
 	return Abs(s.X-t.X) + Abs(s.Y-t.Y)
 }
+
+var North = Point{X: 0, Y: -1}
+var East = Point{X: 1, Y: 0}
+var South = Point{X: 0, Y: 1}
+var West = Point{X: -1, Y: 0}
 
 var Cardinal4ReadingOrder = []Point{
 	{X: 0, Y: -1}, // North

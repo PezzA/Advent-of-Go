@@ -20,6 +20,7 @@ type IntCode struct {
 	position      int64
 	inputPosition int
 	relativeBase  int64
+	requestInput  chan bool
 }
 
 func New(input string) IntCode {
@@ -30,6 +31,7 @@ func New(input string) IntCode {
 		position:      0,
 		inputPosition: 0,
 		relativeBase:  0,
+		requestInput:  nil,
 	}
 }
 
@@ -115,7 +117,7 @@ func (ic *IntCode) SetMemory(pos, val int64) {
 }
 
 // RunProgram runs an intcode program
-func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan chan int64, outputChan chan int64) []int64 {
+func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan chan int64, outputChan chan int64, requestChan chan bool) []int64 {
 	outputs := []int64{}
 
 	ic.codes = getListIntData(ic.program)
@@ -129,6 +131,7 @@ func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan ch
 	ic.position = 0
 	ic.relativeBase = 0
 	ic.inputPosition = 0
+	ic.requestInput = requestChan
 
 	for {
 		op := parseOpCode(ic.codes[ic.position])
@@ -146,6 +149,10 @@ func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan ch
 			ic.position += 4
 		case 3:
 			param1 := ic.codes[ic.position+1]
+
+			if ic.requestInput != nil {
+				ic.requestInput <- true
+			}
 
 			if inputChan != nil {
 				ic.setValue(op.firstMode, param1, <-inputChan)
