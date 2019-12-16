@@ -38,23 +38,30 @@ func basePattern(position int) []int {
 	return vals
 }
 
+func basePatternIndex(position int, index int) int {
+	patternLen := position * 4 // size of repeating pattern
+	pos := index % patternLen  // index within the pattern
+
+	if pos < position {
+		return 0
+	} else if pos < position*2 {
+		return 1
+	} else if pos < position*3 {
+		return 0
+	}
+
+	return -1
+}
+
 func applyPhaseShift(input []int) []int {
 	var newPhaseCode []int
 	for i := 1; i <= len(input); i++ {
-		mask := basePattern(i)
+
+		fmt.Println(i, "/", len(input))
 		total := 0
 
-		maskPos := 1
-
 		for y := 0; y < len(input); y++ {
-			total += input[y] * mask[maskPos]
-
-			if maskPos == len(mask)-1 {
-				maskPos = 0
-			} else {
-				maskPos++
-			}
-
+			total += input[y] * basePatternIndex(i, y+1)
 		}
 
 		newPhaseCode = append(newPhaseCode, common.Abs(total%10))

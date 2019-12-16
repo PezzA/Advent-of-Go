@@ -45,6 +45,33 @@ func Test_PartOne(t *testing.T) {
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
+	Expect(basePatternIndex(1, 0)).Should(Equal(0))
+	Expect(basePatternIndex(1, 1)).Should(Equal(1))
+	Expect(basePatternIndex(1, 2)).Should(Equal(0))
+	Expect(basePatternIndex(1, 3)).Should(Equal(-1))
+	Expect(basePatternIndex(1, 4)).Should(Equal(0))
+	Expect(basePatternIndex(1, 5)).Should(Equal(1))
+	Expect(basePatternIndex(1, 6)).Should(Equal(0))
+	Expect(basePatternIndex(1, 7)).Should(Equal(-1))
+
+	Expect(basePatternIndex(2, 0)).Should(Equal(0))
+	Expect(basePatternIndex(2, 1)).Should(Equal(0))
+	Expect(basePatternIndex(2, 2)).Should(Equal(1))
+	Expect(basePatternIndex(2, 3)).Should(Equal(1))
+	Expect(basePatternIndex(2, 4)).Should(Equal(0))
+	Expect(basePatternIndex(2, 5)).Should(Equal(0))
+	Expect(basePatternIndex(2, 6)).Should(Equal(-1))
+	Expect(basePatternIndex(2, 7)).Should(Equal(-1))
+
+	Expect(basePatternIndex(3, 0)).Should(Equal(0))
+	Expect(basePatternIndex(3, 1)).Should(Equal(0))
+	Expect(basePatternIndex(3, 2)).Should(Equal(0))
+	Expect(basePatternIndex(3, 3)).Should(Equal(1))
+	Expect(basePatternIndex(3, 4)).Should(Equal(1))
+	Expect(basePatternIndex(3, 5)).Should(Equal(1))
+	Expect(basePatternIndex(3, 6)).Should(Equal(0))
+	Expect(basePatternIndex(3, 7)).Should(Equal(0))
+
 	p1test := getData(strings.Repeat(Entry.PuzzleInput(), 10000))
 	for i := 0; i < 100; i++ {
 		fmt.Println(i)
@@ -52,6 +79,7 @@ func Test_PartTwo(t *testing.T) {
 	}
 
 	fmt.Println(p1test[:8])
+
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
