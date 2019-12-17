@@ -3,7 +3,6 @@ package Day201912
 import (
 	"fmt"
 	"testing"
-	"time"
 
 	. "github.com/onsi/gomega"
 )
@@ -30,31 +29,17 @@ func Test_PartOne(t *testing.T) {
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
-	loops := make([]int, 0)
 	pairs := getPairs(4)
+	bodies := getData(Entry.PuzzleInput())
 
-	i := 0
-	bodies := getData(testData)
-	positions := make(map[planet]int)
-
-	positions[bodies[i]] = 0
-	count := 1
-	for {
+	for i := 0; i < 1000000; i++ {
 		bodies.applyGravity(pairs)
 		bodies.applyVelocity()
 
-		if val, ok := positions[bodies[i]]; ok {
-			fmt.Println(count, val, count-val)
-			time.Sleep(time.Millisecond * 10)
-
-		}
-		positions[bodies[i]] = count
-		count++
+		fmt.Println(bodies[0].position.x)
 	}
 
 	//not 188395899048
-	//fmt.Println(LCM(loops[0], loops[1], loops[2], loops[3], loops[4], loops[5], loops[6], loops[7]))
-	fmt.Println(LCM(loops[0], loops[1], loops[2], loops[3]))
 }
 
 // greatest common divisor (GCD) via Euclidean algorithm
