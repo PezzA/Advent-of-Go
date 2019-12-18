@@ -13,6 +13,16 @@ type object struct {
 	letter string
 }
 
+func (o object) String() string {
+	text := "Door"
+
+	if o.isKey {
+		text = "Key"
+	}
+
+	return fmt.Sprintf("{%v %v %v}", o.pos, text, o.letter)
+}
+
 type player struct {
 	pos       common.Point
 	inventory []object
@@ -84,6 +94,66 @@ func printTunnels(tunnels [][]bool, objects []object, player player) {
 
 		fmt.Print("\n")
 	}
+}
+
+type found struct {
+	depth int
+	thing object
+}
+
+func (f found) String() string {
+	return fmt.Sprintf("{%v %v}", f.depth, f.thing)
+}
+
+func hasObject(pos common.Point, list []object) (bool, object) {
+	for i := range list {
+		if pos.X == list[i].pos.X && pos.Y == list[i].pos.Y {
+			return true, list[i]
+		}
+	}
+	return false, object{}
+}
+
+func hasKey(input string, inv []object) bool {
+	for i := range inv {
+		if inv[i].letter == input && inv[i].isKey {
+			return true
+		}
+	}
+	return false
+}
+
+func transfer(o object, items []object, p player) ([]object, player) {
+
+	return items, player
+}
+
+func getPossibleMoves(tunnels [][]bool, objects []object, pos common.Point, inv []object, depth int, visits map[common.Point]bool) []found {
+	visits[pos] = true
+
+	fl := []found{}
+	for _, dir := range common.Cardinal4 {
+		testPos := pos.Add(dir)
+
+		if _, ok := visits[testPos]; ok {
+			continue
+		}
+
+		if ok, obj := hasObject(testPos, objects); ok {
+			if obj.isKey || hasKey(obj.letter, inv) {
+				fl = append(fl, found{depth, obj})
+			}
+			continue
+		}
+
+		if tunnels[testPos.Y][testPos.X] {
+			continue
+		}
+
+		fl = append(fl, getPossibleMoves(tunnels, objects, testPos, inv, depth+1, visits)...)
+	}
+
+	return fl
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

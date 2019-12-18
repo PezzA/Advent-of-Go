@@ -1,18 +1,30 @@
 package Day201918
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/common"
 )
+
+var testA = `#########
+#b.A.@.a#
+#########`
 
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
-	tunnels, objects, player := getData(Entry.PuzzleInput())
+	tunnels, objects, player := getData(testA)
 
-	printTunnels(tunnels, objects, player)
+	// printTunnels(tunnels, objects, player)
 
+	visits := make(map[common.Point]bool, 0)
+	fl := getPossibleMoves(tunnels, objects, player.pos, player.inventory, 1, visits)
+
+	for index := range fl {
+		fmt.Println(fl[index])
+	}
 }
 
 func Test_PartOne(t *testing.T) {
