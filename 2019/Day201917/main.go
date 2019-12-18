@@ -3,6 +3,7 @@ package Day201917
 import (
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/pezza/advent-of-code/common"
 
@@ -106,8 +107,18 @@ func (r *robot) move() {
 	}
 }
 
-func (v view) getPath(rob robot) map[common.Point]int {
+func getDir(old, new int) string {
+	if (old == 0 && new == 90) || (old == 90 && new == 180) || (old == 180 && new == 270) || (old == 270 && new == 0) {
+		return "R"
+	}
+	return "L"
+}
+
+func (v view) getPath(rob robot) (map[common.Point]int, []string) {
 	path := make(map[common.Point]int, 0)
+	ins := []string{}
+
+	mov := 0
 
 	for {
 
@@ -121,6 +132,7 @@ func (v view) getPath(rob robot) map[common.Point]int {
 		// test direction
 		if ok, _ := v.testDirection(rob.pos, rob.direction); ok {
 			rob.move()
+			mov++
 			continue
 		}
 
@@ -137,27 +149,35 @@ func (v view) getPath(rob robot) map[common.Point]int {
 		}
 
 		dirFound := false
+
 		for _, testDir := range tests {
 			if ok, _ := v.testDirection(rob.pos, testDir); ok {
+				if mov != 0 {
+					ins = append(ins, strconv.Itoa(mov))
+				}
+
+				ins = append(ins, getDir(rob.direction, testDir))
 				rob.direction = testDir
 				rob.move()
+				mov = 1
 				dirFound = true
 				break
 			}
 		}
 
 		if !dirFound {
+			ins = append(ins, strconv.Itoa(mov))
 			break
 		}
 	}
 
-	return path
+	return path, ins
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	data := getCameraView(Entry.PuzzleInput())
 	robot, _ := data.getRobot()
-	path := data.getPath(robot)
+	path, ins := data.getPath(robot)
 
 	totAP := 0
 	for k, v := range path {
@@ -165,6 +185,8 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 			totAP += k.X * k.Y
 		}
 	}
+
+	fmt.Println(ins)
 	return fmt.Sprintf("%v", totAP)
 }
 
