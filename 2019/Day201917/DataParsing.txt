@@ -1,0 +1,8 @@
+
+L 8 L 8 R 8|L 10 R 8 L 6 R 6|R 8 L 6 L 10 L 10|L 10 R 8 L 6 R 6|L 8 L 8 R 8|R 8 L 6 L 10 L 10|L 8 L 8 R 8|R 8 L 6 L 10 L 10|L 8 L 8 R 8
+A           B                C                 B                A           C                 A           C                 A 
+
+P A,B,C,B,A,C,A,C,A
+A L,8,L,8,R,8
+B L,10,R,8,L,6,R,6
+C R8,L,6,L,10,L,10
