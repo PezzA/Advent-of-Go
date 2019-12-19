@@ -13,6 +13,16 @@ type object struct {
 	letter string
 }
 
+type found struct {
+	depth int
+	thing object
+}
+
+type player struct {
+	pos       common.Point
+	inventory []object
+}
+
 func (o object) String() string {
 	text := "Door"
 
@@ -23,9 +33,34 @@ func (o object) String() string {
 	return fmt.Sprintf("{%v %v %v}", o.pos, text, o.letter)
 }
 
-type player struct {
-	pos       common.Point
-	inventory []object
+func (f found) String() string {
+	return fmt.Sprintf("{%v %v}", f.depth, f.thing)
+}
+
+func solve(tunnels [][]bool, objects []object, p player, depth, stepsTaken int) []int {
+
+	visits := make(map[common.Point]bool, 0)
+	var routes []int
+	for _, possibility := range getPossibleMoves(tunnels, objects, p.pos, p.inventory, 1, visits) {
+
+		/*
+			fmt.Printf("%vMoving %v steps and picking up %v (%v)\n",
+				strings.Repeat(" ", depth*4),
+				possibility.depth,
+				possibility.thing,
+				stepsTaken+possibility.depth)
+		*/
+
+		newObjects, newPlayer := transfer(possibility.thing, objects, p)
+
+		if len(newObjects) == 0 {
+			return []int{stepsTaken + possibility.depth}
+		}
+		newPlayer.pos = possibility.thing.pos
+		routes = append(routes, solve(tunnels, newObjects, newPlayer, depth+1, stepsTaken+possibility.depth)...)
+	}
+
+	return routes
 }
 
 func getData(input string) ([][]bool, []object, player) {
@@ -96,15 +131,6 @@ func printTunnels(tunnels [][]bool, objects []object, player player) {
 	}
 }
 
-type found struct {
-	depth int
-	thing object
-}
-
-func (f found) String() string {
-	return fmt.Sprintf("{%v %v}", f.depth, f.thing)
-}
-
 func hasObject(pos common.Point, list []object) (bool, object) {
 	for i := range list {
 		if pos.X == list[i].pos.X && pos.Y == list[i].pos.Y {
@@ -124,14 +150,25 @@ func hasKey(input string, inv []object) bool {
 }
 
 func transfer(o object, items []object, p player) ([]object, player) {
+	p.inventory = append(p.inventory, o)
 
-	return items, player
+	var newItems []object
+
+	for i := range items {
+		if items[i].letter == o.letter && items[i].isKey == o.isKey {
+			continue
+		}
+
+		newItems = append(newItems, items[i])
+	}
+
+	return newItems, p
 }
 
 func getPossibleMoves(tunnels [][]bool, objects []object, pos common.Point, inv []object, depth int, visits map[common.Point]bool) []found {
 	visits[pos] = true
 
-	fl := []found{}
+	var fl []found
 	for _, dir := range common.Cardinal4 {
 		testPos := pos.Add(dir)
 

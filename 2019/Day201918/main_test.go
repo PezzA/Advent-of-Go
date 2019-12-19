@@ -1,29 +1,84 @@
 package Day201918
 
 import (
-	"fmt"
+	"strconv"
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/pezza/advent-of-code/common"
 )
 
-var testA = `#########
+var tests = []struct {
+	i string
+	o string
+}{
+	{
+		i: `#########
 #b.A.@.a#
-#########`
+#########`,
+		o: "8"},
+
+	{
+		i: `########################
+#f.D.E.e.C.b.A.@.a.B.c.#
+######################.#
+#d.....................#
+########################`,
+		o: `86`,
+	},
+
+	{
+		i: `########################
+#...............b.C.D.f#
+#.######################
+#.....@.a.B.c.d.A.e.F.g#
+########################`,
+		o: `132`,
+	},
+
+	{
+		i: `#################
+#i.G..c...e..H.p#
+########.########
+#j.A..b...f..D.o#
+########@########
+#k.E..a...g..B.n#
+########.########
+#l.F..d...h..C.m#
+#################`,
+		o: `136`,
+	},
+
+	{
+		i: `########################
+#@..............ac.GI.b#
+###d#e#f################
+###A#B#C################
+###g#h#i################
+########################`,
+		o: `81`,
+	},
+}
 
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
-	tunnels, objects, player := getData(testA)
+	for index, test := range tests {
 
-	// printTunnels(tunnels, objects, player)
+		if index != 3 {
+			continue
+		}
+		tunnels, objects, player := getData(test.i)
 
-	visits := make(map[common.Point]bool, 0)
-	fl := getPossibleMoves(tunnels, objects, player.pos, player.inventory, 1, visits)
+		routes := solve(tunnels, objects, player, 1, 0)
 
-	for index := range fl {
-		fmt.Println(fl[index])
+		min := -1
+		for _, val := range routes {
+			if min == -1 || val < min {
+				min = val
+			}
+		}
+
+		Expect(strconv.Itoa(min)).Should(Equal(test.o))
 	}
 }
 
