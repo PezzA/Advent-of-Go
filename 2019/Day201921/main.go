@@ -16,9 +16,8 @@ func inputString(input string, in chan int64) {
 	in <- int64(newLine)
 }
 
-func runProgram(input string, springCode string) {
-	out := make(chan int64, 0)
-	in := make(chan int64, 0)
+func runProgram(input string, springCode string) int64 {
+	in, out := make(chan int64, 0), make(chan int64, 0)
 	output := int64(0)
 
 	var wg sync.WaitGroup
@@ -45,13 +44,30 @@ func runProgram(input string, springCode string) {
 	inputString(springCode, in)
 	wg.Wait()
 
-	fmt.Println(output)
+	return output
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	output := runProgram(inputData, `NOT A J
+NOT B T
+AND D T
+OR T J
+NOT C T
+AND D T
+OR T J
+WALK`)
+	return fmt.Sprintf("%v", output)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	output := runProgram(inputData, `NOT A J
+NOT B T
+AND D T
+OR T J
+NOT C T
+AND D T
+AND H T
+OR T J
+RUN`)
+	return fmt.Sprintf("%v", output)
 }

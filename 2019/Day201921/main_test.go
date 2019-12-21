@@ -24,14 +24,7 @@ func Test_PartOne(t *testing.T) {
 		`OR T J`  // jump if either is true
 	*/
 
-	runProgram(Entry.PuzzleInput(), `NOT A J
-NOT B T
-AND D T
-OR T J
-NOT C T
-AND D T
-OR T J
-WALK`)
+	Expect(Entry.PartOne(Entry.PuzzleInput(), nil)).Should(Equal("19357335"))
 }
 
 func Test_PartTwo(t *testing.T) {
@@ -44,15 +37,7 @@ func Test_PartTwo(t *testing.T) {
 		#####.#.#..##.###
 		   ABCDEFGHI
 	*/
-	runProgram(Entry.PuzzleInput(), `NOT A J
-NOT B T
-AND D T
-OR T J
-NOT C T
-AND D T
-AND H T
-OR T J
-RUN`)
+	Expect(Entry.PartTwo(Entry.PuzzleInput(), nil)).Should(Equal("1140147758"))
 
 }
 
