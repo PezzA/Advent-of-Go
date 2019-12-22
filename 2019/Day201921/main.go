@@ -56,6 +56,7 @@ NOT C T
 AND D T
 OR T J
 WALK`)
+
 	return fmt.Sprintf("%v", output)
 }
 

@@ -10,19 +10,63 @@ import (
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
-	maze, portals, start, end := getData(Entry.PuzzleInput())
+	maze, portals := getData(Entry.PuzzleInput())
 
 	printMaze(maze)
 
-	fmt.Println("Start:", start)
-	fmt.Println("End:", end)
-	for _, p := range portals {
-		fmt.Println(p)
+	for k, p := range portals {
+		fmt.Println(k, "=>", p)
 	}
 }
 
+var testData = `                   A               
+                   A               
+  #################.#############  
+  #.#...#...................#.#.#  
+  #.#.#.###.###.###.#########.#.#  
+  #.#.#.......#...#.....#.#.#...#  
+  #.#########.###.#####.#.#.###.#  
+  #.............#.#.....#.......#  
+  ###.###########.###.#####.#.#.#  
+  #.....#        A   C    #.#.#.#  
+  #######        S   P    #####.#  
+  #.#...#                 #......VT
+  #.#.#.#                 #.#####  
+  #...#.#               YN....#.#  
+  #.###.#                 #####.#  
+DI....#.#                 #.....#  
+  #####.#                 #.###.#  
+ZZ......#               QG....#..AS
+  ###.###                 #######  
+JO..#.#.#                 #.....#  
+  #.#.#.#                 ###.#.#  
+  #...#..DI             BU....#..LF
+  #####.#                 #.#####  
+YN......#               VT..#....QG
+  #.###.#                 #.###.#  
+  #.#...#                 #.....#  
+  ###.###    J L     J    #.#.###  
+  #.....#    O F     P    #.#...#  
+  #.###.#####.#.#####.#####.###.#  
+  #...#.#.#...#.....#.....#.#...#  
+  #.#####.###.###.#.#.#########.#  
+  #...#.#.....#...#.#.#.#.....#.#  
+  #.###.#####.###.###.#.#.#######  
+  #.#.........#...#.............#  
+  #########.###.###.#############  
+           B   J   C               
+           U   P   P             `
+
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
+	maze, portals := getData(Entry.PuzzleInput())
+
+	for k, val := range portals {
+		portals[k] = val.getConnections(portals, maze)
+	}
+
+	// not 590 (too low, curious)
+	fmt.Println(startWalk(portals))
 
 }
 
