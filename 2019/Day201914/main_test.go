@@ -10,16 +10,6 @@ import (
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
-	recipes := getData(Entry.PuzzleInput())
-
-	Expect(recipes[0]).Should(Equal(recipe{
-		[]ingredient{
-			ingredient{3, "CFGBR"},
-			ingredient{9, "PFMFC"},
-			ingredient{2, "FQFPN"},
-		},
-		ingredient{2, "PKPWN"},
-	}))
 }
 
 var tests = []struct {
@@ -87,15 +77,47 @@ func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
 	for _, test := range tests {
-		Expect(getTotalOreNeeded(test.i)).Should(Equal(test.o))
+		totalOre = 0
+		al := getData(test.i)
+		fuelAssem, _ := al.getByOutput("FUEL")
+
+		fuelAssem.request(1, al)
+
+		Expect(totalOre).Should(Equal(test.o))
 	}
-	fmt.Println("Not 477532 (too high)")
+
+	totalOre = 0
+	al := getData(Entry.PuzzleInput())
+	fuelAssem, _ := al.getByOutput("FUEL")
+
+	fuelAssem.request(1, al)
+
+	Expect(totalOre).Should(Equal(273638))
 
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
+	totalOre = 0
+	totalFuel := 0
+	al := getData(Entry.PuzzleInput())
+
+	fuelAssem, _ := al.getByOutput("FUEL")
+	for {
+		if fuelAssem.request(1, al) {
+			totalFuel += 1
+		} else {
+			break
+		}
+
+		if totalFuel%10000 == 0 {
+			fmt.Println(totalFuel, totalOre)
+		}
+
+	}
+	fmt.Println(totalFuel)
+	// PASS: Test_PartTwo (1381.19s)
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

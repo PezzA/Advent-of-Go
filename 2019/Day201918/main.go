@@ -37,27 +37,104 @@ func (f found) String() string {
 	return fmt.Sprintf("{%v %v}", f.depth, f.thing)
 }
 
-func solve(tunnels [][]bool, objects []object, p player, depth, stepsTaken int) []int {
+type state struct {
+	pos      common.Point
+	keys     []string
+	distance int
+}
 
+func (s state) Same(cmp state) bool {
+	if s.pos != cmp.pos {
+		return false
+	}
+
+	if len(s.keys) != len(cmp.keys) {
+		return false
+	}
+
+	for _, sk := range s.keys {
+		found := false
+		for _, ck := range cmp.keys {
+			if sk == ck {
+				found = true
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+	return true
+}
+
+var stateList []state
+
+func stateExists(p player) (bool, int) {
+	s := getState(p)
+	for index, state := range stateList {
+		if s.Same(state) {
+			return true, index
+		}
+	}
+
+	return false, 0
+}
+
+func getState(p player) state {
+	keys := []string{}
+
+	for _, item := range p.inventory {
+		if item.isKey {
+			keys = append(keys, item.letter)
+		}
+	}
+
+	return state{p.pos, keys, 0}
+}
+
+func addState(p player, stepsTaken int) {
+	s := getState(p)
+	s.distance = stepsTaken
+	stateList = append(stateList, s)
+}
+
+func solve(tunnels [][]bool, objects []object, p player, depth, stepsTaken int) []int {
+	addState(p, stepsTaken)
 	visits := make(map[common.Point]bool, 0)
 	var routes []int
 	for _, possibility := range getPossibleMoves(tunnels, objects, p.pos, p.inventory, 1, visits) {
-
-		/*
-			fmt.Printf("%vMoving %v steps and picking up %v (%v)\n",
-				strings.Repeat(" ", depth*4),
-				possibility.depth,
-				possibility.thing,
-				stepsTaken+possibility.depth)
-		*/
-
 		newObjects, newPlayer := transfer(possibility.thing, objects, p)
 
-		if len(newObjects) == 0 {
-			return []int{stepsTaken + possibility.depth}
+		if possibility.thing.isKey {
+			keys := 0
+			for _, item := range newObjects {
+				if item.isKey {
+					keys++
+				}
+			}
+
+			if keys == 0 {
+				return []int{stepsTaken + possibility.depth}
+			}
 		}
+
 		newPlayer.pos = possibility.thing.pos
-		routes = append(routes, solve(tunnels, newObjects, newPlayer, depth+1, stepsTaken+possibility.depth)...)
+
+		doCrawl := false
+
+		exists, index := stateExists(newPlayer)
+
+		if exists {
+			if stateList[index].distance > stepsTaken+possibility.depth {
+				stateList[index].distance = stepsTaken + possibility.depth
+			}
+
+		} else {
+			doCrawl = true
+		}
+
+		if doCrawl {
+			routes = append(routes, solve(tunnels, newObjects, newPlayer, depth+1, stepsTaken+possibility.depth)...)
+		}
 	}
 
 	return routes

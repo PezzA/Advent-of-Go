@@ -155,7 +155,14 @@ func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan ch
 			}
 
 			if inputChan != nil {
-				ic.setValue(op.firstMode, param1, <-inputChan)
+				val := int64(-1)
+				select {
+				case nval := <-inputChan:
+					val = nval
+				default:
+				}
+				ic.setValue(op.firstMode, param1, val)
+
 			} else {
 				ic.setValue(op.firstMode, param1, inputs[ic.inputPosition])
 			}

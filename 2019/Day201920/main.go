@@ -1,8 +1,10 @@
 package Day201920
 
 import (
+	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/pezza/advent-of-code/common"
 )
@@ -12,14 +14,13 @@ type maze [][]rune
 type proximity struct {
 	name     string
 	distance int
+	inner    bool
 }
 
 type portal struct {
 	name  string
-	start common.Point
-	ins   []proximity
-	end   common.Point
-	outs  []proximity
+	inner common.Point
+	outer common.Point
 }
 
 type portalList map[string]portal
@@ -28,16 +29,11 @@ type distanceMap map[common.Point]int
 const floor = 46
 const wall = 35
 
-func printMaze(in maze) {
-	for _, line := range in {
-		for _, cell := range line {
-			if cell == 0 {
-				fmt.Print(" ")
-			} else {
-				fmt.Print(string(cell))
-			}
-		}
-		fmt.Println()
+func newPortal(name string) portal {
+	return portal{
+		name:  name,
+		inner: common.Point{},
+		outer: common.Point{},
 	}
 }
 
@@ -45,6 +41,9 @@ func getData(input string) (maze, portalList) {
 	lines := strings.Split(input, "\n")
 	newMaze := make(maze, len(lines))
 
+	tl := common.Point{2, 2}
+	//br := common.Point{126, 118}
+	br := common.Point{42, 34}
 	for y, line := range lines {
 		newMaze[y] = make([]rune, len(line))
 		for x, char := range line {
@@ -54,149 +53,64 @@ func getData(input string) (maze, portalList) {
 		}
 	}
 
-	portals := make(portalList, 0)
+	pl := make(portalList, 0)
 
 	for y := range newMaze {
 		for x := range newMaze[y] {
 			if newMaze[y][x] == floor {
+				inner := true
+				pos := common.Point{X: x, Y: y}
+				if x == tl.X || y == tl.Y || x == br.X || y == br.Y {
+					inner = false
+				}
+
+				title := ""
 				if newMaze[y-1][x] == 0 {
-					title := fmt.Sprintf("%v%v",
+					title = fmt.Sprintf("%v%v",
 						string(lines[y-2][x]),
 						string(lines[y-1][x]))
-
-					if _, ok := portals[title]; ok {
-						portals[title] = portal{
-							name:  title,
-							start: portals[title].start,
-							ins:   []proximity{},
-							end:   common.Point{X: x, Y: y},
-							outs:  []proximity{},
-						}
-					} else {
-						portals[title] = portal{
-							name:  title,
-							start: common.Point{X: x, Y: y},
-							ins:   []proximity{},
-							end:   common.Point{},
-							outs:  []proximity{},
-						}
-					}
 				}
 
 				if newMaze[y+1][x] == 0 {
-					title := fmt.Sprintf("%v%v",
+					title = fmt.Sprintf("%v%v",
 						string(lines[y+1][x]),
 						string(lines[y+2][x]))
-
-					if _, ok := portals[title]; ok {
-						portals[title] = portal{
-							name:  title,
-							start: portals[title].start,
-							ins:   []proximity{},
-							end:   common.Point{X: x, Y: y},
-							outs:  []proximity{},
-						}
-					} else {
-						portals[title] = portal{
-							name:  title,
-							start: common.Point{X: x, Y: y},
-							ins:   []proximity{},
-							end:   common.Point{},
-							outs:  []proximity{},
-						}
-					}
 				}
+
 				if newMaze[y][x-1] == 0 {
-					title := fmt.Sprintf("%v%v",
+					title = fmt.Sprintf("%v%v",
 						string(lines[y][x-2]),
 						string(lines[y][x-1]))
-
-					if _, ok := portals[title]; ok {
-						portals[title] = portal{
-							name:  title,
-							start: portals[title].start,
-							ins:   []proximity{},
-							end:   common.Point{X: x, Y: y},
-							outs:  []proximity{},
-						}
-					} else {
-						portals[title] = portal{
-							name:  title,
-							start: common.Point{X: x, Y: y},
-							ins:   []proximity{},
-							end:   common.Point{},
-							outs:  []proximity{},
-						}
-					}
 				}
 
 				if newMaze[y][x+1] == 0 {
-					title := fmt.Sprintf("%v%v",
+					title = fmt.Sprintf("%v%v",
 						string(lines[y][x+1]),
 						string(lines[y][x+2]))
+				}
 
-					if _, ok := portals[title]; ok {
-						portals[title] = portal{
-							name:  title,
-							start: portals[title].start,
-							ins:   []proximity{},
-							end:   common.Point{X: x, Y: y},
-							outs:  []proximity{},
-						}
+				if title != "" {
+					if _, ok := pl[title]; !ok {
+						pl[title] = newPortal(title)
+					}
+
+					val := pl[title]
+					if inner {
+						val.inner = pos
+						pl[title] = val
 					} else {
-						portals[title] = portal{
-							name:  title,
-							start: common.Point{X: x, Y: y},
-							ins:   []proximity{},
-							end:   common.Point{},
-							outs:  []proximity{},
-						}
+						val.outer = pos
+						pl[title] = val
 					}
 				}
 			}
 		}
 	}
 
-	return newMaze, portals
+	return newMaze, pl
 }
 
-func printDmap(d distanceMap) {
-	tl, br := getBounds(d)
-
-	for y := tl.Y; y <= br.Y; y++ {
-		for x := tl.X; x <= br.X; x++ {
-			if val, ok := d[common.Point{x, y}]; ok {
-				fmt.Printf("%4v", val)
-			} else {
-				fmt.Printf("%4v", "")
-			}
-		}
-		fmt.Println()
-	}
-}
-
-func getBounds(m map[common.Point]int) (common.Point, common.Point) {
-	minX, minY, maxX, maxY := -1, -1, 0, 0
-	for k := range m {
-		if minX == -1 || k.X < minX {
-			minX = k.X
-		}
-		if minY == -1 || k.Y < minY {
-			minY = k.Y
-		}
-
-		if k.X > maxX {
-			maxX = k.X
-		}
-		if k.Y > maxY {
-			maxY = k.Y
-		}
-	}
-
-	return common.Point{minX, minY}, common.Point{maxX, maxY}
-}
-
-func getDistanceMap(p common.Point, m maze) distanceMap {
+func (m maze) getDistanceMap(p common.Point) distanceMap {
 	d := make(distanceMap, 0)
 	if p.X == 0 && p.Y == 0 {
 		return d
@@ -220,89 +134,79 @@ func (m maze) distanceCrawl(p common.Point, d distanceMap, depth int) {
 	}
 }
 
-func (p portal) getConnections(pl portalList, m maze) portal {
-
-	for point, distance := range getDistanceMap(p.start, m) {
-		if distance > 0 {
-			for tPortalName, tPortal := range pl {
-				if (point == tPortal.start || point == tPortal.end) && tPortalName != p.name {
-					p.ins = append(p.ins, proximity{tPortalName, distance})
-				}
-			}
-		}
-	}
-
-	for point, distance := range getDistanceMap(p.end, m) {
-		if distance > 0 {
-			for tPortalName, tPortal := range pl {
-				if (point == tPortal.start || point == tPortal.end) && tPortalName != p.name {
-					p.outs = append(p.outs, proximity{tPortalName, distance})
-				}
-			}
-		}
-	}
-
-	return p
-}
-
-func (pl portalList) getPortal(name string) portal {
+func (pl portalList) getPortal(name string) (portal, error) {
 	for k, v := range pl {
 		if k == name {
-			return v
+			return v, nil
 		}
 	}
-	return portal{}
+	return portal{}, errors.New("Could not find portal")
 }
 
-func startWalk(pl portalList) []int {
+func (m maze) startWalk(pl portalList) []int {
+	start, _ := pl.getPortal("AA")
 
-	start := pl.getPortal("AA")
-
-	return portalWalk(start, true, pl, []string{}, 0, 0)
-
+	return m.portalWalk(start.outer, start, pl, 0, 0)
 }
 
-func portalWalk(p portal, in bool, pl portalList, travelled []string, distance int, recursiveDepth int) []int {
-	fmt.Println(p, distance)
-	if p.name == "ZZ" {
-		return []int{distance}
+var travelled = [][]string{}
+
+func (m maze) portalWalk(pos common.Point, p portal, pl portalList, distance int, recursiveDepth int) []int {
+	fmt.Println(p.name, distance, pos, recursiveDepth)
+	time.Sleep(time.Millisecond * 100)
+
+	if len(travelled) == recursiveDepth {
+		travelled = append(travelled, []string{})
 	}
 
 	distances := []int{}
+	destinations := []proximity{}
 
-	destList := p.ins
-	if !in {
-		destList = p.outs
+	// build up list of what we can travel too
+	for position, distance := range m.getDistanceMap(pos) {
+		for _, portal := range pl {
+			// normal exclusions
+			if portal.name == p.name || common.Contains(travelled[recursiveDepth], portal.name) {
+				continue
+			}
+
+			if recursiveDepth == 0 {
+				// outer most, can only do start and end
+				if portal.outer == position && portal.name != "AA" {
+					continue
+				}
+			} else {
+				// inner, no start or end
+				if portal.name == "AA" || portal.name == "ZZ" {
+					continue
+				}
+			}
+
+			if portal.inner == position || portal.outer == position {
+				distance += 1
+				destinations = append(destinations, proximity{portal.name, distance, portal.inner == position})
+			}
+		}
 	}
 
-	for _, newP := range destList {
-		if recursiveDepth != 0 && (newP.name == "AA" || newP.name == "ZZ") {
-			continue
+	for _, newP := range destinations {
+		if newP.name == "ZZ" {
+			return []int{distance - 1} // no step to last portal
+		}
+		newPortal, _ := pl.getPortal(newP.name)
+		travelled[recursiveDepth] = append(travelled[recursiveDepth], p.name)
+
+		var newPos common.Point
+
+		if newP.inner {
+			newPos = newPortal.outer
+			recursiveDepth++
+		} else {
+			newPos = newPortal.inner
+			recursiveDepth--
 		}
 
-		testPortal := pl.getPortal(newP.name)
-
-		ins := true
-		for _, testside := range testPortal.ins {
-			if testside.name == p.name {
-				ins = false
-				break
-			}
-		}
-
-		found := false
-
-		for _, name := range travelled {
-			if name == newP.name {
-				found = true
-				break
-			}
-		}
-
-		if found {
-			continue
-		}
-		distances = append(distances, portalWalk(pl.getPortal(newP.name), ins, pl, append(travelled, p.name), distance+newP.distance+1)...)
+		distances = append(distances, m.portalWalk(newPos, newPortal, pl, distance+newP.distance, recursiveDepth)...)
 	}
 
 	return distances
@@ -314,4 +218,52 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+}
+
+func printMaze(in maze) {
+	for _, line := range in {
+		for _, cell := range line {
+			if cell == 0 {
+				fmt.Print(" ")
+			} else {
+				fmt.Print(string(cell))
+			}
+		}
+		fmt.Println()
+	}
+}
+
+func getBounds(m map[common.Point]int) (common.Point, common.Point) {
+	minX, minY, maxX, maxY := -1, -1, 0, 0
+	for k := range m {
+		if minX == -1 || k.X < minX {
+			minX = k.X
+		}
+		if minY == -1 || k.Y < minY {
+			minY = k.Y
+		}
+
+		if k.X > maxX {
+			maxX = k.X
+		}
+		if k.Y > maxY {
+			maxY = k.Y
+		}
+	}
+	return common.Point{minX, minY}, common.Point{maxX, maxY}
+}
+
+func printDmap(d distanceMap) {
+	tl, br := getBounds(d)
+
+	for y := tl.Y; y <= br.Y; y++ {
+		for x := tl.X; x <= br.X; x++ {
+			if val, ok := d[common.Point{x, y}]; ok {
+				fmt.Printf("%4v", val)
+			} else {
+				fmt.Printf("%4v", "")
+			}
+		}
+		fmt.Println()
+	}
 }

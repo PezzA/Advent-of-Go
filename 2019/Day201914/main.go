@@ -11,12 +11,47 @@ type ingredient struct {
 	class  string
 }
 
-type recipe struct {
-	inputs []ingredient
-	output ingredient
+type assembly struct {
+	inputs    []ingredient
+	output    ingredient
+	stockHeld int
 }
 
-type recipeBook []recipe
+var totalOre = 0
+var reserves = 1000000000000
+
+type assemblyLine []*assembly
+
+func (a *assembly) request(amount int, al assemblyLine) bool {
+	if a.stockHeld >= amount {
+		a.stockHeld -= amount
+		return true
+	}
+
+	amount -= a.stockHeld
+	a.stockHeld = 0
+
+	crafts := int(math.Ceil(float64(amount) / float64(a.output.amount)))
+	a.stockHeld = crafts*a.output.amount - amount
+
+	for c := 0; c < crafts; c++ {
+		for _, input := range a.inputs {
+			if input.class == "ORE" {
+				if totalOre+input.amount > reserves {
+					return false
+				}
+				totalOre += input.amount
+				continue
+			}
+			inga, _ := al.getByOutput(input.class)
+			if !inga.request(input.amount, al) {
+				return false
+			}
+		}
+	}
+
+	return true
+}
 
 func parseIngredient(input string) ingredient {
 	input = strings.TrimSpace(input)
@@ -29,9 +64,9 @@ func parseIngredient(input string) ingredient {
 	}
 }
 
-func getData(input string) recipeBook {
+func getData(input string) assemblyLine {
 	lines := strings.Split(input, "\n")
-	recipes := recipeBook{}
+	al := assemblyLine{}
 
 	for _, line := range lines {
 		bits := strings.Split(line, "=>")
@@ -44,94 +79,20 @@ func getData(input string) recipeBook {
 		}
 
 		output := parseIngredient(bits[1])
-		recipes = append(recipes, recipe{inputs, output})
+		al = append(al, &assembly{inputs, output, 0})
 	}
-	return recipes
+	return al
 }
 
-func (rb recipeBook) getByOutput(class string) (recipe, error) {
-	for _, recipe := range rb {
-		if recipe.output.class == class {
-			return recipe, nil
+func (al assemblyLine) getByOutput(class string) (*assembly, error) {
+	for _, assem := range al {
+		if assem.output.class == class {
+			return assem, nil
 		}
 	}
-	return recipe{}, fmt.Errorf(fmt.Sprintf("Could not find recipe with output %v", class))
+	return &assembly{}, fmt.Errorf(fmt.Sprintf("Could not find recipe with output %v", class))
 }
 
-type oreRequirement struct {
-	amount int
-	class  string
-}
-
-func (rb recipeBook) startCrawl(amountRequired int, name string, depth int) []oreRequirement {
-
-	fmt.Printf("%v%-10v%-10v\n",
-		strings.Repeat(" ", depth*4),
-		name,
-		amountRequired)
-
-	recipe, _ := rb.getByOutput(name)
-	amountToCraft := int(math.Ceil(float64(amountRequired) / float64(recipe.output.amount)))
-
-	var amounts []oreRequirement
-
-	for _, rec := range recipe.inputs {
-		if rec.class == "ORE" {
-			amounts = append(amounts, oreRequirement{amountRequired, recipe.output.class})
-		} else {
-			amounts = append(amounts, rb.startCrawl(rec.amount*amountToCraft, rec.class, depth+1)...)
-		}
-	}
-
-	return amounts
-}
-
-func getTotalOreNeeded(input string) int {
-	data := getData(input)
-
-	amounts := data.startCrawl(1, "FUEL", 0)
-
-	for _, am := range amounts {
-		fmt.Println(am)
-	}
-	totals := make(map[string]int, 0)
-
-	for _, amt := range amounts {
-		if _, ok := totals[amt.class]; ok {
-			totals[amt.class] += amt.amount
-		} else {
-			totals[amt.class] = amt.amount
-		}
-	}
-
-	totalOre := 0
-
-	fmt.Printf("%-10v\t\t%-10v\t\t\t%-10v\t\t%-10v\t\t%-10v\t\t%-10v\n",
-		"Recipe",
-		"Needed",
-		"Per Craft",
-		"Base Ore",
-		"crafts",
-		"totalore")
-	for k, v := range totals {
-		recipe, _ := data.getByOutput(k)
-
-		crafts := int(math.Ceil(float64(v) / float64(recipe.output.amount)))
-
-		fmt.Printf("%-10v\t\t%-10v\t\t\t%-10v\t\t%-10v\t\t%-10v\t\t%-10v\n",
-			recipe.output.class,
-			v,
-			recipe.output.amount,
-			recipe.inputs[0].amount,
-			crafts,
-			crafts*recipe.inputs[0].amount)
-
-		totalOre += crafts * recipe.inputs[0].amount
-	}
-
-	fmt.Println()
-	return totalOre
-}
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
 }

@@ -1,7 +1,7 @@
 package Day201918
 
 import (
-	"strconv"
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -71,14 +71,14 @@ func Test_ReadData(t *testing.T) {
 
 		routes := solve(tunnels, objects, player, 1, 0)
 
-		min := -1
-		for _, val := range routes {
-			if min == -1 || val < min {
-				min = val
+		fmt.Println(routes)
+		fmt.Println(len(stateList))
+
+		for _, s := range stateList {
+			if len(s.keys) == 15 {
+				fmt.Println(s)
 			}
 		}
-
-		Expect(strconv.Itoa(min)).Should(Equal(test.o))
 	}
 }
 
