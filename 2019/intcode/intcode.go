@@ -35,7 +35,7 @@ func New(input string) IntCode {
 	}
 }
 
-func getListIntData(input string) []int64 {
+func GetListIntData(input string) []int64 {
 	retval := []int64{}
 
 	for _, i := range strings.Split(input, ",") {
@@ -120,7 +120,7 @@ func (ic *IntCode) SetMemory(pos, val int64) {
 func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan chan int64, outputChan chan int64, requestChan chan bool) []int64 {
 	outputs := []int64{}
 
-	ic.codes = getListIntData(ic.program)
+	ic.codes = GetListIntData(ic.program)
 
 	if init != nil {
 		for k, v := range init {
@@ -155,13 +155,16 @@ func (ic *IntCode) RunProgram(init map[int64]int64, inputs []int64, inputChan ch
 			}
 
 			if inputChan != nil {
-				val := int64(-1)
-				select {
-				case nval := <-inputChan:
-					val = nval
-				default:
-				}
-				ic.setValue(op.firstMode, param1, val)
+				/*
+					val := int64(-1)
+					select {
+					case nval := <-inputChan:
+						val = nval
+					default:
+					}
+				*/
+
+				ic.setValue(op.firstMode, param1, <-inputChan)
 
 			} else {
 				ic.setValue(op.firstMode, param1, inputs[ic.inputPosition])
