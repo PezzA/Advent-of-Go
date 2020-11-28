@@ -13,7 +13,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	init[1] = 12
 	init[2] = 2
 
-	vc.RunProgram(init, []int64{1}, nil, nil)
+	vc.RunProgram(init, []int64{1}, nil, nil, nil)
 
 	return fmt.Sprintf("%v", vc.GetValue(0))
 }
@@ -31,7 +31,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 			init[1] = int64(noun)
 			init[2] = int64(verb)
 
-			vc.RunProgram(init, []int64{}, nil, nil)
+			vc.RunProgram(init, []int64{}, nil, nil, nil)
 
 			if vc.GetValue(0) == 19690720 {
 				actNoun = noun

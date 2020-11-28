@@ -1,4 +1,4 @@
-package puzzles
+package main
 
 import (
 	"errors"

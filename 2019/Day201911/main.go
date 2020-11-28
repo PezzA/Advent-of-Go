@@ -47,7 +47,7 @@ func runRobot(inputProg string, startSignal int64) map[common.Point]bool {
 	vm := intcode.New(inputProg)
 
 	go func() {
-		vm.RunProgram(nil, nil, input, output)
+		vm.RunProgram(nil, nil, input, output, nil)
 		close(output)
 	}()
 

@@ -26,14 +26,14 @@ func feedbackAmplifysignal(phaseSettings []int64, program string) int64 {
 	wg.Add(1)
 
 	go func() {
-		ampA.RunProgram(nil, nil, aInput, bInput)
+		ampA.RunProgram(nil, nil, aInput, bInput, nil)
 		wg.Done()
 	}()
 
-	go ampB.RunProgram(nil, nil, bInput, cInput)
-	go ampC.RunProgram(nil, nil, cInput, dInput)
-	go ampD.RunProgram(nil, nil, dInput, eInput)
-	go ampE.RunProgram(nil, nil, eInput, aInput)
+	go ampB.RunProgram(nil, nil, bInput, cInput, nil)
+	go ampC.RunProgram(nil, nil, cInput, dInput, nil)
+	go ampD.RunProgram(nil, nil, dInput, eInput, nil)
+	go ampE.RunProgram(nil, nil, eInput, aInput, nil)
 
 	aInput <- phaseSettings[0]
 	bInput <- phaseSettings[1]
@@ -61,11 +61,11 @@ func straightAmplifySignal(phaseSettings []int64, program string) int64 {
 	ampD := intcode.New(program)
 	ampE := intcode.New(program)
 
-	go ampA.RunProgram(nil, nil, aInput, bInput)
-	go ampB.RunProgram(nil, nil, bInput, cInput)
-	go ampC.RunProgram(nil, nil, cInput, dInput)
-	go ampD.RunProgram(nil, nil, dInput, eInput)
-	go ampE.RunProgram(nil, nil, eInput, signal)
+	go ampA.RunProgram(nil, nil, aInput, bInput, nil)
+	go ampB.RunProgram(nil, nil, bInput, cInput, nil)
+	go ampC.RunProgram(nil, nil, cInput, dInput, nil)
+	go ampD.RunProgram(nil, nil, dInput, eInput, nil)
+	go ampE.RunProgram(nil, nil, eInput, signal, nil)
 
 	aInput <- phaseSettings[0]
 	bInput <- phaseSettings[1]
