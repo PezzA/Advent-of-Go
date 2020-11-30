@@ -82,6 +82,7 @@ func hasTwoPairs(input string) bool {
 func (td dayEntry) Describe() (int, int, string) {
 	return 2015, 11, "Corporate Policy"
 }
+
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	seq := Entry.PuzzleInput()
 

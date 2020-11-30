@@ -1,4 +1,4 @@
-package Day201911
+package dayEntry
 
 var Entry dayEntry
 

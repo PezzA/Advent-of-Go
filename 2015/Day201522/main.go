@@ -2,228 +2,292 @@ package Day201522
 
 import (
 	"fmt"
-	"strconv"
+	"math"
 	"strings"
 )
 
-// Entry holds wraps the data and runner interfaces for this puzzle
-var Entry dayEntry
-
-type dayEntry bool
-
-type effect struct {
-	name     string
-	duration int
-	armour   int
-	dmg      int
-	regen    int
+type spell struct {
+	name           string
+	cost           int
+	damage         int
+	heal           int
+	duration       int
+	damageOverTime int
+	shieldOverTime int
+	manaOverTime   int
 }
 
-type charClass int
+type spellStack map[string]spell
 
-const (
-	clPlayer charClass = 0
-	clBoss   charClass = 1
-)
+var spellBook = spellStack{
+	"missile": {
+		name:   "missile",
+		cost:   53,
+		damage: 4,
+	},
+	"drain": {
+		name:   "drain",
+		cost:   73,
+		damage: 2,
+		heal:   2,
+	},
+	"shield": {
+		name:           "shield",
+		cost:           113,
+		duration:       6,
+		shieldOverTime: 7,
+	},
+	"poison": {
+		name:           "poison",
+		cost:           173,
+		duration:       6,
+		damageOverTime: 3,
+	},
+	"recharge": {
+		name:         "recharge",
+		cost:         229,
+		duration:     5,
+		manaOverTime: 101,
+	},
+}
 
 type character struct {
-	class  charClass
 	health int
-	dmg    int
+	damage int
 	mana   int
+	armour int
 }
 
-type spell struct {
-	name string
-	cost int
-	dmg  int
-	hp   int
-	effect
+type gameState struct {
+	player    character
+	boss      character
+	manaSpent int
+	stack     spellStack
+	casts     []*gameState
 }
 
-var spellbook = []spell{
-	spell{"Magic Missile", 53, 4, 0, effect{}},
-	spell{"Drain", 73, 2, 2, effect{}},
-	spell{"Shield", 113, 0, 0, effect{"Shield", 6, 7, 0, 0}},
-	spell{"Poison", 173, 0, 0, effect{"Poison", 6, 0, 3, 0}},
-	spell{"Recharge", 229, 0, 0, effect{"Recharge", 5, 0, 0, 101}},
+type logger func(string, int)
+
+func getStartingCharacters(bossHealth, bossDamage int) (character, character) {
+	return character{
+			health: 50,
+			mana:   500,
+		}, character{
+			health: bossHealth,
+			damage: bossDamage,
+		}
 }
 
-type outCome struct {
-	winner charClass
-	mana   int
-}
+func updateStack(
+	player character,
+	boss character,
+	stack spellStack,
+	depth int,
+	log logger,
+) (character, character, spellStack) {
+	player.armour = 0
 
-func runBattle(player, boss character) []outCome {
+	newSpellStack := make(spellStack, 0)
 
-	outcomes := []outCome{}
+	for k, v := range stack {
 
-	for _, sp := range spellbook {
-		outcomes = append(outcomes, resolveBattle(player, boss, []effect{}, sp, 0, 0)...)
+		prefix := ""
+		if v.shieldOverTime > 0 {
+			prefix = fmt.Sprintf("Player gains %d armour from shield", v.shieldOverTime)
+			player.armour = v.shieldOverTime
+		}
+
+		if v.damageOverTime > 0 {
+			prefix = fmt.Sprintf("Boss takes %d damage from poison", v.damageOverTime)
+			boss.health -= v.damageOverTime
+		}
+
+		if v.manaOverTime > 0 {
+			prefix = fmt.Sprintf("Player gains %d mana from recharge", v.manaOverTime)
+			player.mana += v.manaOverTime
+		}
+
+		v.duration -= 1
+
+		if v.duration == 0 {
+			log(fmt.Sprintf("%s, %s expires", prefix, k), depth)
+			delete(stack, k)
+		} else {
+			log(fmt.Sprintf("%s, %s has %d turns remaining", prefix, k, v.duration), depth)
+			newSpellStack[k] = v
+		}
 	}
 
-	return outcomes
+	return player, boss, newSpellStack
 }
 
-func resolveBattle(player, boss character, fx []effect, s spell, depth int, spent int) []outCome {
+func battleRound(
+	player character,
+	boss character,
+	stack spellStack,
+	targetSpell spell,
+	hardMode bool,
+	depth int,
+	log logger,
+) (character, character, spellStack, int) {
 
-	spaces := strings.Repeat(" ", depth*4)
+	// update stack
+	log("-- Player Turn --", depth)
+	if hardMode {
+		log("! Player loses 1 health in hard mode", depth)
+		player.health -= 1
 
-	// Player Turn
-	fmt.Printf("\n%v-- Player turn -- (%v)\n", spaces, depth)
-	fmt.Printf("%v- Player has %v hit points, %v armour, %v mana\n", spaces, player.health, 0, player.mana)
-	fmt.Printf("%v- Boss has %v hit points\n", spaces, boss.health)
-	for _, e := range fx {
-		if e.name == "Poison" {
-			boss.health -= e.dmg
-			fmt.Printf("%vPoison deals %v damage; its timer is now %v\n", spaces, e.dmg, e.duration-1)
-		}
-		if e.name == "Recharge" {
-			player.mana += e.regen
-			fmt.Printf("%vRecharge proveds %v mana; its timer is now %v\n", spaces, e.regen, e.duration-1)
-		}
-		if e.name == "Shield" {
-			fmt.Printf("%vShield is active and proveds %v armour; its timer is now %v\n", spaces, e.regen, e.duration-1)
+		if player.health <= 0 {
+			log("This kills the player and the boss wins", depth)
+			return player, boss, stack, 0
 		}
 	}
-	fx = tickEffects(fx)
 
-	// is boss dead?
+	player, boss, stack = updateStack(player, boss, stack, depth, log)
+	log(fmt.Sprintf("* Player: %d hp %d mana", player.health, player.mana), depth)
+	log(fmt.Sprintf("* Boss: %d hp", boss.health), depth)
 	if boss.health <= 0 {
-		fmt.Printf("%v* boss has died\n", spaces)
-		fmt.Printf("%v--------------------------------\n", spaces)
-		return []outCome{outCome{clPlayer, spent}}
+		log("This kills the boss and the player wins", depth)
+		return player, boss, stack, 0
 	}
 
-	// deduct mana cost
-	player.mana -= s.cost
-	spent += s.cost
-
-	// cast target spell
-	if s.name == "Magic Missile" {
-		fmt.Printf("%vPlayer casts %v, dealing %v damage\n", spaces, s.name, s.dmg)
-		boss.health -= s.dmg
-	} else if s.name == "Drain" {
-		fmt.Printf("%vPlayer casts %v, dealing %v damage and healing for %v health\n", spaces, s.name, s.dmg, s.hp)
-		boss.health -= s.dmg
-		player.health += s.hp
-	} else {
-		fmt.Printf("%vPlayer casts %v\n", spaces, s.name)
-		fx = append(fx, s.effect)
+	// apply target spell
+	if targetSpell.damage > 0 {
+		log(fmt.Sprintf("Boss takes %d damage from %s", targetSpell.damage, targetSpell.name), depth)
+		boss.health -= targetSpell.damage
 	}
-	fmt.Printf("%v#player has now spent a total of %v mana\n", spaces, spent)
 
-	// is boss dead?
+	if targetSpell.heal > 0 {
+		log(fmt.Sprintf("Player heals for %d  from %s", targetSpell.heal, targetSpell.name), depth)
+		player.health += targetSpell.heal
+	}
+
+	if targetSpell.duration > 0 {
+		log(fmt.Sprintf("Player casts %s for %d mana", targetSpell.name, targetSpell.cost), depth)
+		stack[targetSpell.name] = targetSpell
+	}
+
+	player.mana -= targetSpell.cost
+
 	if boss.health <= 0 {
-		fmt.Printf("%v* boss has died\n", spaces)
-		fmt.Printf("%v--------------------------------\n", spaces)
-		return []outCome{outCome{clPlayer, spent}}
+		log("This kills the boss and the player wins", depth)
+		return player, boss, stack, targetSpell.cost
 	}
 
-	fmt.Printf("\n%v-- Boss turn -- (%v)\n", spaces, depth)
-	fmt.Printf("%v- Player has %v hit points, %v armour, %v mana\n", spaces, player.health, 0, player.mana)
-	fmt.Printf("%v- Boss has %v hit points\n", spaces, boss.health)
-	armourBuff := 0
-	// boss Turn
-	for _, e := range fx {
-		if e.name == "Poison" {
-			boss.health -= e.dmg
-			fmt.Printf("%vPoison deals %v damage; its timer is now %v\n", spaces, e.dmg, e.duration-1)
-		}
-		if e.name == "Recharge" {
-			player.mana += e.regen
-			fmt.Printf("%vRecharge proveds %v mana; its timer is now %v\n", spaces, e.regen, e.duration-1)
-		}
+	// update stack
+	log("-- Boss Turn --", depth)
 
-		if e.name == "Shield" {
-			armourBuff = e.armour
-			fmt.Printf("%vShield is active and proveds %v armour; its timer is now %v\n", spaces, e.regen, e.duration-1)
-		}
-	}
-	fx = tickEffects(fx)
-
-	// is boss dead?
+	player, boss, stack = updateStack(player, boss, stack, depth, log)
+	log(fmt.Sprintf("* Player: %d hp %d mana", player.health, player.mana), depth)
+	log(fmt.Sprintf("* Boss: %d hp", boss.health), depth)
 	if boss.health <= 0 {
-		fmt.Printf("%v* boss has died\n", spaces)
-		fmt.Printf("%v--------------------------------\n", spaces)
-		return []outCome{outCome{clPlayer, spent}}
+		log("This kills the boss and the player wins", depth)
+		return player, boss, stack, targetSpell.cost
 	}
 
-	atk := boss.dmg - armourBuff
+	dmg := boss.damage - player.armour
 
-	if atk < 1 {
-		atk = 1
-	}
-	fmt.Printf("%vBoss attacks for %v - %v = %v damage\n", spaces, boss.dmg, armourBuff, atk)
-	player.health -= atk
-
-	// is player dead or oom?
-	if player.health <= 0 || player.mana < 53 {
-		fmt.Printf("%v* Player has died\n", spaces)
-		fmt.Printf("%v--------------------------------\n", spaces)
-		return []outCome{outCome{clBoss, spent}}
+	if dmg <= 0 {
+		dmg = 1
 	}
 
-	results := []outCome{}
-	for _, sp := range spellbook {
-		doSpell := true
+	log(fmt.Sprintf("Player takes %d damage", dmg), depth)
+	player.health -= dmg
 
-		// only cast valid spells
-		if player.mana < sp.cost {
-			doSpell = false
-		}
-
-		// cant cast an existing effect
-		if sp.name == "Poison" || sp.name == "Shield" || sp.name == "Recharge" {
-			for _, f := range fx {
-				if f.name == sp.name {
-					doSpell = false
-				}
-			}
-		}
-
-		if doSpell {
-			results = append(results, resolveBattle(player, boss, fx, sp, depth+1, spent)...)
-		}
+	if player.health <= 0 {
+		log("This kills the player and the boss wins", depth)
+		return player, boss, stack, targetSpell.cost
 	}
 
-	return results
+	return player, boss, stack, targetSpell.cost
 }
 
-func tickEffects(fx []effect) []effect {
-	updatedFx := []effect{}
+func runBattle(player character, boss character, hardMode bool, log logger) *gameState {
+	stack := make(spellStack, 0)
 
-	// update effect list
-	for _, e := range fx {
-		if e.duration > 1 {
-			updatedFx = append(updatedFx, effect{
-				e.name,
-				e.duration - 1,
-				e.armour,
-				e.dmg,
-				e.regen,
-			})
+	gs := &gameState{
+		player:    player,
+		boss:      boss,
+		manaSpent: 0,
+		stack:     stack,
+		casts:     make([]*gameState, 0),
+	}
+
+	for _, spell := range spellBook {
+		gs.casts = append(gs.casts, resolveBattle(gs, spell, hardMode, 0, log))
+	}
+
+	return gs
+}
+
+func log(input string, depth int) {
+	fmt.Print(fmt.Sprintf("%s%d. %s\n", strings.Repeat(" ", depth*2), depth, input))
+}
+
+func nullLog(input string, depth int) {
+}
+
+var minWin = math.MaxInt32
+
+func resolveBattle(gs *gameState, s spell, hardmode bool, depth int, log logger) *gameState {
+	log(s.name, depth)
+
+	player, boss, stack, spent := battleRound(gs.player, gs.boss, gs.stack, s, hardmode, depth, log)
+
+	newGs := &gameState{
+		player:    player,
+		boss:      boss,
+		stack:     stack,
+		manaSpent: gs.manaSpent + spent,
+		casts:     make([]*gameState, 0),
+	}
+
+	if newGs.manaSpent > minWin {
+		return newGs
+	}
+
+	if boss.health <= 0 && newGs.manaSpent < minWin {
+		minWin = newGs.manaSpent
+	}
+
+	if player.health <= 0 || boss.health <= 0 {
+		return newGs
+	}
+
+	for _, spell := range spellBook {
+		if canCast(stack, player.mana, spell) {
+			newGs.casts = append(newGs.casts, resolveBattle(newGs, spell, hardmode, depth+1, log))
 		}
 	}
 
-	return updatedFx
+	return newGs
 }
 
-func getBoss(input string) character {
-	lines := strings.Split(input, "\n")
-	hp, _ := strconv.Atoi(strings.Fields(lines[0])[2])
-	dmg, _ := strconv.Atoi(strings.Fields(lines[1])[1])
-	return character{clBoss, hp, dmg, 0}
-}
+func canCast(stack spellStack, mana int, s spell) bool {
+	if s.cost > mana {
+		return false
+	}
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 22, "Wizard Simulator 20XX"
+	if v, ok := stack[s.name]; ok {
+		if v.duration > 1 {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	player, boss := getStartingCharacters(58, 9)
+
+	minWin = math.MaxInt32
+	runBattle(player, boss, false, nullLog)
+	return fmt.Sprintf("%v", minWin)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	player, boss := getStartingCharacters(58, 9)
+	minWin = math.MaxInt32
+	runBattle(player, boss, true, nullLog)
+	return fmt.Sprintf("%v", minWin)
 }
