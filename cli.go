@@ -23,7 +23,6 @@ func outputUseage(errorMsg error) {
 	fmt.Println("		<year> = year number of puzzle to run.  e.g. 2017")
 	fmt.Println("		<day> = day number of puzzle to run.  e.g. 2")
 	fmt.Println("		")
-	fmt.Println("		-vis = Perform visualisation for given puzzle (if supported)")
 }
 
 // CheckParams checks input parameters are correct
@@ -49,7 +48,7 @@ func checkParams() (int, int, error) {
 }
 
 // GetHeader takes some input vars and returns a term formatted string that can be held by the called and
-// pased into rendering the frame
+// passed into rendering the frame
 func getHeader(year int, day int, title string) string {
 	epilette := tm.Color("---", tm.YELLOW)
 	dispYear := tm.Bold(tm.Color(fmt.Sprintf("%v", year), tm.YELLOW))

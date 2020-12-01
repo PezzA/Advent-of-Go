@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Assumption - lines will always be integers.
 func getData(input string) []int {
 	data := make([]int, 0)
 
@@ -19,6 +20,7 @@ func getData(input string) []int {
 	return data
 }
 
+// Assumption - Value will be found
 func findSumParts(input []int) (int, int) {
 	for _, cmp1 := range input {
 		for _, cmp2 := range input {
@@ -30,6 +32,7 @@ func findSumParts(input []int) (int, int) {
 	return 0, 0
 }
 
+// Assumption - Value will be found
 func findSumPartsTrio(input []int) (int, int, int) {
 	for _, cmp1 := range input {
 		for _, cmp2 := range input {
