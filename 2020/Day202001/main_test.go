@@ -1,6 +1,7 @@
 package Day202001
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -13,6 +14,11 @@ func Test_ReadData(t *testing.T) {
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
+	data := getData(Entry.PuzzleInput())
+
+	cmp1, cmp2 := findSumParts(data)
+
+	fmt.Println(cmp1 * cmp2)
 
 }
 
