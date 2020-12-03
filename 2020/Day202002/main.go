@@ -71,7 +71,7 @@ func isPositionValid(spec passwordSpec) bool {
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	valid := 0
-	data := getData(Entry.PuzzleInput())
+	data := getData(inputData)
 
 	for _, spec := range data {
 		if isPasswordValid(spec) {
@@ -84,7 +84,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	valid := 0
-	data := getData(Entry.PuzzleInput())
+	data := getData(inputData)
 
 	for _, spec := range data {
 		if isPositionValid(spec) {

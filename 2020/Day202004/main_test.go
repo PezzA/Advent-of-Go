@@ -1,7 +1,6 @@
-package Day202003
+package Day202004
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -10,32 +9,16 @@ import (
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
-	data := getData(Entry.PuzzleInput())
-
-	fmt.Println(data)
-
 }
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	data := getData(Entry.PuzzleInput())
-
-	fmt.Println(raceToTheBottom(data, 3, false))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
-	data := getData(Entry.PuzzleInput())
-
-	total := raceToTheBottom(data, 1, false) *
-		raceToTheBottom(data, 3, false) *
-		raceToTheBottom(data, 5, false) *
-		raceToTheBottom(data, 7, false) *
-		raceToTheBottom(data, 1, true)
-
-	fmt.Println(total)
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

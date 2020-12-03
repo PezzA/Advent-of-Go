@@ -10,5 +10,5 @@ import (
 func Test_Perms(t *testing.T) {
 	RegisterTestingT(t)
 
-	fmt.Println(GetPermuations([]int{0, 1, 2, 3, 4}))
+	fmt.Println(GetPermuations([]int64{0, 1, 2, 3, 4}))
 }
