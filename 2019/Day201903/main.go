@@ -75,7 +75,7 @@ func runWires(green []string, red []string) (int, int) {
 		if len(v) > 1 {
 
 			if containsWire("red", v) && containsWire("green", v) {
-				dist := common.GetMDistance(common.Point{X: 0, Y: 0}, k)
+				dist := k.GetMDistanceOrigin()
 				if closet == -1 || dist < closet {
 					closet = dist
 				}

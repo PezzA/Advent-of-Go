@@ -31,7 +31,7 @@ func (p point2D) getVectorToPoint(p2 point2D) vector2D {
 	}
 }
 
-//Normalised returns the normalised unit versin of a Vector2D
+//Normalised returns the normalised unit version of a Vector2D
 func (v vector2D) normalised() vector2D {
 	return v.divideBy(v.getLength())
 }
@@ -247,7 +247,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
 			astList = append(astList, asteriodAngle{
 				angle,
-				common.GetMDistance(pos, common.Point{X: x, Y: y}),
+				pos.GetMDistance(common.Point{X: x, Y: y}),
 				0,
 				common.Point{X: x, Y: y},
 			})

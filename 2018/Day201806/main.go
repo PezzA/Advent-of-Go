@@ -71,7 +71,7 @@ func getCombinedPoint(source common.Point, targets []numberedPoint) int {
 	combinedDistance := 0
 
 	for _, targetPoint := range targets {
-		combinedDistance += common.GetMDistance(source, targetPoint.Point)
+		combinedDistance += source.GetMDistance(targetPoint.Point)
 	}
 	return combinedDistance
 }
@@ -80,7 +80,7 @@ func getNearestPoint(source common.Point, targets []numberedPoint) string {
 	distances := make(countMap)
 
 	for _, targetPoint := range targets {
-		distance := common.GetMDistance(source, targetPoint.Point)
+		distance := source.GetMDistance(targetPoint.Point)
 		if distance == 0 {
 			return targetPoint.charid
 		}
