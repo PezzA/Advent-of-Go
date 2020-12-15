@@ -1,15 +1,15 @@
-package Day202015
+package Day202016
 
 var Entry dayEntry
 
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string) {
-	return 2020, 15, "Rambunctious Recitation"
+	return 2020, 11, "Getting the boilerplate in place"
 }
 
 func (td dayEntry) PuzzleInput() string {
-	return `13,0,10,12,1,5,8`
+	return ``
 }
 
 func (td dayEntry) PuzzleSpec() string {
