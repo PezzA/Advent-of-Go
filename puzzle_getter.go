@@ -3,6 +3,14 @@ package main
 import (
 	"errors"
 
+	"github.com/pezza/advent-of-code/2020/Day202022"
+	"github.com/pezza/advent-of-code/2020/Day202023"
+	"github.com/pezza/advent-of-code/2020/Day202024"
+	"github.com/pezza/advent-of-code/2020/Day202025"
+
+	"github.com/pezza/advent-of-code/2020/Day202020"
+	"github.com/pezza/advent-of-code/2020/Day202021"
+
 	"github.com/pezza/advent-of-code/2020/Day202018"
 	"github.com/pezza/advent-of-code/2020/Day202019"
 
@@ -241,6 +249,12 @@ func GetPuzzle(day int, year int) (DailyPuzzle, error) {
 		Day202017.Entry,
 		Day202018.Entry,
 		Day202019.Entry,
+		Day202020.Entry,
+		Day202021.Entry,
+		Day202022.Entry,
+		Day202023.Entry,
+		Day202024.Entry,
+		Day202025.Entry,
 	}
 
 	for _, puzzle := range dailyPuzzles {
