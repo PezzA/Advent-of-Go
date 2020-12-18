@@ -1,7 +1,6 @@
-package Day202017
+package Day202019
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -10,27 +9,10 @@ import (
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
-	data := getData(`.#.
-..#
-###`)
-
-	data.print(3, 3, 0, 0)
-
-	Expect(len(data)).Should(Equal(3 * 3))
 }
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
-
-	data := getData(Entry.PuzzleInput())
-
-	for i := 1; i <= 6; i++ {
-		data = data.cycle(8, 8, 0, i)
-
-		fmt.Println(i, data.getActiveCubes())
-	}
-
-	Expect(data.getActiveCubes()).Should(Equal(112))
 
 }
 
