@@ -1,7 +1,6 @@
 package Day202017
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -25,17 +24,23 @@ func Test_PartOne(t *testing.T) {
 	data := getData(Entry.PuzzleInput())
 
 	for i := 1; i <= 6; i++ {
-		data = data.cycle(8, 8, 0, i)
-
-		fmt.Println(i, data.getActiveCubes())
+		data = data.cycle(8, 8, 0, i, 0)
 	}
 
-	Expect(data.getActiveCubes()).Should(Equal(112))
+	Expect(data.getActiveCubes()).Should(Equal(386))
 
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
+
+	data := getData(Entry.PuzzleInput())
+
+	for i := 1; i <= 6; i++ {
+		data = data.cycle(8, 8, 0, i, i)
+	}
+
+	Expect(data.getActiveCubes()).Should(Equal(2276))
 
 }
 

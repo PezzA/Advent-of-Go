@@ -18,37 +18,94 @@ type point3D struct {
 	x int
 	y int
 	z int
+	w int
 }
 
 type universe map[point3D]cellState
 
 var neighbours = []point3D{
-	point3D{0, -1, 0},
-	point3D{1, -1, 0},
-	point3D{1, 0, 0},
-	point3D{1, 1, 0},
-	point3D{0, 1, 0},
-	point3D{-1, 1, 0},
-	point3D{-1, 0, 0},
-	point3D{-1, -1, 0},
-	point3D{0, -1, -1},
-	point3D{1, -1, -1},
-	point3D{1, 0, -1},
-	point3D{1, 1, -1},
-	point3D{0, 1, -1},
-	point3D{-1, 1, -1},
-	point3D{-1, 0, -1},
-	point3D{-1, -1, -1},
-	point3D{0, 0, -1},
-	point3D{0, -1, 1},
-	point3D{1, -1, 1},
-	point3D{1, 0, 1},
-	point3D{1, 1, 1},
-	point3D{0, 1, 1},
-	point3D{-1, 1, 1},
-	point3D{-1, 0, 1},
-	point3D{-1, -1, 1},
-	point3D{0, 0, 1},
+	point3D{0, -1, 0, 0},
+	point3D{1, -1, 0, 0},
+	point3D{1, 0, 0, 0},
+	point3D{1, 1, 0, 0},
+	point3D{0, 1, 0, 0},
+	point3D{-1, 1, 0, 0},
+	point3D{-1, 0, 0, 0},
+	point3D{-1, -1, 0, 0},
+	point3D{0, -1, -1, 0},
+	point3D{1, -1, -1, 0},
+	point3D{1, 0, -1, 0},
+	point3D{1, 1, -1, 0},
+	point3D{0, 1, -1, 0},
+	point3D{-1, 1, -1, 0},
+	point3D{-1, 0, -1, 0},
+	point3D{-1, -1, -1, 0},
+	point3D{0, 0, -1, 0},
+	point3D{0, -1, 1, 0},
+	point3D{1, -1, 1, 0},
+	point3D{1, 0, 1, 0},
+	point3D{1, 1, 1, 0},
+	point3D{0, 1, 1, 0},
+	point3D{-1, 1, 1, 0},
+	point3D{-1, 0, 1, 0},
+	point3D{-1, -1, 1, 0},
+	point3D{0, 0, 1, 0},
+
+	point3D{0, -1, 0, -1},
+	point3D{1, -1, 0, -1},
+	point3D{1, 0, 0, -1},
+	point3D{1, 1, 0, -1},
+	point3D{0, 1, 0, -1},
+	point3D{-1, 1, 0, -1},
+	point3D{-1, 0, 0, -1},
+	point3D{-1, -1, 0, -1},
+	point3D{0, -1, -1, -1},
+	point3D{1, -1, -1, -1},
+	point3D{1, 0, -1, -1},
+	point3D{1, 1, -1, -1},
+	point3D{0, 1, -1, -1},
+	point3D{-1, 1, -1, -1},
+	point3D{-1, 0, -1, -1},
+	point3D{-1, -1, -1, -1},
+	point3D{0, 0, -1, -1},
+	point3D{0, -1, 1, -1},
+	point3D{1, -1, 1, -1},
+	point3D{1, 0, 1, -1},
+	point3D{1, 1, 1, -1},
+	point3D{0, 1, 1, -1},
+	point3D{-1, 1, 1, -1},
+	point3D{-1, 0, 1, -1},
+	point3D{-1, -1, 1, -1},
+	point3D{0, 0, 1, -1},
+	point3D{0, 0, 0, -1},
+
+	point3D{0, -1, 0, 1},
+	point3D{1, -1, 0, 1},
+	point3D{1, 0, 0, 1},
+	point3D{1, 1, 0, 1},
+	point3D{0, 1, 0, 1},
+	point3D{-1, 1, 0, 1},
+	point3D{-1, 0, 0, 1},
+	point3D{-1, -1, 0, 1},
+	point3D{0, -1, -1, 1},
+	point3D{1, -1, -1, 1},
+	point3D{1, 0, -1, 1},
+	point3D{1, 1, -1, 1},
+	point3D{0, 1, -1, 1},
+	point3D{-1, 1, -1, 1},
+	point3D{-1, 0, -1, 1},
+	point3D{-1, -1, -1, 1},
+	point3D{0, 0, -1, 1},
+	point3D{0, -1, 1, 1},
+	point3D{1, -1, 1, 1},
+	point3D{1, 0, 1, 1},
+	point3D{1, 1, 1, 1},
+	point3D{0, 1, 1, 1},
+	point3D{-1, 1, 1, 1},
+	point3D{-1, 0, 1, 1},
+	point3D{-1, -1, 1, 1},
+	point3D{0, 0, 1, 1},
+	point3D{0, 0, 0, 1},
 }
 
 func (p point3D) Add(inc point3D) point3D {
@@ -56,6 +113,7 @@ func (p point3D) Add(inc point3D) point3D {
 		x: p.x + inc.x,
 		y: p.y + inc.y,
 		z: p.z + inc.z,
+		w: p.w + inc.w,
 	}
 }
 func getData(input string) universe {
@@ -64,7 +122,7 @@ func getData(input string) universe {
 
 	for y, line := range lines {
 		for x, c := range line {
-			universe[point3D{x, y, 0}] = cellState(c)
+			universe[point3D{x, y, 0, 0}] = cellState(c)
 		}
 	}
 
@@ -93,20 +151,22 @@ func (u universe) deepCopy() universe {
 	return newUniverse
 }
 
-func (u universe) cycle(xRange, yRange, zRange, iter int) universe {
+func (u universe) cycle(xRange, yRange, zRange, iter int, wIter int) universe {
 	newU := u.deepCopy()
 	for z := zRange - iter; z <= zRange+iter; z++ {
-		for y := 0 - iter; y < yRange+iter; y++ {
-			for x := 0 - iter; x < xRange+iter; x++ {
+		for w := zRange - wIter; w <= zRange+wIter; w++ {
+			for y := 0 - iter; y < yRange+iter; y++ {
+				for x := 0 - iter; x < xRange+iter; x++ {
 
-				point := point3D{x, y, z}
-				state := inactive
+					point := point3D{x, y, z, w}
+					state := inactive
 
-				if val, ok := u[point]; ok {
-					state = val
+					if val, ok := u[point]; ok {
+						state = val
+					}
+
+					newU[point] = newState(state, u.neighbourCount(point))
 				}
-
-				newU[point] = newState(state, u.neighbourCount(point))
 			}
 		}
 	}
@@ -133,7 +193,6 @@ func newState(currentState cellState, neighbourCount int) cellState {
 		} else {
 			return inactive
 		}
-
 	}
 
 	if currentState == inactive && neighbourCount == 3 {
@@ -151,7 +210,7 @@ func (u universe) print(xRange, yRange, zRange, iter int) {
 
 				cell := inactive
 
-				if val, ok := u[point3D{x, y, z}]; ok {
+				if val, ok := u[point3D{x, y, z, 0}]; ok {
 					cell = val
 				}
 
@@ -165,9 +224,21 @@ func (u universe) print(xRange, yRange, zRange, iter int) {
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	data := getData(inputData)
+
+	for i := 1; i <= 6; i++ {
+		data = data.cycle(8, 8, 0, i, 0)
+	}
+
+	return fmt.Sprintf("%v", data.getActiveCubes())
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	data := getData(inputData)
+
+	for i := 1; i <= 6; i++ {
+		data = data.cycle(8, 8, 0, i, i)
+	}
+
+	return fmt.Sprintf("%v", data.getActiveCubes())
 }

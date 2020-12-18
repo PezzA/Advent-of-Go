@@ -137,7 +137,6 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 	tot := 0
 	for i := range data {
-		fmt.Println(data[i])
 		tot += evaluateLine(data[i], false)
 	}
 
@@ -149,7 +148,6 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
 	tot := 0
 	for i := range data {
-		fmt.Println(data[i])
 		tot += evaluateLine(data[i], true)
 	}
 
