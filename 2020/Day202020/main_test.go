@@ -1,6 +1,7 @@
 package Day202020
 
 import (
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -9,6 +10,44 @@ import (
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
+	tiles := getData(Entry.PuzzleInput())
+
+	Expect(tiles[0].id).Should(Equal(1579))
+	Expect(tiles[1].id).Should(Equal(3413))
+
+	fmt.Print(len(tiles))
+
+}
+
+func Test_Flip(t *testing.T) {
+	RegisterTestingT(t)
+
+	tiles := getData(Entry.PuzzleInput())
+
+	tiles[0].printTile()
+	fmt.Println()
+	printData(flipLeftRight(tiles[0].active))
+	fmt.Println()
+	printData(flipTopBottom(tiles[0].active))
+	fmt.Println()
+	printData(rotate(tiles[0].active))
+}
+
+func Test_matchingSides(t *testing.T) {
+	RegisterTestingT(t)
+
+	tiles := getData(Entry.PuzzleInput())
+
+	tot := 1
+	for _, tile := range tiles {
+		fmt.Println(tile.matchingSides(tiles))
+		if tile.matchingSides(tiles) == 2 {
+			tot *= tile.id
+		}
+
+	}
+
+	fmt.Println(tot)
 }
 
 func Test_PartOne(t *testing.T) {
