@@ -1,4 +1,4 @@
-package main
+package puzzles
 
 type PuzzlePart func(string, chan []string) string
 

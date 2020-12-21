@@ -1,15 +1,13 @@
-package main
+package puzzles
 
 import (
 	"errors"
-
+	"github.com/pezza/advent-of-code/2020/Day202020"
+	"github.com/pezza/advent-of-code/2020/Day202021"
 	"github.com/pezza/advent-of-code/2020/Day202022"
 	"github.com/pezza/advent-of-code/2020/Day202023"
 	"github.com/pezza/advent-of-code/2020/Day202024"
 	"github.com/pezza/advent-of-code/2020/Day202025"
-
-	"github.com/pezza/advent-of-code/2020/Day202020"
-	"github.com/pezza/advent-of-code/2020/Day202021"
 
 	"github.com/pezza/advent-of-code/2020/Day202018"
 	"github.com/pezza/advent-of-code/2020/Day202019"
