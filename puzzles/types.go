@@ -12,11 +12,3 @@ type DailyPuzzle interface {
 	PartOne(string, chan []string) string
 	PartTwo(string, chan []string) string
 }
-
-type Pager interface {
-	Page() int
-	Start() string
-	Prev() string
-	Next() string
-	End() string
-}

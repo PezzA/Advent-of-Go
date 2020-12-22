@@ -4,6 +4,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/pezza/advent-of-code/puzzles"
 )
 
 func main() {
@@ -24,7 +26,7 @@ func main() {
 		return
 	}
 
-	if puzzle, err := GetPuzzle(day, year); err != nil {
+	if puzzle, err := puzzles.GetPuzzle(day, year); err != nil {
 
 		outputUseage(err)
 
