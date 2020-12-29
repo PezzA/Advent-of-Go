@@ -9,20 +9,11 @@ import (
 	"github.com/pezza/advent-of-code/common"
 )
 
-var pathSplitter = regexp.MustCompile(`(w)|(e)|(ne)|(nw)|(se)|(sw)`)
-
-var hexMove = map[string]common.Point{
-	"e":  {1, 0},
-	"w":  {-1, 0},
-	"ne": {1, -1},
-	"nw": {0, -1},
-	"se": {0, 1},
-	"sw": {-1, 1},
-}
-
 type floor map[common.Point]bool
 
-func getData(input string) [][]string {
+func GetData(input string) [][]string {
+	var pathSplitter = regexp.MustCompile(`(w)|(e)|(ne)|(nw)|(se)|(sw)`)
+
 	lines := strings.Split(input, "\n")
 	data := make([][]string, len(lines))
 
@@ -36,7 +27,7 @@ func getData(input string) [][]string {
 func (f floor) flipTile(insList []string) {
 	currPoint := common.Point{}
 	for i := range insList {
-		currPoint = currPoint.Add(hexMove[insList[i]])
+		currPoint = currPoint.Add(common.HexOrdinals[insList[i]])
 	}
 	if _, ok := f[currPoint]; ok {
 		f[currPoint] = !f[currPoint]
@@ -53,7 +44,7 @@ func (f floor) flipAllTiles(data [][]string) {
 
 func (f floor) adjacentCount(p common.Point) int {
 	tot := 0
-	for _, v := range hexMove {
+	for _, v := range common.HexOrdinals {
 		testPoint := p.Add(v)
 
 		if val, ok := f[testPoint]; ok {
@@ -132,7 +123,7 @@ func (f floor) countBlackTiles() int {
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	data := getData(inputData)
+	data := GetData(inputData)
 
 	f := make(floor, 0)
 
@@ -142,7 +133,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	data := getData(inputData)
+	data := GetData(inputData)
 	f := make(floor, 0)
 
 	f.flipAllTiles(data)

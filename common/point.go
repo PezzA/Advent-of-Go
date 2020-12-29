@@ -122,3 +122,27 @@ func (p *Point) MoveOrdinal(direction Degree, distance int) {
 		p.X -= distance
 	}
 }
+
+// conversions from adapted from https://gamedevelopment.tutsplus.com/tutorials/introduction-to-axial-coordinates-for-hexagonal-tile-based-games--cms-28820
+func OffsetToAxial(offsetPoint Point) Point {
+	return Point{
+		X: offsetPoint.X,
+		Y: offsetPoint.Y - int(math.Ceil(float64(offsetPoint.X)/2)),
+	}
+}
+
+func AxialToOffset(axialPoint Point) Point {
+	return Point{
+		X: axialPoint.X,
+		Y: axialPoint.Y + int(math.Ceil(float64(axialPoint.X)/2)),
+	}
+}
+
+var HexOrdinals = map[string]Point{
+	"e":  {1, 0},
+	"w":  {-1, 0},
+	"ne": {1, -1},
+	"nw": {0, -1},
+	"se": {0, 1},
+	"sw": {-1, 1},
+}
