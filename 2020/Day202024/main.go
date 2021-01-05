@@ -36,6 +36,16 @@ func (f floor) flipTile(insList []string) {
 	}
 }
 
+func GetMoveList(insList []string) []common.Point {
+	data := make([]common.Point, 0)
+	currPoint := common.Point{}
+	for i := range insList {
+		currPoint = currPoint.Add(common.HexOrdinals[insList[i]])
+		data = append(data, currPoint)
+	}
+	return data
+}
+
 func (f floor) flipAllTiles(data [][]string) {
 	for i := range data {
 		f.flipTile(data[i])
