@@ -9,7 +9,7 @@ import (
 	"github.com/pezza/advent-of-code/common"
 )
 
-type floor map[common.Point]bool
+type Floor map[common.Point]int
 
 func GetData(input string) [][]string {
 	var pathSplitter = regexp.MustCompile(`(w)|(e)|(ne)|(nw)|(se)|(sw)`)
@@ -24,15 +24,15 @@ func GetData(input string) [][]string {
 	return data
 }
 
-func (f floor) flipTile(insList []string) {
+func (f Floor) FlipTile(insList []string) {
 	currPoint := common.Point{}
 	for i := range insList {
 		currPoint = currPoint.Add(common.HexOrdinals[insList[i]])
 	}
 	if _, ok := f[currPoint]; ok {
-		f[currPoint] = !f[currPoint]
+		f[currPoint] = 1 - f[currPoint]
 	} else {
-		f[currPoint] = true
+		f[currPoint] = 1
 	}
 }
 
@@ -46,19 +46,19 @@ func GetMoveList(insList []string) []common.Point {
 	return data
 }
 
-func (f floor) flipAllTiles(data [][]string) {
+func (f Floor) FlipAllTiles(data [][]string) {
 	for i := range data {
-		f.flipTile(data[i])
+		f.FlipTile(data[i])
 	}
 }
 
-func (f floor) adjacentCount(p common.Point) int {
+func (f Floor) adjacentCount(p common.Point) int {
 	tot := 0
 	for _, v := range common.HexOrdinals {
 		testPoint := p.Add(v)
 
 		if val, ok := f[testPoint]; ok {
-			if val {
+			if val > 0 {
 				tot++
 			}
 		}
@@ -67,37 +67,36 @@ func (f floor) adjacentCount(p common.Point) int {
 	return tot
 }
 
-func (f floor) automata() floor {
+func (f Floor) Automata() Floor {
 	topLeft, bottomRight := f.getBounds()
 
-	newFloor := make(floor, 0)
+	newFloor := make(Floor, 0)
 
 	for x := topLeft.X - 2; x < bottomRight.X+2; x++ {
 		for y := topLeft.Y - 2; y < bottomRight.Y+2; y++ {
 			cp := common.Point{X: x, Y: y}
-			if _, ok := f[cp]; !ok {
-				f[cp] = false
-			}
 
 			n := f.adjacentCount(common.Point{X: x, Y: y})
 
-			if f[cp] && (n == 0 || n > 2) {
-				newFloor[cp] = false
+			if f[cp] > 0 && (n == 0 || n > 2) {
 				continue
 			}
 
-			if !f[cp] && n == 2 {
-				newFloor[cp] = true
+			if f[cp] == 0 && n == 2 {
+				newFloor[cp] = 1
 				continue
 			}
-			newFloor[cp] = f[cp]
+
+			if f[cp] > 0 {
+				newFloor[cp] = f[cp] + 1
+			}
 		}
 	}
 
 	return newFloor
 }
 
-func (f floor) getBounds() (common.Point, common.Point) {
+func (f Floor) getBounds() (common.Point, common.Point) {
 	minX, minY := math.MaxInt32, math.MaxInt32
 	maxX, maxY := math.MinInt32, math.MinInt32
 
@@ -122,10 +121,10 @@ func (f floor) getBounds() (common.Point, common.Point) {
 	return common.Point{X: minX, Y: minY}, common.Point{X: maxX, Y: maxY}
 }
 
-func (f floor) countBlackTiles() int {
+func (f Floor) countBlackTiles() int {
 	tot := 0
 	for _, v := range f {
-		if v {
+		if v > 0 {
 			tot++
 		}
 	}
@@ -135,21 +134,21 @@ func (f floor) countBlackTiles() int {
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	data := GetData(inputData)
 
-	f := make(floor, 0)
+	f := make(Floor, 0)
 
-	f.flipAllTiles(data)
+	f.FlipAllTiles(data)
 
 	return fmt.Sprintf("%v", f.countBlackTiles())
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	data := GetData(inputData)
-	f := make(floor, 0)
+	f := make(Floor, 0)
 
-	f.flipAllTiles(data)
+	f.FlipAllTiles(data)
 
 	for i := 0; i < 100; i++ {
-		f = f.automata()
+		f = f.Automata()
 	}
 
 	return fmt.Sprintf("%v", f.countBlackTiles())

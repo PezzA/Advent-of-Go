@@ -31,7 +31,7 @@ wseweeenwnesenwwwswnew`
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
-	data := getData(Entry.PuzzleInput())
+	data := GetData(Entry.PuzzleInput())
 
 	Expect(len(data[0])).Should(Equal(20))
 }
@@ -39,12 +39,12 @@ func Test_ReadData(t *testing.T) {
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	data := getData(Entry.PuzzleInput())
+	data := GetData(Entry.PuzzleInput())
 
-	f := make(floor, 0)
+	f := make(Floor, 0)
 
 	for i := range data {
-		f.flipTile(data[i])
+		f.FlipTile(data[i])
 	}
 
 	fmt.Println(f.countBlackTiles())
@@ -53,13 +53,13 @@ func Test_PartOne(t *testing.T) {
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
-	data := getData(Entry.PuzzleInput())
-	f := make(floor, 0)
+	data := GetData(Entry.PuzzleInput())
+	f := make(Floor, 0)
 
-	f.flipAllTiles(data)
+	f.FlipAllTiles(data)
 
 	for i := 0; i < 100; i++ {
-		f = f.automata()
+		f = f.Automata()
 	}
 
 	fmt.Println(f.countBlackTiles())
