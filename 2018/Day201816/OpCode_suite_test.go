@@ -3,7 +3,7 @@ package Day201816
 import (
 	"fmt"
 
-	cc "github.com/pezza/advent-of-code/puzzles/2018/chronalcompiler"
+	cc "github.com/pezza/advent-of-code/puzzles/2018/ChronalCompiler"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

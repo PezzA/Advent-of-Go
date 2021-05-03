@@ -1,4 +1,4 @@
-package chronalcompiler
+package ChronalCompiler
 
 import "fmt"
 

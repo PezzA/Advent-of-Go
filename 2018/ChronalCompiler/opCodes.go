@@ -1,4 +1,4 @@
-package chronalcompiler
+package ChronalCompiler
 
 type Processor interface {
 	Process(input RegisterSet, a int, b int, c int) RegisterSet

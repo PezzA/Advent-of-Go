@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"time"
 
 	tm "github.com/buger/goterm"
 )
@@ -49,7 +48,7 @@ func checkParams() (int, int, error) {
 
 // GetHeader takes some input vars and returns a term formatted string that can be held by the called and
 // passed into rendering the frame
-func getHeader(year int, day int, title string) string {
+func formatHeader(year int, day int, title string) string {
 	epilette := tm.Color("---", tm.YELLOW)
 	dispYear := tm.Bold(tm.Color(fmt.Sprintf("%v", year), tm.YELLOW))
 	dispTitle := tm.Bold(tm.Color(title, tm.WHITE))
@@ -60,6 +59,7 @@ func getHeader(year int, day int, title string) string {
 // HideCursor hides the console cursor
 func hideCursor() {
 	tm.Print("\033[?25l")
+	tm.Flush()
 }
 
 // ShowCursor shows the console cursor
@@ -68,49 +68,28 @@ func showCursor() {
 	tm.Flush()
 }
 
+func formatUpdate(input string) string {
+	return tm.Color(input, tm.CYAN)
+}
+
+func formatAnswer(input string) string {
+	return tm.Bold(tm.Color(input, tm.GREEN))
+}
+
 // Interrupted handles if the console app is told to shut down, Ctrl+C et...
 func interrupted() {
 	tm.Println(tm.Bold(tm.Color("    Why no finishings?", tm.RED)))
 	showCursor()
 }
 
-// DrawFrame takes a bunch of parameters that form the basic view model, then outputs to console
-func drawFrame(partOneResult string, partOneUpdate []string, partOneDuration time.Duration, partTwoResult string, partTwoUpdate []string, partTwoDuration time.Duration, header string) {
-	tm.Println()
-	tm.Println(header)
-	tm.Println()
-	if partOneResult == "" {
-		if len(partOneUpdate) == 1 {
-			drawUpdate(partOnePreFix, partOneUpdate[0])
-		}
-	} else {
-		drawResult(partOnePreFix, partOneResult, partOneDuration)
-	}
-
-	if partTwoResult == "" {
-		if len(partTwoUpdate) == 1 {
-			drawUpdate(partTwoPreFix, partTwoUpdate[0])
-		}
-	} else {
-		drawResult(partTwoPreFix, partTwoResult, partTwoDuration)
-	}
-	tm.Println()
+func render(text string) int {
+	tm.Print(text)
+	retVal := tm.CurrentHeight()
 	tm.Flush()
-
+	return retVal
 }
 
 // NewFrame get ready to draw a new frame, which basically entails moving the cursor back to the top
 func newFrame(rowsToMoveUp int) {
 	tm.MoveCursorUp(rowsToMoveUp)
-}
-
-func drawResult(prefix string, result string, timeTaken time.Duration) {
-	update := tm.Bold(tm.Color(result, tm.GREEN))
-	time := tm.Bold(tm.Color(fmt.Sprintf("The call took %v to run.", timeTaken), tm.WHITE))
-	tm.Println(prefix, fmt.Sprintf(termWidthPrint, update+"    "+time))
-}
-
-func drawUpdate(prefix string, update string) {
-	updateText := tm.Bold(tm.Color(update, tm.CYAN))
-	tm.Println(prefix, fmt.Sprintf(termWidthPrint, updateText))
 }

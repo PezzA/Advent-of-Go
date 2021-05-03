@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	cc "github.com/pezza/advent-of-code/2018/chronalcompiler"
+	cc "github.com/pezza/advent-of-code/2018/ChronalCompiler"
 )
 
 type dayEntry bool

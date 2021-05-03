@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/pezza/advent-of-code/puzzles"
 	"time"
+
+	"github.com/pezza/advent-of-code/puzzles"
 )
 
 type partResult struct {
@@ -20,6 +21,8 @@ func runner(puzzle puzzles.DailyPuzzle) {
 	inputData := puzzle.PuzzleInput()
 	year, day, title := puzzle.Describe()
 
+	header := formatHeader(year, day, title)
+
 	part1Answer, part2Answer := partResult{false, "", 0}, partResult{false, "", 0}
 	part1Update, part2Update := []string{"*"}, []string{"*"}
 
@@ -29,15 +32,13 @@ func runner(puzzle puzzles.DailyPuzzle) {
 	part1UpdateChan := make(chan []string, 10)
 	part2UpdateChan := make(chan []string, 10)
 
-	heading := getHeader(year, day, title)
-
-	drawFrame(part1Answer.result, part1Update, part1Answer.time, part2Answer.result, part2Update, part2Answer.time, heading)
+	currline := 0
 
 	go doPart(puzzle.PartOne, inputData, part1Chan, part1UpdateChan)
 	go doPart(puzzle.PartTwo, inputData, part2Chan, part2UpdateChan)
 
 	complete := false
-	outputAnswer, outputAnswer2 := "", ""
+
 	for !complete {
 		select {
 		case result := <-part1Chan:
@@ -49,18 +50,19 @@ func runner(puzzle puzzles.DailyPuzzle) {
 		case update := <-part2UpdateChan:
 			part2Update = update
 		default:
-			newFrame(4 + len(part1Update) + len(part1Update))
-			outputAnswer = part1Answer.result
-			outputAnswer2 = part2Answer.result
+			newFrame(currline)
 
-			if year == 2018 && day == 10 {
-				outputAnswer = ""
-			}
-			if year == 2019 && day == 8 {
-				outputAnswer2 = ""
+			p1Update, p2Update := formatUpdate(part1Update[0]), formatUpdate(part2Update[0])
+
+			if part1Answer.answered {
+				p1Update = formatPart(part1Answer)
 			}
 
-			drawFrame(outputAnswer, part1Update, part1Answer.time, outputAnswer2, part2Update, part2Answer.time, heading)
+			if part2Answer.answered {
+				p2Update = formatPart(part2Answer)
+			}
+
+			currline = render(getTextToRender(header, p1Update, p2Update))
 
 			if part1Answer.answered && part2Answer.answered {
 				complete = true
@@ -77,6 +79,14 @@ func runner(puzzle puzzles.DailyPuzzle) {
 	if year == 2019 && day == 8 {
 		fmt.Println(part2Answer.result)
 	}
+}
+
+func getTextToRender(header, partOneUpdate, partTwoUpdate string) string {
+	return fmt.Sprintf("\n%v\n    Part One --> %v\n    Part Two --> %v\n", header, partOneUpdate, partTwoUpdate)
+}
+
+func formatPart(res partResult) string {
+	return fmt.Sprintf("%v (%v)", formatAnswer(res.result), res.time)
 }
 
 func doPart(fn puzzles.PuzzlePart, inputData string, response chan partResult, updateChan chan []string) {

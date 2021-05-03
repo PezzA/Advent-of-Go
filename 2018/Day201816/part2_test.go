@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	cc "github.com/pezza/advent-of-code/puzzles/2018/chronalcompiler"
+	cc "github.com/pezza/advent-of-code/puzzles/2018/ChronalCompiler"
 )
 
 func Test_PartOne(t *testing.T) {
