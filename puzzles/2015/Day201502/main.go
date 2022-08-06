@@ -1,16 +1,18 @@
 package Day201502
 
-import "strings"
-import "strconv"
-import "bufio"
-import "sort"
+import (
+	"bufio"
+	"sort"
+	"strconv"
+	"strings"
+)
 
 var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 02, "I Was Told There Would Be No Math"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 02, "I Was Told There Would Be No Math", 2
 }
 
 type present struct {

@@ -9,7 +9,7 @@ type dayEntry bool
 
 var Entry dayEntry
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2017, 17, "Spinlock"
 }
 

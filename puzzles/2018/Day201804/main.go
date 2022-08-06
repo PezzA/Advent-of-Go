@@ -143,7 +143,7 @@ func getSleepyMinute(shifts map[string][]string) string {
 	return maxKey
 }
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2018, 4, "Repose Record"
 }
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

@@ -10,11 +10,11 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2016, 2, "Bathroom Security"
 }
 
-//Point holds a basic 2d co-ordinate
+// Point holds a basic 2d co-ordinate
 type Point struct {
 	x int
 	y int

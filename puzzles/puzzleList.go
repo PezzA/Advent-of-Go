@@ -1,8 +1,6 @@
 package puzzles
 
 import (
-	"errors"
-
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202020"
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202021"
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202022"
@@ -136,8 +134,10 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201911"
 )
 
-func GetPuzzle(day int, year int) (DailyPuzzle, error) {
-	dailyPuzzles := [...]DailyPuzzle{
+var puzzleList []DailyPuzzle
+
+func init() {
+	puzzleList = []DailyPuzzle{
 		Day201501.Entry,
 		Day201502.Entry,
 		Day201503.Entry,
@@ -255,13 +255,4 @@ func GetPuzzle(day int, year int) (DailyPuzzle, error) {
 		Day202024.Entry,
 		Day202025.Entry,
 	}
-
-	for _, puzzle := range dailyPuzzles {
-		puzzleYear, puzzleDay, _ := puzzle.Describe()
-		if puzzleDay == day && puzzleYear == year {
-			return puzzle, nil
-		}
-	}
-
-	return nil, errors.New("day specified has not been fully implemented yet")
 }

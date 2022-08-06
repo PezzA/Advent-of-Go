@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"os/signal"
 	"strconv"
@@ -42,12 +43,14 @@ var runCmd = &cobra.Command{
 	},
 	Args: func(cmd *cobra.Command, args []string) error {
 
+		minYear, maxYear := puzzles.GetYearRange()
+
 		if len(args) != 2 {
 			return errors.New("run command requires <year> and <day> arguments. ")
 		}
 
-		if year, err := strconv.Atoi(args[0]); err != nil || year < 2015 || year > 2021 {
-			return errors.New("year must be an integer between 2015 and 2021")
+		if year, err := strconv.Atoi(args[0]); err != nil || year < minYear || year > maxYear {
+			return fmt.Errorf("year must be an integer between %v and %v", minYear, maxYear)
 		}
 
 		if day, err := strconv.Atoi(args[1]); err != nil || day < 1 || day > 25 {

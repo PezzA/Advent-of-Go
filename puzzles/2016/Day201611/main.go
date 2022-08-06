@@ -319,7 +319,7 @@ func (f facility) processMoves(level int, states []facility, maxDepth int, updat
 	return maxDepth
 }
 
-func (d dayEntry) Describe() (int, int, string) {
+func (d dayEntry) Describe() (int, int, string, int) {
 	return 2016, 11, "Radioisotope Thermoelectric Generators"
 }
 

@@ -11,8 +11,8 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 21, "RPG Simulator 20XX"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 21, "RPG Simulator 20XX", 2
 }
 
 type character struct {

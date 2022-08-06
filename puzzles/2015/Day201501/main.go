@@ -7,8 +7,8 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 1, "Not Quite Lisp"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 1, "Not Quite Lisp", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

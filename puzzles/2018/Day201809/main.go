@@ -9,7 +9,7 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2018, 9, "Marble Mania"
 }
 

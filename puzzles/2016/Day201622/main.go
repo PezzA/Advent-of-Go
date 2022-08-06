@@ -10,7 +10,7 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2016, 22, "Grid Computing"
 }
 

@@ -1240,6 +1240,6 @@ KWF)H3T
 SDP)VV9`
 }
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2019, 6, "Universal Orbit Map"
 }

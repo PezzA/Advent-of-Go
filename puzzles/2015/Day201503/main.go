@@ -9,8 +9,8 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 03, "Perfectly Spherical Houses in a Vacuum"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 03, "Perfectly Spherical Houses in a Vacuum", 2
 }
 
 type coord struct {

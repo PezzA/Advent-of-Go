@@ -128,11 +128,11 @@ func getQuantumEntanglement(combo []int) int {
 	return qe
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 24, "It Hangs in the Balance"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 24, "It Hangs in the Balance", 2
 }
 
-//31112183811
+// 31112183811
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	presents := getPresents(inputData)
 

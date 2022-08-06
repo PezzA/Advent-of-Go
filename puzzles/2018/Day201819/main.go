@@ -6,7 +6,7 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 0, 0, "Getting the boilerplate in place"
 }
 

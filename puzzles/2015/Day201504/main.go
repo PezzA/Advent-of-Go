@@ -11,8 +11,8 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 04, "The Ideal Stocking Stuffer"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 04, "The Ideal Stocking Stuffer", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

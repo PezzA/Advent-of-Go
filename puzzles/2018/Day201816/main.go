@@ -12,7 +12,7 @@ type dayEntry bool
 // Boiler Plate
 var Entry dayEntry
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2018, 16, "Chronal Classification"
 }
 

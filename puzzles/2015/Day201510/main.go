@@ -10,8 +10,8 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 10, "Elves Look, Elves Say"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 10, "Elves Look, Elves Say", 2
 }
 
 func lookSay(input string) string {

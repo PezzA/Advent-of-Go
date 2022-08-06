@@ -81,8 +81,8 @@ func (rl routeList) getDistance(path []string) int {
 	return distance
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 9, "All in a Single Night"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 9, "All in a Single Night", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

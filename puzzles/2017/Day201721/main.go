@@ -206,7 +206,7 @@ func getCell(cellSize int, input []string, startX int, startY int) []string {
 	return cell
 }
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2017, 21, "Fractal Art"
 }
 

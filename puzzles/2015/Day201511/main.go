@@ -79,8 +79,8 @@ func hasTwoPairs(input string) bool {
 	return len(hits) == 2
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 11, "Corporate Policy"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 11, "Corporate Policy", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

@@ -100,8 +100,8 @@ func (d display) getNewFrame() display {
 	return newFrame
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 18, "Like a GIF For Your Yard"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 18, "Like a GIF For Your Yard", 2
 }
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 

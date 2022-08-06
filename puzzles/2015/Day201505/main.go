@@ -11,8 +11,8 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 5, "Doesn't He Have Intern-Elves For This?"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 5, "Doesn't He Have Intern-Elves For This?", 2
 }
 
 var vowels = "aeiou"

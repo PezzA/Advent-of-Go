@@ -39,8 +39,8 @@ func getColVal(colIndex int, targetRow int) int {
 	return accum
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 25, "Let It Snow"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 25, "Let It Snow", 2
 }
 
 // 6591724,21653676
@@ -50,5 +50,5 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	return " -- Not Yet Implemented --"
 }

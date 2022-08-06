@@ -153,11 +153,11 @@ func printGrid(plane grid, size int, position point) {
 
 	fmt.Println()
 }
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2017, 22, "Sporifica Virus"
 }
 
-//5258
+// 5258
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	grid, _ := getGrid(inputData)
 	var infectedCells int
@@ -167,7 +167,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	return fmt.Sprintf("%v", infectedCells)
 }
 
-//2512719
+// 2512719
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	grid, _ := getGrid(inputData)
 	var infectedCells int

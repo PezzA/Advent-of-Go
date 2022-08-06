@@ -17,8 +17,8 @@ type wireList map[string]uint16
 
 type gateList []*gate
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 7, "Some Assembly Required"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 7, "Some Assembly Required", 2
 }
 
 var instructionRegex = regexp.MustCompile(`((([a-z0-9]*) (RSHIFT|OR|AND|LSHIFT)|NOT) )*([a-z0-9]*) -> ([a-z0-9]*)`)

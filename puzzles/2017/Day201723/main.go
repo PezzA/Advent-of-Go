@@ -109,7 +109,7 @@ func runProgram(ins []instruction, c chip, updateChan chan []string) int {
 	return c.mulInvocations
 }
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2017, 23, "Getting the boilerplate in place"
 }
 

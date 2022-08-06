@@ -48,8 +48,8 @@ func encodeString(input string) string {
 	return `"` + string(output) + `"`
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 8, "Matchsticks"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 8, "Matchsticks", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

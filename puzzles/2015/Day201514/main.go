@@ -77,8 +77,8 @@ func updateLeadingReindeer(input []*reindeer) {
 
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 14, "Reindeer Olympics"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 14, "Reindeer Olympics", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

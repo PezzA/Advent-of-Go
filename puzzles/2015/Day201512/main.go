@@ -10,8 +10,8 @@ var Entry dayEntry
 
 type dayEntry bool
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 12, "JSAbacusFramework.io"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 12, "JSAbacusFramework.io", 2
 }
 
 func parseAndWalk(input interface{}, total int, filter string) int {

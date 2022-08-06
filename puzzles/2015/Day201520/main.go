@@ -15,8 +15,8 @@ func getData(input string) int {
 	return val
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 20, "Infinite Elves and Infinite Houses"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 20, "Infinite Elves and Infinite Houses", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

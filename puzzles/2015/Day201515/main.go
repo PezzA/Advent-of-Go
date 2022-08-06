@@ -115,8 +115,8 @@ func kenwoodChef(ingredientList []string, composition recipe, formulaChan chan r
 	}
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 15, "Science for Hungry People"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 15, "Science for Hungry People", 2
 }
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	ingredientBook := getIngredients(Entry.PuzzleInput())

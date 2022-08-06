@@ -11,8 +11,8 @@ type dayEntry bool
 
 var Entry dayEntry
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 6, "Probably a Fire Hazard"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 6, "Probably a Fire Hazard", 2
 }
 
 type instruction struct {

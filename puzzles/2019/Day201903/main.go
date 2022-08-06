@@ -111,7 +111,7 @@ func containsWire(colour string, l []timedPlot) bool {
 	return false
 }
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2019, 3, "Crossed Wires"
 }
 

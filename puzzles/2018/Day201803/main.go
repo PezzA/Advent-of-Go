@@ -117,7 +117,7 @@ func getNonOverlappedClaim(taggedCloth [][][]string, claims []claim) string {
 	return result
 }
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2018, 3, "No Matter How You Slice It"
 }
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

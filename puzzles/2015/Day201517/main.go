@@ -56,8 +56,8 @@ func combinator(remaining []int, combo []int, matchChan chan<- []int) {
 	}
 }
 
-func (td dayEntry) Describe() (int, int, string) {
-	return 2015, 17, "No Such Thing as Too Much"
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2015, 17, "No Such Thing as Too Much", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

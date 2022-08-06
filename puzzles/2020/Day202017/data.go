@@ -2,7 +2,7 @@ package Day202017
 
 var Entry dayEntry
 
-func (td dayEntry) Describe() (int, int, string) {
+func (td dayEntry) Describe() (int, int, string, int) {
 	return 2020, 17, "Conway Cubes"
 }
 
