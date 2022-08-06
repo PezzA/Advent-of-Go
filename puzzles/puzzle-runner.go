@@ -1,10 +1,10 @@
-package main
+package puzzles
 
 import (
 	"fmt"
 	"time"
 
-	"github.com/pezza/advent-of-code/puzzles"
+	"github.com/pezza/advent-of-code/cli"
 )
 
 type partResult struct {
@@ -13,15 +13,15 @@ type partResult struct {
 	time     time.Duration
 }
 
-func runner(puzzle puzzles.DailyPuzzle) {
-	hideCursor()
+func Runner(puzzle DailyPuzzle) {
+	cli.HideCursor()
 
-	defer showCursor()
+	defer cli.ShowCursor()
 
 	inputData := puzzle.PuzzleInput()
 	year, day, title := puzzle.Describe()
 
-	header := formatHeader(year, day, title)
+	header := cli.FormatHeader(year, day, title)
 
 	part1Answer, part2Answer := partResult{false, "", 0}, partResult{false, "", 0}
 	part1Update, part2Update := []string{"*"}, []string{"*"}
@@ -50,9 +50,9 @@ func runner(puzzle puzzles.DailyPuzzle) {
 		case update := <-part2UpdateChan:
 			part2Update = update
 		default:
-			newFrame(currline)
+			cli.NewFrame(currline)
 
-			p1Update, p2Update := formatUpdate(part1Update[0]), formatUpdate(part2Update[0])
+			p1Update, p2Update := cli.FormatUpdate(part1Update[0]), cli.FormatUpdate(part2Update[0])
 
 			if part1Answer.answered {
 				p1Update = formatPart(part1Answer)
@@ -62,7 +62,7 @@ func runner(puzzle puzzles.DailyPuzzle) {
 				p2Update = formatPart(part2Answer)
 			}
 
-			currline = render(getTextToRender(header, p1Update, p2Update))
+			currline = cli.Render(getTextToRender(header, p1Update, p2Update))
 
 			if part1Answer.answered && part2Answer.answered {
 				complete = true
@@ -86,10 +86,10 @@ func getTextToRender(header, partOneUpdate, partTwoUpdate string) string {
 }
 
 func formatPart(res partResult) string {
-	return fmt.Sprintf("%v (%v)", formatAnswer(res.result), res.time)
+	return fmt.Sprintf("%v (%v)", cli.FormatAnswer(res.result), res.time)
 }
 
-func doPart(fn puzzles.PuzzlePart, inputData string, response chan partResult, updateChan chan []string) {
+func doPart(fn PuzzlePart, inputData string, response chan partResult, updateChan chan []string) {
 	start := time.Now()
 	output := fn(inputData, updateChan)
 	end := time.Now()
