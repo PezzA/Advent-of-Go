@@ -37,7 +37,7 @@ var runCmd = &cobra.Command{
 		if puzzle, err := puzzles.GetPuzzle(day, year); err != nil {
 
 		} else {
-			puzzles.Runner(puzzle)
+			cli.Runner(puzzle)
 		}
 	},
 	Args: func(cmd *cobra.Command, args []string) error {

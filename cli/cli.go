@@ -14,7 +14,7 @@ var partTwoPreFix = tm.Color("    Part Two --> ", tm.WHITE)
 
 // GetHeader takes some input vars and returns a term formatted string that can be held by the called and
 // passed into rendering the frame
-func FormatHeader(year int, day int, title string) string {
+func formatHeader(year int, day int, title string) string {
 	epilette := tm.Color("---", tm.YELLOW)
 	dispYear := tm.Bold(tm.Color(fmt.Sprintf("%v", year), tm.YELLOW))
 	dispTitle := tm.Bold(tm.Color(title, tm.WHITE))
@@ -23,32 +23,32 @@ func FormatHeader(year int, day int, title string) string {
 }
 
 // HideCursor hides the console cursor
-func HideCursor() {
+func hideCursor() {
 	tm.Print("\033[?25l")
 	tm.Flush()
 }
 
 // ShowCursor shows the console cursor
-func ShowCursor() {
+func showCursor() {
 	tm.Print("\033[?25h")
 	tm.Flush()
 }
 
-func FormatUpdate(input string) string {
+func formatUpdate(input string) string {
 	return tm.Color(input, tm.CYAN)
 }
 
-func FormatAnswer(input string) string {
+func formatAnswer(input string) string {
 	return tm.Bold(tm.Color(input, tm.GREEN))
 }
 
 // Interrupted handles if the console app is told to shut down, Ctrl+C et...
 func Interrupted() {
 	tm.Println(tm.Bold(tm.Color("    Why no finishings?", tm.RED)))
-	ShowCursor()
+	showCursor()
 }
 
-func Render(text string) int {
+func render(text string) int {
 	tm.Print(text)
 	retVal := tm.CurrentHeight()
 	tm.Flush()
@@ -56,6 +56,6 @@ func Render(text string) int {
 }
 
 // NewFrame get ready to draw a new frame, which basically entails moving the cursor back to the top
-func NewFrame(rowsToMoveUp int) {
+func newFrame(rowsToMoveUp int) {
 	tm.MoveCursorUp(rowsToMoveUp)
 }
