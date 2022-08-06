@@ -46,8 +46,8 @@ var runCmd = &cobra.Command{
 			return errors.New("run command requires <year> and <day> arguments. ")
 		}
 
-		if year, err := strconv.Atoi(args[0]); err != nil || year < 2016 || year > 2021 {
-			return errors.New("year must be an integer between 2016 and 2021")
+		if year, err := strconv.Atoi(args[0]); err != nil || year < 2015 || year > 2021 {
+			return errors.New("year must be an integer between 2015 and 2021")
 		}
 
 		if day, err := strconv.Atoi(args[1]); err != nil || day < 1 || day > 25 {
