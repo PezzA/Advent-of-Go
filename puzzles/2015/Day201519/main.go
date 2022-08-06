@@ -14,7 +14,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2015, 19, "Medicine for Rudolph", 1
+	return 2015, 19, "Medicine for Rudolph", 3
 }
 
 type replacement struct {

@@ -7,6 +7,27 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202023"
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202024"
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202025"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202101"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202102"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202103"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202104"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202105"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202106"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202107"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202108"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202109"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202110"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202111"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202112"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202113"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202114"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202115"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202116"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202117"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202118"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202119"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202121"
+	"github.com/pezza/advent-of-code/puzzles/2021/Day202122"
 
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202018"
 	"github.com/pezza/advent-of-code/puzzles/2020/Day202019"
@@ -134,6 +155,7 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/2018/Day201819"
 	"github.com/pezza/advent-of-code/puzzles/2018/Day201820"
 	"github.com/pezza/advent-of-code/puzzles/2018/Day201823"
+	"github.com/pezza/advent-of-code/puzzles/2018/Day201824"
 	"github.com/pezza/advent-of-code/puzzles/2018/Day201825"
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201901"
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201902"
@@ -146,6 +168,20 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201909"
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201910"
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201911"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201912"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201913"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201914"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201915"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201916"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201917"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201918"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201919"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201920"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201921"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201922"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201923"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201924"
+	"github.com/pezza/advent-of-code/puzzles/2019/Day201925"
 )
 
 var puzzleList []DailyPuzzle
@@ -245,6 +281,7 @@ func init() {
 		Day201819.Entry,
 		Day201820.Entry,
 		Day201823.Entry,
+		Day201824.Entry,
 		Day201825.Entry,
 		Day201901.Entry,
 		Day201902.Entry,
@@ -257,6 +294,21 @@ func init() {
 		Day201909.Entry,
 		Day201910.Entry,
 		Day201911.Entry,
+		Day201912.Entry,
+		Day201913.Entry,
+		Day201914.Entry,
+		Day201915.Entry,
+		Day201916.Entry,
+		Day201917.Entry,
+		Day201918.Entry,
+		Day201919.Entry,
+		Day201920.Entry,
+		Day201921.Entry,
+		Day201922.Entry,
+		Day201923.Entry,
+		Day201924.Entry,
+		Day201925.Entry,
+
 		Day202001.Entry,
 		Day202002.Entry,
 		Day202003.Entry,
@@ -282,5 +334,27 @@ func init() {
 		Day202023.Entry,
 		Day202024.Entry,
 		Day202025.Entry,
+
+		Day202101.Entry,
+		Day202102.Entry,
+		Day202103.Entry,
+		Day202104.Entry,
+		Day202105.Entry,
+		Day202106.Entry,
+		Day202107.Entry,
+		Day202108.Entry,
+		Day202109.Entry,
+		Day202110.Entry,
+		Day202111.Entry,
+		Day202112.Entry,
+		Day202113.Entry,
+		Day202114.Entry,
+		Day202115.Entry,
+		Day202116.Entry,
+		Day202117.Entry,
+		Day202118.Entry,
+		Day202119.Entry,
+		Day202121.Entry,
+		Day202122.Entry,
 	}
 }

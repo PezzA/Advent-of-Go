@@ -3,9 +3,9 @@ package Day201915
 import (
 	"fmt"
 
-	"github.com/pezza/advent-of-code/common"
-git 
-	"github.com/pezza/advent-of-code/2019/intcode"
+	"github.com/pezza/advent-of-code/puzzles/common"
+
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
 )
 
 func botController(input string, in, out chan int64) {

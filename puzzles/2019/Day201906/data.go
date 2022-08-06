@@ -1241,5 +1241,5 @@ SDP)VV9`
 }
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2019, 6, "Universal Orbit Map", 0
+	return 2019, 6, "Universal Orbit Map", 2
 }

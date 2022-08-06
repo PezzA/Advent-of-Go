@@ -1,13 +1,13 @@
-package Day201924
+package Day201923
 
 import (
 	"fmt"
 	"sync"
 	"time"
 
-	"github.com/pezza/advent-of-code/common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 
-	"github.com/pezza/advent-of-code/2019/intcode"
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
 )
 
 type computer struct {

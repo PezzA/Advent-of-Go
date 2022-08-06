@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2018, 4, "Repose Record", 2
+}
+
 // Entry holds wraps the data and runner interfaces for this puzzle
 var Entry dayEntry
 
@@ -143,9 +147,6 @@ func getSleepyMinute(shifts map[string][]string) string {
 	return maxKey
 }
 
-func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 4, "Repose Record", 0
-}
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	shifts, _, _ := getData(inputData)
 	sleepyGuard := getSleepyGuard(shifts)

@@ -3,7 +3,7 @@ package Day201915
 import (
 	"fmt"
 
-	"github.com/pezza/advent-of-code/common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func drawcounts(maze map[common.Point]int) {

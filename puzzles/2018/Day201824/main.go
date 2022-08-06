@@ -13,7 +13,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 24, "Immune System Simulator 20XX", 0
+	return 2018, 24, "Immune System Simulator 20XX", 6
 }
 
 const immuneArmy = "Immune"

@@ -1,7 +1,7 @@
 package Day201903
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2019, 3, "Crossed Wires", 0
+	return 2019, 3, "Crossed Wires", 2
 }
 
 func (td dayEntry) PuzzleInput() string {

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/pezza/advent-of-code/common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 
-	"github.com/pezza/advent-of-code/2019/intcode"
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
 )
 
 type robot struct {

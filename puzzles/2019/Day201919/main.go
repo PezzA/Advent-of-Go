@@ -3,8 +3,8 @@ package Day201919
 import (
 	"fmt"
 
-	"github.com/pezza/advent-of-code/2019/intcode"
-	"github.com/pezza/advent-of-code/common"
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func scanPoint(input string, x, y int64) int64 {

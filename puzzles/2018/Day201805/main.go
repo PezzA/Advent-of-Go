@@ -10,7 +10,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 5, "Alchemical Reduction", 0
+	return 2018, 5, "Alchemical Reduction", 2
 }
 
 func reactPolymer(input string) (string, bool) {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/pezza/advent-of-code/2019/intcode"
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
 )
 
 func inputString(input string, in chan int64) {

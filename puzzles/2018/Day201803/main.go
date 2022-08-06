@@ -6,6 +6,10 @@ import (
 	"strings"
 )
 
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2018, 3, "No Matter How You Slice It", 2
+}
+
 // Entry holds wraps the data and runner interfaces for this puzzle
 var Entry dayEntry
 
@@ -117,9 +121,6 @@ func getNonOverlappedClaim(taggedCloth [][][]string, claims []claim) string {
 	return result
 }
 
-func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 3, "No Matter How You Slice It", 0
-}
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	claims := getData(inputData)
 

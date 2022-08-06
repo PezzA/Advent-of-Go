@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/pezza/advent-of-code/common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func getData(input string) []int {
@@ -57,7 +57,6 @@ func applyPhaseShift(input []int) []int {
 	var newPhaseCode []int
 	for i := 1; i <= len(input); i++ {
 
-		fmt.Println(i, "/", len(input))
 		total := 0
 
 		for y := 0; y < len(input); y++ {
