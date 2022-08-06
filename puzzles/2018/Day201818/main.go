@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 18, "Settlers of The North Pole"
+	return 2018, 18, "Settlers of The North Pole", 0
 }
 
 const (

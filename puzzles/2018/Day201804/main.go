@@ -144,7 +144,7 @@ func getSleepyMinute(shifts map[string][]string) string {
 }
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 4, "Repose Record"
+	return 2018, 4, "Repose Record", 0
 }
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	shifts, _, _ := getData(inputData)

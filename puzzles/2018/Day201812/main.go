@@ -10,7 +10,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 12, "Subterranean Sustainability"
+	return 2018, 12, "Subterranean Sustainability", 0
 }
 
 type transform struct {

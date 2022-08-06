@@ -111,10 +111,6 @@ func containsWire(colour string, l []timedPlot) bool {
 	return false
 }
 
-func (td dayEntry) Describe() (int, int, string, int) {
-	return 2019, 3, "Crossed Wires"
-}
-
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	green, red := getData(inputData)
 	closest, _ := runWires(green, red)

@@ -11,7 +11,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 2, "Inventory Management System"
+	return 2018, 2, "Inventory Management System", 0
 }
 
 func getData(input string) []string {

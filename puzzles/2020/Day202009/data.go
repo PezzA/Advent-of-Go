@@ -5,7 +5,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2020, 9, "Encoding Error"
+	return 2020, 9, "Encoding Error", 0
 }
 
 func (td dayEntry) PuzzleInput() string {

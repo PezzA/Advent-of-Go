@@ -13,7 +13,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 7, "The Sum of Its Parts"
+	return 2018, 7, "The Sum of Its Parts", 0
 }
 
 type sequence struct {

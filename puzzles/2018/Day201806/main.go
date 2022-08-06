@@ -13,7 +13,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 6, "Chronal Coordinates"
+	return 2018, 6, "Chronal Coordinates", 0
 }
 
 // end of scaffolding

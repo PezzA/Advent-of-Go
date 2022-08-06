@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 25, "Four-Dimensional Adventure"
+	return 2018, 25, "Four-Dimensional Adventure", 0
 }
 
 type point struct {

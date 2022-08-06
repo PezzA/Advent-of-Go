@@ -5,7 +5,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2020, 06, "Custom Customs"
+	return 2020, 06, "Custom Customs", 0
 }
 
 func (td dayEntry) PuzzleInput() string {

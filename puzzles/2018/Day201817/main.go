@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 17, "Reservoir Research"
+	return 2018, 17, "Reservoir Research", 0
 }
 
 type BoreHoleLog [][]common.Point
