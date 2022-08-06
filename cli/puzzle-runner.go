@@ -19,7 +19,7 @@ func Runner(puzzle puzzles.DailyPuzzle) {
 	defer showCursor()
 
 	inputData := puzzle.PuzzleInput()
-	year, day, title := puzzle.Describe()
+	year, day, title, _ := puzzle.Describe()
 
 	header := formatHeader(year, day, title)
 

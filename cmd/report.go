@@ -44,14 +44,26 @@ var reportCmd = &cobra.Command{
 			fmt.Print(" ")
 
 			for day := 1; day <= 25; day++ {
-				_, err := puzzles.GetPuzzle(day, year)
+				puzz, err := puzzles.GetPuzzle(day, year)
 
 				if err != nil {
 					fmt.Print(noEntry())
 					continue
 				}
 
-				fmt.Print(solvedBoth())
+				_, _, _, state := puzz.Describe()
+
+				switch state {
+				case 1:
+					fmt.Print(solvedFirst())
+				case 2:
+					fmt.Print(solvedBoth())
+				case 3:
+					fmt.Print(otherSolution())
+				default:
+					fmt.Print(noEntry())
+				}
+
 			}
 			fmt.Println("")
 		}

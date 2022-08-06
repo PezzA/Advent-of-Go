@@ -11,7 +11,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2016, 19, "An Elephant Named Joseph"
+	return 2016, 19, "An Elephant Named Joseph", 0
 }
 
 func getAdjacentElfHops(circleSize int, position int) int {

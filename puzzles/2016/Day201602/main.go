@@ -11,7 +11,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2016, 2, "Bathroom Security"
+	return 2016, 2, "Bathroom Security", 0
 }
 
 // Point holds a basic 2d co-ordinate

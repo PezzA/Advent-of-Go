@@ -11,7 +11,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2016, 3, "Squares With Three Sides"
+	return 2016, 3, "Squares With Three Sides", 0
 }
 
 type triangle struct {

@@ -320,7 +320,7 @@ func (f facility) processMoves(level int, states []facility, maxDepth int, updat
 }
 
 func (d dayEntry) Describe() (int, int, string, int) {
-	return 2016, 11, "Radioisotope Thermoelectric Generators"
+	return 2016, 11, "Radioisotope Thermoelectric Generators", 0
 }
 
 func componentSort(list []component) []component {

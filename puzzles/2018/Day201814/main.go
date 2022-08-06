@@ -11,7 +11,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 14, "Chocolate Charts"
+	return 2018, 14, "Chocolate Charts", 0
 }
 
 func getData(input string) int {
