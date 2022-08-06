@@ -10,7 +10,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 6, "Memory Reallocation", 0
+	return 2017, 6, "Memory Reallocation", 2
 }
 
 type registerList []int

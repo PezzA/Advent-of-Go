@@ -11,7 +11,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 19, "A Series of Tubes", 0
+	return 2017, 19, "A Series of Tubes", 2
 }
 
 func findEntryPoint(input string) point {

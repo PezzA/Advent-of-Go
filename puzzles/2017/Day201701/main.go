@@ -11,7 +11,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 1, "Inverse Captcha", 0
+	return 2017, 1, "Inverse Captcha", 2
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

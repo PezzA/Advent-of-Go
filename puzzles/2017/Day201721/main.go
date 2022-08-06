@@ -6,6 +6,10 @@ import (
 	"strings"
 )
 
+func (td dayEntry) Describe() (int, int, string, int) {
+	return 2017, 21, "Fractal Art", 2
+}
+
 type dayEntry bool
 
 var Entry dayEntry
@@ -204,10 +208,6 @@ func getCell(cellSize int, input []string, startX int, startY int) []string {
 	}
 
 	return cell
-}
-
-func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 21, "Fractal Art", 0
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

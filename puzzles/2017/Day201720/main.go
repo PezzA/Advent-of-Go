@@ -16,7 +16,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 20, "Particle Swarm", 0
+	return 2017, 20, "Particle Swarm", 2
 }
 
 type vertex struct {

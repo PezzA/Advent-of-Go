@@ -16,7 +16,11 @@ func noEntry() string {
 }
 
 func otherSolution() string {
-	return tm.Color("* ", tm.MAGENTA)
+	return tm.Color("* ", tm.GREEN)
+}
+
+func otherFirst() string {
+	return tm.Color("* ", tm.BLUE)
 }
 
 func solvedFirst() string {
@@ -27,6 +31,14 @@ func solvedBoth() string {
 	return tm.Bold(tm.Color("* ", tm.YELLOW))
 }
 
+func unreliable() string {
+	return tm.Bold(tm.Color("* ", tm.RED))
+}
+
+func toughCookie() string {
+	return tm.Bold(tm.Color("X ", tm.RED))
+}
+
 // reportCmd represents the report command
 var reportCmd = &cobra.Command{
 	Use:   "report",
@@ -35,7 +47,10 @@ var reportCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		minYear, maxYear := puzzles.GetManualYearRange()
 		fmt.Println("Legend:")
-		fmt.Printf("[ %v] Unsolved [ %v] First Star [ %v] Both Stars [ %v] Solved in another project\n", noEntry(), solvedFirst(), solvedBoth(), otherSolution())
+		fmt.Printf("This project       : [ %v] First [ %v] Second\n", solvedFirst(), solvedBoth())
+		fmt.Printf("Other projects     : [ %v] First [ %v] Second\n", otherFirst(), otherSolution())
+		fmt.Printf("Unreliable         : [ %v]\n", unreliable())
+		fmt.Printf("Oof size ... large : [ %v]\n", toughCookie())
 		fmt.Println()
 		fmt.Println("                       1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2")
 		fmt.Println("     1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5")
@@ -60,6 +75,12 @@ var reportCmd = &cobra.Command{
 					fmt.Print(solvedBoth())
 				case 3:
 					fmt.Print(otherSolution())
+				case 4:
+					fmt.Print(unreliable())
+				case 5:
+					fmt.Print(toughCookie())
+				case 6:
+					fmt.Print(otherFirst())
 				default:
 					fmt.Print(noEntry())
 				}

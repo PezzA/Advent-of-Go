@@ -13,7 +13,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2016, 17, "Two Steps Forward", 0
+	return 2016, 17, "Two Steps Forward", 2
 }
 
 type mazeNode struct {

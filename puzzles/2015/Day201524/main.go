@@ -129,7 +129,7 @@ func getQuantumEntanglement(combo []int) int {
 }
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2015, 24, "It Hangs in the Balance", 2
+	return 2015, 24, "It Hangs in the Balance", 4
 }
 
 // 31112183811

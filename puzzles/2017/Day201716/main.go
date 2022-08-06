@@ -11,7 +11,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 16, "Permutation Promenade", 0
+	return 2017, 16, "Permutation Promenade", 2
 }
 
 var instructionRegex = regexp.MustCompile("((x)([0-9]+)\\/([0-9]+)|(s)([0-9]+)|(p)([a-z])\\/([a-z]))")

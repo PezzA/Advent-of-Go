@@ -70,9 +70,23 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201602"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201603"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201604"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201605"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201606"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201607"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201608"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201609"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201610"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201611"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201612"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201613"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201614"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201615"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201616"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201617"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201618"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201619"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201620"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201621"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201622"
 	"github.com/pezza/advent-of-code/puzzles/2017/Day201701"
 	"github.com/pezza/advent-of-code/puzzles/2017/Day201702"
@@ -167,9 +181,23 @@ func init() {
 		Day201602.Entry,
 		Day201603.Entry,
 		Day201604.Entry,
+		Day201605.Entry,
+		Day201606.Entry,
+		Day201607.Entry,
+		Day201608.Entry,
+		Day201609.Entry,
+		Day201610.Entry,
 		Day201611.Entry,
+		Day201612.Entry,
+		Day201613.Entry,
+		Day201614.Entry,
+		Day201615.Entry,
+		Day201616.Entry,
 		Day201617.Entry,
+		Day201618.Entry,
 		Day201619.Entry,
+		Day201620.Entry,
+		Day201621.Entry,
 		Day201622.Entry,
 		Day201701.Entry,
 		Day201702.Entry,

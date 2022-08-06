@@ -5,7 +5,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/pezza/advent-of-code/common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 type hive map[int][][]bool

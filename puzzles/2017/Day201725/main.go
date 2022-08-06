@@ -11,7 +11,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 25, "The Halting Problem", 0
+	return 2017, 25, "The Halting Problem", 2
 }
 
 var controlRegex = regexp.MustCompile(`Begin in state ([A-Z]).\nPerform a diagnostic checksum after ([0-9]*) steps.`)

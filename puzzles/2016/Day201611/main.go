@@ -10,6 +10,10 @@ var Entry dayEntry
 
 type dayEntry bool
 
+func (d dayEntry) Describe() (int, int, string, int) {
+	return 2016, 11, "Radioisotope Thermoelectric Generators", 5
+}
+
 type component struct {
 	Element string
 	IsChip  bool
@@ -317,10 +321,6 @@ func (f facility) processMoves(level int, states []facility, maxDepth int, updat
 	}
 
 	return maxDepth
-}
-
-func (d dayEntry) Describe() (int, int, string, int) {
-	return 2016, 11, "Radioisotope Thermoelectric Generators", 0
 }
 
 func componentSort(list []component) []component {

@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 12, "Digital Plumber", 0
+	return 2017, 12, "Digital Plumber", 2
 }
 
 type programList map[int][]int

@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 11, "Hex Ed", 0
+	return 2017, 11, "Hex Ed", 2
 }
 
 func travel(input string) (int, int) {
