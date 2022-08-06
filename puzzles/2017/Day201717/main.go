@@ -10,7 +10,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 17, "Spinlock"
+	return 2017, 17, "Spinlock", 0
 }
 
 func addValue(val int, steps int, pos *list.Element, sl *list.List) *list.Element {

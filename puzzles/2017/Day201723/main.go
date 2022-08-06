@@ -110,7 +110,7 @@ func runProgram(ins []instruction, c chip, updateChan chan []string) int {
 }
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 23, "Getting the boilerplate in place"
+	return 2017, 23, "Getting the boilerplate in place", 0
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

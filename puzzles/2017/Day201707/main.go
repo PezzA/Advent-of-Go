@@ -13,7 +13,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 7, "Recursive Circus"
+	return 2017, 7, "Recursive Circus", 0
 }
 
 var nodeRegex = regexp.MustCompile(`([a-z]+) \(([0-9]+)\)( -> ((\w*(,| )*)*))*`)

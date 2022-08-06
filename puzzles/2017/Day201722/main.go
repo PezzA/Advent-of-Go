@@ -154,7 +154,7 @@ func printGrid(plane grid, size int, position point) {
 	fmt.Println()
 }
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 22, "Sporifica Virus"
+	return 2017, 22, "Sporifica Virus", 0
 }
 
 // 5258

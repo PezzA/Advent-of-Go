@@ -15,7 +15,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 10, "Knot Hash"
+	return 2017, 10, "Knot Hash", 0
 }
 
 func getElements(size int) []int {

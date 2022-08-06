@@ -12,7 +12,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 13, "Packet Scanners"
+	return 2017, 13, "Packet Scanners", 0
 }
 
 type layers map[int]int

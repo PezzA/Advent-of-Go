@@ -13,7 +13,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 18, "Duet"
+	return 2017, 18, "Duet", 0
 }
 
 type instruction struct {

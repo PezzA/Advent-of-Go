@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 4, "High-Entropy Passphrases"
+	return 2017, 4, "High-Entropy Passphrases", 0
 }
 
 func stringToRuneSlice(s string) []rune {

@@ -12,7 +12,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 14, "Disk Defragmentation"
+	return 2017, 14, "Disk Defragmentation", 0
 }
 
 func stringHexToBinary(input string) string {

@@ -12,7 +12,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 5, "A Maze of Twisty Trampolines, All Alike"
+	return 2017, 5, "A Maze of Twisty Trampolines, All Alike", 0
 }
 
 func doModifiedJumps(ins []int) int {

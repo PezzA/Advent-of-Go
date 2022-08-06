@@ -13,7 +13,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2017, 8, "I Heard You Like Registers"
+	return 2017, 8, "I Heard You Like Registers", 0
 }
 
 // link to regex tester : https://regex101.com/r/rodiWy/1/
