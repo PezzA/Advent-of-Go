@@ -1,4 +1,4 @@
-package Day201612
+package Day201623
 
 import (
 	"fmt"
@@ -18,11 +18,12 @@ func Test_ReadData(t *testing.T) {
 func Test_PartOneSample(t *testing.T) {
 	RegisterTestingT(t)
 
-	program := assembunny.ParseProgram(`cpy 41 a
-inc a
-inc a
+	program := assembunny.ParseProgram(`cpy 2 a
+tgl a
+tgl a
+tgl a
+cpy 1 a
 dec a
-jnz a 2
 dec a`)
 
 	registerSet := make(assembunny.RegisterSet)
@@ -42,7 +43,7 @@ func Test_PartOne(t *testing.T) {
 
 	program := assembunny.ParseProgram(Entry.PuzzleInput())
 
-	registerSet := assembunny.NewRegisterSet(0, 0, 0, 0)
+	registerSet := assembunny.NewRegisterSet(7, 0, 0, 0)
 
 	registers := assembunny.RunProgram(program, registerSet)
 
@@ -54,12 +55,11 @@ func Test_PartTwo(t *testing.T) {
 
 	program := assembunny.ParseProgram(Entry.PuzzleInput())
 
-	registerSet := assembunny.NewRegisterSet(0, 0, 1, 0)
+	registerSet := assembunny.NewRegisterSet(12, 0, 0, 0)
 
 	registers := assembunny.RunProgram(program, registerSet)
 
 	fmt.Println(registers["a"])
-
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

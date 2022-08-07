@@ -109,6 +109,7 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201620"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201621"
 	"github.com/pezza/advent-of-code/puzzles/2016/Day201622"
+	"github.com/pezza/advent-of-code/puzzles/2016/Day201623"
 	"github.com/pezza/advent-of-code/puzzles/2017/Day201701"
 	"github.com/pezza/advent-of-code/puzzles/2017/Day201702"
 	"github.com/pezza/advent-of-code/puzzles/2017/Day201703"
@@ -235,6 +236,8 @@ func init() {
 		Day201620.Entry,
 		Day201621.Entry,
 		Day201622.Entry,
+		Day201623.Entry,
+
 		Day201701.Entry,
 		Day201702.Entry,
 		Day201703.Entry,
