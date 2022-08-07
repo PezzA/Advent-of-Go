@@ -17,13 +17,13 @@ func Test_PartTwo(t *testing.T) {
 func Benchmark_PartOne(b *testing.B) {
 	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
-		Entry.PartOne(data)
+		Entry.PartOne(data, nil)
 	}
 }
 
 func Benchmark_PartTwo(b *testing.B) {
 	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
-		Entry.PartTwo(data)
+		Entry.PartTwo(data, nil)
 	}
 }
