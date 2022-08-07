@@ -32,7 +32,7 @@ dec a`)
 	registerSet["c"] = 0
 	registerSet["d"] = 0
 
-	registers := assembunny.RunProgram(program, registerSet)
+	registers := assembunny.RunProgram(program, registerSet, nil, 1000)
 
 	fmt.Println(registers["a"])
 }
@@ -44,7 +44,7 @@ func Test_PartOne(t *testing.T) {
 
 	registerSet := assembunny.NewRegisterSet(0, 0, 0, 0)
 
-	registers := assembunny.RunProgram(program, registerSet)
+	registers := assembunny.RunProgram(program, registerSet, nil, 1000)
 
 	fmt.Println(registers["a"])
 }
@@ -56,7 +56,7 @@ func Test_PartTwo(t *testing.T) {
 
 	registerSet := assembunny.NewRegisterSet(0, 0, 1, 0)
 
-	registers := assembunny.RunProgram(program, registerSet)
+	registers := assembunny.RunProgram(program, registerSet, nil, 1000)
 
 	fmt.Println(registers["a"])
 

@@ -8,12 +8,12 @@ import (
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	program := assembunny.ParseProgram(inputData)
-	registers := assembunny.RunProgram(program, assembunny.NewRegisterSet(7, 0, 0, 0))
+	registers := assembunny.RunProgram(program, assembunny.NewRegisterSet(7, 0, 0, 0), nil, 1000)
 	return fmt.Sprintf("%v", registers["a"])
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	program := assembunny.ParseProgram(inputData)
-	registers := assembunny.RunProgram(program, assembunny.NewRegisterSet(12, 0, 0, 0))
+	registers := assembunny.RunProgram(program, assembunny.NewRegisterSet(12, 0, 0, 0), nil, 1000)
 	return fmt.Sprintf("%v", registers["a"])
 }

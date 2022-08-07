@@ -32,8 +32,10 @@ func getArgument(input string) Argument {
 	return Argument{isRegister: false, value: arg}
 }
 
-func RunProgram(prog Program, regSet RegisterSet) RegisterSet {
+func RunProgram(prog Program, regSet RegisterSet, output chan int, maxSignals int) RegisterSet {
 	index := 0
+	signals := 0
+	signalclosed := false
 
 	for index < len(prog) {
 		currIns := prog[index]
@@ -98,6 +100,8 @@ func RunProgram(prog Program, regSet RegisterSet) RegisterSet {
 				prog[tglIndex].instruction = "dec"
 			case "tgl":
 				fallthrough
+			case "out":
+				fallthrough
 			case "dec":
 				prog[tglIndex].instruction = "inc"
 			case "cpy":
@@ -105,7 +109,23 @@ func RunProgram(prog Program, regSet RegisterSet) RegisterSet {
 			case "jnz":
 				prog[tglIndex].instruction = "cpy"
 			}
+		case "out":
+			if output == nil || signalclosed {
+				continue
+			}
 
+			if currIns.arg1.isRegister {
+				output <- regSet[currIns.arg1.register]
+			} else {
+				output <- currIns.arg1.value
+			}
+
+			signals++
+
+			if signals >= maxSignals {
+				signalclosed = true
+				close(output)
+			}
 		}
 
 		index++
