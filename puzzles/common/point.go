@@ -19,6 +19,14 @@ type Point struct {
 	Y int
 }
 
+func NewPoint(x, y int) Point {
+	return Point{X: x, Y: y}
+}
+
+func (p Point) Equals(cmp Point) bool {
+	return p.X == cmp.X && p.Y == cmp.Y
+}
+
 func (p Point) GetMDistance(t Point) int {
 	return Abs(p.X-t.X) + Abs(p.Y-t.Y)
 }

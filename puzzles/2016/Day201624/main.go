@@ -21,39 +21,68 @@ func getMaze(input string, wallsAsSpace bool) (mazeMap, map[int]common.Point) {
 
 	for y, line := range lines {
 		for x, position := range line {
+			cellPoint := common.NewPoint(x, y)
 
 			switch position {
 			case '#':
-				mazeData[common.Point{X: x, Y: y}] = WALL
+				mazeData[cellPoint] = WALL
 			case '.':
-				mazeData[common.Point{X: x, Y: y}] = SPACE
+				mazeData[cellPoint] = SPACE
 			default:
 				location, _ := strconv.Atoi(string(position))
 				if wallsAsSpace {
-					mazeData[common.Point{X: x, Y: y}] = SPACE
+					mazeData[cellPoint] = SPACE
 				} else {
-					mazeData[common.Point{X: x, Y: y}] = location
+					mazeData[cellPoint] = location
 				}
-
-				locations[location] = common.Point{X: x, Y: y}
+				locations[location] = cellPoint
 			}
-
 		}
 	}
 
 	return mazeData, locations
 }
 
-func walk(depth int, loc common.Point, target common.Point, mm mazeMap) int {
+func checkTestPoint(newPoint common.Point, target common.Point, mm mazeMap) int {
+	// are we the targer
+	if newPoint.Equals(target) {
+		return 1
+	}
 
-	// is up the target?
-	if  loc.X == target.X && loc.Y-1 == target.Y {
-		return depth + 1
+	if visited.c
+
+	// can we move up?
+	if mm[newPoint] != WALL {
+		return 2
 	}
 
 
 
-	if testup === target
+	return 0
+}
+
+func walk(depth int, loc common.Point, target common.Point, mm mazeMap, visited []common.Point) int {
+
+	visited = append(visited, loc)
+
+	for _, cardinal := range common.Cardinal4 {
+		testPoint := loc.Add(cardinal)
+
+		move := checkTestPoint(testPoint, target, visited, mm)
+
+	}
+	// testup
+	newPoint := common.NewPoint(loc.X, loc.Y-1)
+
+	// is up the target?
+	if loc.Equals(target) {
+		return depth + 1
+	}
+
+	// can we move up?
+	if mm[newPoint] != WALL {
+		return walk(depth+1, newPoint, target, mm)
+	}
 
 }
 
