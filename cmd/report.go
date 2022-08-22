@@ -58,7 +58,7 @@ var reportCmd = &cobra.Command{
 		fmt.Println("     1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5")
 
 		totalCount := 0
-		for year := minYear; year <= maxYear; year++ {
+		for year := maxYear; year >= minYear; year-- {
 			fmt.Print(tm.Color(fmt.Sprint(year), tm.GREEN))
 			fmt.Print(" ")
 

@@ -19,10 +19,10 @@ func getTestFacility() facility {
 	return facility{
 		Lift: 0,
 		Floors: []floor{
-			{[]component{{"Hydrogen", true}, {"Lithium", true}}},
-			{[]component{{"Hydrogen", false}}},
-			{[]component{{"Lithium", false}}},
-			{[]component{}},
+			[]component{{"Hydrogen", true}, {"Lithium", true}},
+			[]component{{"Hydrogen", false}},
+			[]component{{"Lithium", false}},
+			[]component{},
 		},
 	}
 }
@@ -30,12 +30,12 @@ func getTestFacility() facility {
 func Test_facilityClone(t *testing.T) {
 	RegisterTestingT(t)
 
-	origFloor := floor{[]component{{"Lithium", false}}}
+	origFloor := floor{{"Lithium", false}}
 	clonedFloor := origFloor.deepClone()
 
 	Expect(origFloor).Should(Equal(clonedFloor))
 
-	clonedFloor.Components = append(clonedFloor.Components, component{"Saphirite", false})
+	clonedFloor = append(clonedFloor, component{"Saphirite", false})
 
 	Expect(origFloor).ShouldNot(Equal(clonedFloor))
 
@@ -57,8 +57,8 @@ func Test_floorEquals(t *testing.T) {
 	RegisterTestingT(t)
 
 	// both list are in different incorrect orders, both should be the same at the end
-	floor1 := floor{[]component{{"Hydrogen", false}, {"Hydrogen", true}, {"Lithium", true}}}
-	floor2 := floor{[]component{{"Lithium", true}, {"Hydrogen", true}, {"Hydrogen", false}}}
+	floor1 := floor{{"Hydrogen", false}, {"Hydrogen", true}, {"Lithium", true}}
+	floor2 := floor{{"Lithium", true}, {"Hydrogen", true}, {"Hydrogen", false}}
 
 	Expect(floor1).ShouldNot(Equal(floor2))
 
@@ -70,7 +70,7 @@ func Test_floorEquals(t *testing.T) {
 
 func Test_getComponentCombos(t *testing.T) {
 	RegisterTestingT(t)
-	floor1 := floor{[]component{{"Hydrogen", false}, {"Hydrogen", true}, {"Lithium", true}}}
+	floor1 := floor{{"Hydrogen", false}, {"Hydrogen", true}, {"Lithium", true}}
 
 	comboList := floor1.getComponentCombos()
 	fmt.Println(comboList)
@@ -94,24 +94,24 @@ func Test_shortCode(t *testing.T) {
 func Test_floorIsValid(t *testing.T) {
 	RegisterTestingT(t)
 
-	testFloor := floor{[]component{
+	testFloor := floor{
 		{"Hydrogen", true},
-		{"Lithium", true}}}
+		{"Lithium", true}}
 
 	Expect(testFloor.isValid()).Should(Equal(true))
 
-	testFloor2 := floor{[]component{
+	testFloor2 := floor{
 		{"Hydrogen", true},
 		{"Lithium", true},
 		{"Lithium", false},
-		{"Hydrogen", false}}}
+		{"Hydrogen", false}}
 
 	Expect(testFloor2.isValid()).Should(Equal(true))
 
-	testFloor3 := floor{[]component{
+	testFloor3 := floor{
 		{"Hydrogen", true},
 		{"Lithium", true},
-		{"Lithium", false}}}
+		{"Lithium", false}}
 
 	Expect(testFloor3.isValid()).Should(Equal(false))
 }
@@ -131,7 +131,11 @@ func Test_applyMove(t *testing.T) {
 func Test_processMoves(t *testing.T) {
 	startFacility := getTestFacility()
 
-	val := startFacility.processMoves(0, []facility{}, 0, nil)
+	// setup blank states
+	states := make([]facility, 0)
+
+	// lets start moving in
+	val := startFacility.processMoves(0, states)
 
 	fmt.Println(val + 1)
 }
@@ -142,13 +146,17 @@ func Test_PartOne(t *testing.T) {
 	inputFac := facility{
 		Lift: 0,
 		Floors: []floor{
-			{[]component{{"Promethium", false}, {"Promethium", true}}},
-			{[]component{{"Cobalt", false}, {"Curium", false}, {"Ruthium", false}, {"Plutonium", false}}},
-			{[]component{{"Cobalt", true}, {"Curium", true}, {"Ruthium", true}, {"Plutonium", true}}},
-			{[]component{}},
+			{{"Promethium", false}, {"Promethium", true}},
+			{{"Cobalt", false}, {"Curium", false}, {"Ruthium", false}, {"Plutonium", false}},
+			{{"Cobalt", true}, {"Curium", true}, {"Ruthium", true}, {"Plutonium", true}},
+			{},
 		},
 	}
-	fmt.Println(inputFac.processMoves(0, []facility{}, 0, nil) + 1)
+
+	states := make([]facility, 0)
+	stepsTaken := inputFac.processMoves(0, states)
+	fmt.Println(stepsTaken)
+
 }
 
 func Test_PartTwo(t *testing.T) {

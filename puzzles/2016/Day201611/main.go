@@ -5,66 +5,21 @@ import (
 	"sort"
 )
 
-// Entry holds wraps the data and runner interfaces for this puzzle
-var Entry dayEntry
-
-type dayEntry bool
-
-func (d dayEntry) Describe() (int, int, string, int) {
-	return 2016, 11, "Radioisotope Thermoelectric Generators", 5
-}
-
-type component struct {
-	Element string
-	IsChip  bool
-}
-
-type floor struct {
-	Components []component
-}
-
-type facility struct {
-	Lift   int
-	Floors []floor
-}
-
-type stateList []facility
-
-func (c component) shortCode() string {
-	componentType := ""
-
-	if c.IsChip {
-		componentType = "M"
-	} else {
-		componentType = "G"
-	}
-
-	return fmt.Sprintf("%v%v", string(c.Element[0]), componentType)
-}
-
-func (c component) String() string {
-	if c.IsChip {
-		return fmt.Sprintf("{%v Microchip}", c.Element)
-	}
-
-	return fmt.Sprintf("{%v Generator}", c.Element)
-}
-
 func (f floor) sort() {
-	f.Components = componentSort(f.Components)
+	f = componentSort(f)
 }
 
 func (f floor) getComponentCombos() [][]component {
 	comboList := make([][]component, 0)
 	// add individual components
-	for _, comp := range f.Components {
+	for _, comp := range f {
 		comboList = append(comboList, []component{comp})
 	}
 
-	for i := 0; i < len(f.Components); i++ {
-		for j := 0; j < len(f.Components); j++ {
+	for i := 0; i < len(f); i++ {
+		for j := 0; j < len(f); j++ {
 			if i < j {
-				comboList = append(comboList, []component{f.Components[i], f.Components[j]})
+				comboList = append(comboList, []component{f[i], f[j]})
 			}
 		}
 	}
@@ -73,7 +28,7 @@ func (f floor) getComponentCombos() [][]component {
 }
 
 func (f floor) hasComponent(searchComponent component) bool {
-	for _, floorComp := range f.Components {
+	for _, floorComp := range f {
 		if floorComp == searchComponent {
 			return true
 		}
@@ -83,7 +38,7 @@ func (f floor) hasComponent(searchComponent component) bool {
 }
 
 func (f floor) hasOtherGenerator(element string) bool {
-	for _, component := range f.Components {
+	for _, component := range f {
 		if !component.IsChip && component.Element != element {
 			return true
 		}
@@ -93,7 +48,7 @@ func (f floor) hasOtherGenerator(element string) bool {
 }
 
 func (f floor) hasGenerator(element string) bool {
-	for _, component := range f.Components {
+	for _, component := range f {
 		if !component.IsChip && component.Element == element {
 			return true
 		}
@@ -103,7 +58,7 @@ func (f floor) hasGenerator(element string) bool {
 }
 
 func (f floor) isValid() bool {
-	for _, component := range f.Components {
+	for _, component := range f {
 		if !component.IsChip {
 			continue
 		}
@@ -122,9 +77,13 @@ func (f floor) isValid() bool {
 }
 
 func (f floor) deepClone() floor {
-	floorCopy := floor{make([]component, len(f.Components))}
-	copy(floorCopy.Components, f.Components)
-	return floorCopy
+	newFloor := make(floor, len(f))
+
+	for i := range f {
+		newFloor[i] = f[i]
+	}
+
+	return newFloor
 }
 
 func (f facility) sort() {
@@ -137,7 +96,7 @@ func (f facility) getAllComponents() []component {
 	componentList := make([]component, 0)
 
 	for _, floor := range f.Floors {
-		componentList = append(componentList, floor.Components...)
+		componentList = append(componentList, floor...)
 	}
 
 	return componentSort(componentList)
@@ -151,41 +110,6 @@ func (f facility) canLiftGoDown() bool {
 	return f.Lift > 0
 }
 
-func (f facility) outputFacility() {
-	diagram := f.drawFacility()
-
-	for index := range diagram {
-		currIndex := (len(diagram) - index) - 1
-		fmt.Println(diagram[currIndex])
-	}
-}
-
-func (f facility) drawFacility() []string {
-	drawing := make([]string, len(f.Floors))
-
-	allComponents := f.getAllComponents()
-
-	for index := range drawing {
-		drawing[index] += fmt.Sprintf("F%v ", index+1)
-
-		if f.Lift == index {
-			drawing[index] += "E  "
-		} else {
-			drawing[index] += ".  "
-		}
-
-		for _, comp := range allComponents {
-			if f.Floors[index].hasComponent(comp) {
-				drawing[index] += comp.shortCode() + " "
-			} else {
-				drawing[index] += ".  "
-			}
-		}
-	}
-
-	return drawing
-}
-
 func (f facility) equals(compare facility) bool {
 	if f.Lift != compare.Lift {
 		return false
@@ -196,12 +120,12 @@ func (f facility) equals(compare facility) bool {
 	}
 
 	for i := 0; i < len(f.Floors); i++ {
-		if len(f.Floors[i].Components) != len(compare.Floors[i].Components) {
+		if len(f.Floors[i]) != len(compare.Floors[i]) {
 			return false
 		}
 
-		for j := 0; j < len(f.Floors[i].Components); j++ {
-			if f.Floors[i].Components[j] != compare.Floors[i].Components[j] {
+		for j := 0; j < len(f.Floors[i]); j++ {
+			if f.Floors[i][j] != compare.Floors[i][j] {
 				return false
 			}
 		}
@@ -231,30 +155,37 @@ func (f facility) deepClone() facility {
 	return facilityCopy
 }
 
-func (f facility) applyMove(modifier int, contents []component) facility {
-	newFacility := f.deepClone()
+func (f floor) removeComponents(compList floor) floor {
+	newList := make(floor, 0)
 
-	testFloor := floor{contents}
-	// remove items from current floor
-
-	newList := make([]component, 0)
-	for _, floorComponent := range newFacility.Floors[newFacility.Lift].Components {
-		if !testFloor.hasComponent(floorComponent) {
-			newList = append(newList, floorComponent)
+	for _, comp := range f {
+		if !compList.hasComponent(comp) {
+			newList = append(newList, comp)
 		}
 	}
 
-	newFacility.Floors[newFacility.Lift].Components = newList
+	return newList
+}
 
+// applyMove will return a new facility based on the recieving facility
+// and the component specified.
+// modifer contains the direction of the elevator 1 is up , -1 is down
+func (f facility) applyMove(modifier int, liftContents []component) facility {
+
+	// create a copy of the facility to apply changes to
+	newFacility := f.deepClone()
 	// move elevator
 	newFacility.Lift += modifier
 
-	// add items to floor
-	for _, newComp := range contents {
-		newFacility.Floors[newFacility.Lift].Components = append(newFacility.Floors[newFacility.Lift].Components, newComp)
-	}
+	oldlevel, newLevel := f.Lift, newFacility.Lift
 
-	newFacility.sort()
+	// remove items from previous floor
+	newFacility.Floors[oldlevel] =
+		newFacility.Floors[oldlevel].removeComponents(liftContents)
+
+	// add them to the target floor
+	newFacility.Floors[newLevel] =
+		append(newFacility.Floors[newLevel], liftContents...)
 
 	return newFacility
 }
@@ -271,15 +202,15 @@ func (f facility) alreadySeen(states []facility) bool {
 }
 
 func (f facility) isComplete() bool {
-	return len(f.Floors[3].Components) == len(f.getAllComponents())
+	return len(f.Floors[3]) == len(f.getAllComponents())
 }
 
-func (f facility) processMoves(level int, states []facility, maxDepth int, updateChan chan []string) int {
-	if maxDepth != 0 && level >= maxDepth {
-		return maxDepth
-	}
-
+// maxDepth should be how many moves it has taken to solve the problem.
+func (f facility) processMoves(level int, states []facility) int {
 	states = append(states, f)
+
+	fmt.Println("Processing level:", level)
+	f.outputFacility()
 
 	combos := f.Floors[f.Lift].getComponentCombos()
 
@@ -288,16 +219,12 @@ func (f facility) processMoves(level int, states []facility, maxDepth int, updat
 			newFac := f.applyMove(1, combo)
 
 			if newFac.isComplete() {
-				if updateChan != nil {
-					updateChan <- []string{fmt.Sprintf("%v", level)}
-				}
 				return level
 			}
 
-			if newFac.isValid() {
-				if !newFac.alreadySeen(states) {
-					maxDepth = newFac.processMoves(level+1, states, maxDepth, updateChan)
-				}
+			if newFac.isValid() && !newFac.alreadySeen(states) {
+				fmt.Println("moving up", combo)
+				level = newFac.processMoves(level+1, states)
 			}
 		}
 	}
@@ -306,21 +233,18 @@ func (f facility) processMoves(level int, states []facility, maxDepth int, updat
 		for _, combo := range combos {
 			newFac := f.applyMove(-1, combo)
 			if newFac.isComplete() {
-				if updateChan != nil {
-					updateChan <- []string{fmt.Sprintf("%v", level)}
-				}
 				return level
 			}
 
-			if newFac.isValid() {
-				if !newFac.alreadySeen(states) {
-					maxDepth = newFac.processMoves(level+1, states, maxDepth, updateChan)
-				}
+			if newFac.isValid() && !newFac.alreadySeen(states) {
+				fmt.Println("moving down", combo)
+
+				level = newFac.processMoves(level+1, states)
 			}
 		}
 	}
 
-	return maxDepth
+	return level
 }
 
 func componentSort(list []component) []component {
@@ -341,13 +265,13 @@ func (d dayEntry) PartOne(input string, updateChan chan []string) string {
 	inputFac := facility{
 		Lift: 0,
 		Floors: []floor{
-			{[]component{{"Promethium", false}, {"Promethium", true}}},
-			{[]component{{"Cobalt", false}, {"Curium", false}, {"Ruthium", false}, {"Plutonium", false}}},
-			{[]component{{"Cobalt", true}, {"Curium", true}, {"Ruthium", true}, {"Plutonium", true}}},
-			{[]component{}},
+			floor{{"Promethium", false}, {"Promethium", true}},
+			floor{{"Cobalt", false}, {"Curium", false}, {"Ruthium", false}, {"Plutonium", false}},
+			floor{{"Cobalt", true}, {"Curium", true}, {"Ruthium", true}, {"Plutonium", true}},
+			floor{},
 		},
 	}
-	return fmt.Sprintf("%v", inputFac.processMoves(0, []facility{}, 0, updateChan)+1)
+	return fmt.Sprintf("%v", inputFac.processMoves(0, []facility{})+1)
 }
 
 // PartTwo returns the solution to day11 part two
