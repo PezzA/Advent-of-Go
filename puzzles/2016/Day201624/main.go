@@ -43,57 +43,124 @@ func getMaze(input string, wallsAsSpace bool) (mazeMap, map[int]common.Point) {
 	return mazeData, locations
 }
 
-func checkTestPoint(newPoint common.Point, target common.Point, mm mazeMap) int {
-	// are we the targer
-	if newPoint.Equals(target) {
-		return 1
-	}
+func distance(loc common.Point, target common.Point, mm mazeMap) int {
+	visited := make(map[common.Point]int)
 
-	if visited.c
+	walk(0, loc, target, mm, visited)
 
-	// can we move up?
-	if mm[newPoint] != WALL {
-		return 2
-	}
-
-
-
-	return 0
+	return visited[target]
 }
 
-func walk(depth int, loc common.Point, target common.Point, mm mazeMap, visited []common.Point) int {
-
-	visited = append(visited, loc)
+func walk(depth int, loc common.Point, target common.Point, mm mazeMap, visited map[common.Point]int) {
 
 	for _, cardinal := range common.Cardinal4 {
 		testPoint := loc.Add(cardinal)
 
-		move := checkTestPoint(testPoint, target, visited, mm)
+		// is up the target?
+		if loc.Equals(target) {
+			break
+		}
 
+		if mm[testPoint] != WALL {
+
+			if val, ok := visited[testPoint]; ok {
+				if val <= depth+1 {
+					continue
+				}
+			}
+
+			visited[testPoint] = depth + 1
+
+			// If we havent, continue walking
+			walk(depth+1, testPoint, target, mm, visited)
+		}
 	}
-	// testup
-	newPoint := common.NewPoint(loc.X, loc.Y-1)
-
-	// is up the target?
-	if loc.Equals(target) {
-		return depth + 1
-	}
-
-	// can we move up?
-	if mm[newPoint] != WALL {
-		return walk(depth+1, newPoint, target, mm)
-	}
-
 }
 
-func distance(start common.Point, dest common.Point, mm mazeMap) int {
+func getRouteLength(route []int64, distanceMap map[common.Point]int, returnToZero bool) int {
+	actualRoute := append([]int64{0}, route...)
+	routeLength := 0
 
+	if returnToZero {
+		actualRoute = append(actualRoute, 0)
+	}
+
+	for i := 0; i < len(actualRoute)-1; i++ {
+		routeLength += distanceMap[common.NewPoint(int(actualRoute[i]), int(actualRoute[i+1]))]
+	}
+
+	return routeLength
+}
+
+func getDistances(locations map[int]common.Point, maze mazeMap) map[common.Point]int {
+	distances := make(map[common.Point]int)
+	for ka, va := range locations {
+		for kb, vb := range locations {
+
+			if ka == kb || va.Equals(vb) {
+				continue
+			}
+
+			distances[common.NewPoint(ka, kb)] = distance(va, vb, maze)
+		}
+	}
+
+	return distances
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+
+	maze, locations := getMaze(inputData, true)
+
+	distanceMap := getDistances(locations, maze)
+
+	vals := make([]int64, 0)
+
+	for k := range locations {
+		if k == 0 {
+			continue
+		}
+		vals = append(vals, int64(k))
+	}
+	perms := common.GetPermuations(vals)
+
+	minVal := -1
+	for _, perm := range perms {
+		val := getRouteLength(perm, distanceMap, false)
+
+		if minVal == -1 || val < minVal {
+			minVal = val
+		}
+
+	}
+
+	return fmt.Sprintf("%v", minVal)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	maze, locations := getMaze(inputData, true)
+
+	distanceMap := getDistances(locations, maze)
+
+	vals := make([]int64, 0)
+
+	for k := range locations {
+		if k == 0 {
+			continue
+		}
+		vals = append(vals, int64(k))
+	}
+	perms := common.GetPermuations(vals)
+
+	minVal := -1
+	for _, perm := range perms {
+		val := getRouteLength(perm, distanceMap, true)
+
+		if minVal == -1 || val < minVal {
+			minVal = val
+		}
+
+	}
+
+	return fmt.Sprintf("%v", minVal)
 }
