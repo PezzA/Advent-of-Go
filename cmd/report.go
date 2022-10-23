@@ -13,31 +13,31 @@ import (
 )
 
 func noEntry() string {
-	return tm.Color(". ", tm.CYAN)
+	return tm.Color(".", tm.CYAN)
 }
 
 func solvedFirst() string {
-	return tm.Color("░ ", tm.YELLOW)
+	return tm.Color("░", tm.YELLOW)
 }
 
 func solvedBoth() string {
-	return tm.Bold(tm.Color("█ ", tm.YELLOW))
+	return tm.Bold(tm.Color("█", tm.YELLOW))
 }
 
 func otherFirst() string {
-	return tm.Color("░ ", tm.GREEN)
+	return tm.Color("░", tm.GREEN)
 }
 
 func otherSolution() string {
-	return tm.Color("█ ", tm.GREEN)
+	return tm.Color("█", tm.GREEN)
 }
 
 func unreliable() string {
-	return tm.Bold(tm.Color("▓ ", tm.MAGENTA))
+	return tm.Bold(tm.Color("▓", tm.MAGENTA))
 }
 
 func toughCookie() string {
-	return tm.Bold(tm.Color("‼ ", tm.RED))
+	return tm.Bold(tm.Color("‼", tm.RED))
 }
 
 // reportCmd represents the report command
@@ -54,8 +54,8 @@ var reportCmd = &cobra.Command{
 		fmt.Printf("Other projects     : [ %v] First [ %v] Second\n", otherFirst(), otherSolution())
 		fmt.Printf("Problematic        : [ %v] Slow! [ %v] Oof size ... large\n", unreliable(), toughCookie())
 		fmt.Println()
-		fmt.Println("                       1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2")
-		fmt.Println("     1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5")
+		fmt.Println("              1111111111222222")
+		fmt.Println("     1234567890123456789012345")
 
 		totalCount := 0
 		for year := maxYear; year >= minYear; year-- {
@@ -96,8 +96,8 @@ var reportCmd = &cobra.Command{
 					fmt.Print(noEntry())
 				}
 			}
+			fmt.Print(" ")
 			fmt.Print(tm.Color(strconv.Itoa(yearCount), tm.YELLOW))
-			fmt.Println("")
 			fmt.Println("")
 			totalCount += yearCount
 		}
