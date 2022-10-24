@@ -2,7 +2,9 @@ package Day201619
 
 import (
 	"container/list"
+	"fmt"
 	"strconv"
+	"time"
 )
 
 // Entry holds wraps the data and runner interfaces for this puzzle
@@ -67,13 +69,29 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	elfCircle := makeElfCircle(circleSize)
 	elf := elfCircle.Front()
 
+	fmt.Println("Starting with Elf", elf.Value)
+
+	start := time.Now()
 	for {
 
-		if next := elf.Next(); next != nil {
-			elfCircle.Remove(next)
-		} else {
-			elfCircle.Remove(elfCircle.Front())
+		// move forward by half the number of current elves (rounding down)
+		increment := circleSize / 2
+		//	fmt.Println("Moving forward by ", increment, elfCircle.Len())
+		startElf := elf
+
+		for i := 0; i < increment; i++ {
+			elf = elf.Next()
+
+			if elf == nil {
+				elf = elfCircle.Front()
+			}
 		}
+
+		//fmt.Println("removing elf ", elf.Value)
+
+		elfCircle.Remove(elf)
+		circleSize--
+		elf = startElf
 
 		elf = elf.Next()
 
@@ -81,7 +99,11 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 			elf = elfCircle.Front()
 		}
 
-		if elfCircle.Len() == 1 {
+		if circleSize%100 == 0 {
+			updateChan <- []string{fmt.Sprint(circleSize, "-", time.Since(start), "-")}
+			start = time.Now()
+		}
+		if circleSize == 1 {
 			break
 		}
 	}
