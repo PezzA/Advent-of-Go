@@ -3,9 +3,8 @@ package Day201903
 import (
 	"testing"
 
-	"github.com/pezza/advent-of-code/common"
-
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_ReadData(t *testing.T) {

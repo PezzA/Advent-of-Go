@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/pezza/AoC2017/Common"
-
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_PartOne(t *testing.T) {

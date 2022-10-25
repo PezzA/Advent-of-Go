@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	common "github.com/pezza/advent-of-code/puzzles/Common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 var testData = `Step C must be finished before step A can begin.

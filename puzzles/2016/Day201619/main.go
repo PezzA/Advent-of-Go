@@ -13,18 +13,7 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2016, 19, "An Elephant Named Joseph", 1
-}
-
-func getAdjacentElfHops(circleSize int, position int) int {
-	offset := circleSize / 2
-
-	newPos := position + offset
-
-	if newPos <= circleSize {
-		return newPos
-	}
-	return newPos - circleSize
+	return 2016, 19, "An Elephant Named Joseph", 2
 }
 
 func makeElfCircle(circleSize int) *list.List {
@@ -63,6 +52,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	return strconv.Itoa(elfCircle.Front().Value.(int))
 }
 
+// Took seven hours!
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	circleSize, _ := strconv.Atoi(inputData)
 

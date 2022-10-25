@@ -9,7 +9,6 @@ import (
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	letsTryIt()
 }
 
 func Test_PartTwo(t *testing.T) {

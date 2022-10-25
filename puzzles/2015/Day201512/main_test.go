@@ -15,22 +15,13 @@ func Test_PartOne(t *testing.T) {
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
-	Expect(splitAndAdd("[1,2,3]")).Should(Equal(6))
-	Expect(splitAndAdd(`{"a":2,"b":4}`)).Should(Equal(6))
-	Expect(splitAndAdd(`[[[3]]]`)).Should(Equal(3))
-	Expect(splitAndAdd(`{"a":{"b":4},"c":-1}`)).Should(Equal(3))
-	Expect(splitAndAdd(`{"a":[-1,1]}`)).Should(Equal(0))
-	Expect(splitAndAdd(`[-1,{"a":1}]`)).Should(Equal(0))
-	Expect(splitAndAdd(`[]`)).Should(Equal(0))
-	Expect(splitAndAdd(`{}`)).Should(Equal(0))
-
 	var customData interface{}
 	err := json.Unmarshal([]byte(Entry.PuzzleInput()), &customData)
 	if err != nil {
 		t.Error(err)
 	}
 
-	count := parseAndWalk(customData, 0, 0)
+	count := parseAndWalk(customData, 0, "")
 
 	if err != nil {
 		t.Fatal(err)

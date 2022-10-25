@@ -3,9 +3,8 @@ package Day201902
 import (
 	"testing"
 
-	"github.com/pezza/advent-of-code/2019/intcode"
-
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
 )
 
 func Test_PartOne(t *testing.T) {
@@ -17,7 +16,7 @@ func Test_PartOne(t *testing.T) {
 	init[1] = 12
 	init[2] = 2
 
-	vc.RunProgram(init, []int64{}, nil, nil)
+	vc.RunProgram(init, []int64{}, nil, nil, nil)
 	Expect(vc.GetValue(0)).Should(Equal(int64(3562672)))
 }
 
@@ -36,7 +35,7 @@ func Test_PartTwo(t *testing.T) {
 			init[1] = int64(noun)
 			init[2] = int64(verb)
 
-			vc.RunProgram(init, []int64{}, nil, nil)
+			vc.RunProgram(init, []int64{}, nil, nil, nil)
 
 			if vc.GetValue(0) == 19690720 {
 				actNoun = noun

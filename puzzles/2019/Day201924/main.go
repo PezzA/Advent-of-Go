@@ -44,7 +44,7 @@ func tickAutomata(input [][]bool) [][]bool {
 		newBugs[y] = make([]bool, len(bugline))
 		for x := range bugline {
 			newVal := input[y][x]
-			adjBugs := countAdjacentBugs(common.Point{x, y}, input)
+			adjBugs := countAdjacentBugs(common.Point{X: x, Y: y}, input)
 
 			if adjBugs != 1 && input[y][x] {
 				newVal = false
@@ -69,7 +69,7 @@ func tickRecursiveAutomata(input [][]bool) [][]bool {
 		newBugs[y] = make([]bool, len(bugline))
 		for x := range bugline {
 			newVal := input[y][x]
-			adjBugs := countAdjacentBugs(common.Point{x, y}, input)
+			adjBugs := countAdjacentBugs(common.Point{X: x, Y: y}, input)
 
 			if adjBugs != 1 && input[y][x] {
 				newVal = false

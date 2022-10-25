@@ -10,8 +10,8 @@ import (
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	comet := reindeer{"comet", physicality{14, 10, 127}, state{0, true, 10}}
-	dancer := reindeer{"dancer", physicality{16, 11, 162}, state{0, true, 11}}
+	comet := reindeer{"comet", physicality{14, 10, 127}, state{0, true, 10, 0}}
+	dancer := reindeer{"dancer", physicality{16, 11, 162}, state{0, true, 11, 0}}
 
 	for i := 0; i < 1000; i++ {
 		comet.tick()

@@ -34,7 +34,7 @@ func getData(inputData string) []numberedPoint {
 
 	startLabel := 65
 	for index, line := range strings.Split(inputData, "\n") {
-		point := numberedPoint{strconv.Itoa(index), string(index + 33), common.Point{}}
+		point := numberedPoint{strconv.Itoa(index), string(rune(index + 33)), common.Point{}}
 		fmt.Sscanf(line, "%d, %d", &point.X, &point.Y)
 		startLabel++
 		points = append(points, point)
@@ -64,7 +64,7 @@ func getBounds(points []numberedPoint) (common.Point, common.Point) {
 		}
 	}
 
-	return common.Point{minX, minY}, common.Point{maxX, maxY}
+	return common.Point{X: minX, Y: minY}, common.Point{X: maxX, Y: maxY}
 }
 
 func getCombinedPoint(source common.Point, targets []numberedPoint) int {
@@ -110,14 +110,14 @@ func getNearestPoint(source common.Point, targets []numberedPoint) string {
 func getPlane(points []numberedPoint, offSet int) infinitePlane {
 	min, max := getBounds(points)
 
-	newmin := common.Point{min.X - offSet, min.Y - offSet}
-	newmax := common.Point{max.X + offSet, max.Y + offSet}
+	newmin := common.Point{X: min.X - offSet, Y: min.Y - offSet}
+	newmax := common.Point{X: max.X + offSet, Y: max.Y + offSet}
 
 	plane := make(infinitePlane)
 
 	for x := newmin.X; x <= newmax.X; x++ {
 		for y := newmin.Y; y <= newmax.Y; y++ {
-			plane[common.Point{x, y}] = getNearestPoint(common.Point{x, y}, points)
+			plane[common.Point{X: x, Y: y}] = getNearestPoint(common.Point{X: x, Y: y}, points)
 		}
 	}
 
@@ -127,14 +127,14 @@ func getPlane(points []numberedPoint, offSet int) infinitePlane {
 func getCombinedPlane(points []numberedPoint, offSet int) distancePlane {
 	min, max := getBounds(points)
 
-	newmin := common.Point{min.X - offSet, min.Y - offSet}
-	newmax := common.Point{max.X + offSet, max.Y + offSet}
+	newmin := common.Point{X: min.X - offSet, Y: min.Y - offSet}
+	newmax := common.Point{X: max.X + offSet, Y: max.Y + offSet}
 
 	plane := make(distancePlane)
 
 	for x := newmin.X; x <= newmax.X; x++ {
 		for y := newmin.Y; y <= newmax.Y; y++ {
-			plane[common.Point{x, y}] = getCombinedPoint(common.Point{x, y}, points)
+			plane[common.Point{X: x, Y: y}] = getCombinedPoint(common.Point{X: x, Y: y}, points)
 		}
 	}
 
@@ -145,13 +145,13 @@ func getBorders(min common.Point, max common.Point, points []numberedPoint) infi
 	border := make(infinitePlane)
 
 	for i := min.X; i <= max.X; i++ {
-		border[common.Point{i, min.Y}] = getNearestPoint(common.Point{i, min.Y}, points)
-		border[common.Point{i, max.Y}] = getNearestPoint(common.Point{i, max.Y}, points)
+		border[common.Point{X: i, Y: min.Y}] = getNearestPoint(common.Point{X: i, Y: min.Y}, points)
+		border[common.Point{X: i, Y: max.Y}] = getNearestPoint(common.Point{X: i, Y: max.Y}, points)
 	}
 
 	for i := min.Y + 1; i < max.Y; i++ {
-		border[common.Point{min.X, i}] = getNearestPoint(common.Point{min.X, i}, points)
-		border[common.Point{max.X, i}] = getNearestPoint(common.Point{max.X, i}, points)
+		border[common.Point{X: min.X, Y: i}] = getNearestPoint(common.Point{X: min.X, Y: i}, points)
+		border[common.Point{X: max.X, Y: i}] = getNearestPoint(common.Point{X: max.X, Y: i}, points)
 	}
 
 	return border
@@ -161,13 +161,13 @@ func getCombinedBorders(min common.Point, max common.Point, points []numberedPoi
 	border := make(distancePlane)
 
 	for i := min.X; i <= max.X; i++ {
-		border[common.Point{i, min.Y}] = getCombinedPoint(common.Point{i, min.Y}, points)
-		border[common.Point{i, max.Y}] = getCombinedPoint(common.Point{i, max.Y}, points)
+		border[common.Point{X: i, Y: min.Y}] = getCombinedPoint(common.Point{X: i, Y: min.Y}, points)
+		border[common.Point{X: i, Y: max.Y}] = getCombinedPoint(common.Point{X: i, Y: max.Y}, points)
 	}
 
 	for i := min.Y + 1; i < max.Y; i++ {
-		border[common.Point{min.X, i}] = getCombinedPoint(common.Point{min.X, i}, points)
-		border[common.Point{max.X, i}] = getCombinedPoint(common.Point{max.X, i}, points)
+		border[common.Point{X: min.X, Y: i}] = getCombinedPoint(common.Point{X: min.X, Y: i}, points)
+		border[common.Point{X: max.X, Y: i}] = getCombinedPoint(common.Point{X: max.X, Y: i}, points)
 	}
 
 	return border
@@ -214,7 +214,7 @@ func printPlane(min common.Point, max common.Point, plane infinitePlane) {
 	for x := min.X; x <= max.X; x++ {
 		for y := min.Y; y <= max.Y; y++ {
 
-			if val, ok := plane[common.Point{x, y}]; ok {
+			if val, ok := plane[common.Point{X: x, Y: y}]; ok {
 				fmt.Print(val)
 			} else {
 				fmt.Print("#")
@@ -239,8 +239,8 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 	var lastCounts countMap
 	for !hitExtremety {
-		incMin := common.Point{min.X - count, min.Y - count}
-		incMax := common.Point{max.X + count, max.Y + count}
+		incMin := common.Point{X: min.X - count, Y: min.Y - count}
+		incMax := common.Point{X: max.X + count, Y: max.Y + count}
 
 		counts := getCounts(getBorders(incMin, incMax, pointList))
 		preCounts := counts
@@ -282,8 +282,8 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	// keep drawing increasing borders all of them are greater or equal to 10,000
 
 	for !hitExtremety {
-		incMin := common.Point{min.X - count, min.Y - count}
-		incMax := common.Point{max.X + count, max.Y + count}
+		incMin := common.Point{X: min.X - count, Y: min.Y - count}
+		incMax := common.Point{X: max.X + count, Y: max.Y + count}
 
 		counts := getCombinedBorders(incMin, incMax, pointList)
 		hitExtremety = true

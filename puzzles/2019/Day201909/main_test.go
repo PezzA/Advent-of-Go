@@ -3,9 +3,8 @@ package Day201909
 import (
 	"testing"
 
-	"github.com/pezza/advent-of-code/2019/intcode"
-
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
 )
 
 func Test_ReadData(t *testing.T) {
@@ -26,14 +25,14 @@ func Test_PartOne(t *testing.T) {
 		Expect(intcode.RunProgram(codes, []int64{}, false, nil, nil, "", nil)).Should(Equal([]int64{1219070632396864}))
 	*/
 	vm := intcode.New(Entry.PuzzleInput())
-	Expect(vm.RunProgram(nil, []int64{1}, nil, nil)[0]).Should(Equal(int64(2594708277)))
+	Expect(vm.RunProgram(nil, []int64{1}, nil, nil, nil)[0]).Should(Equal(int64(2594708277)))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
 	vm := intcode.New(Entry.PuzzleInput())
-	Expect(vm.RunProgram(nil, []int64{2}, nil, nil)[0]).Should(Equal(int64(87721)))
+	Expect(vm.RunProgram(nil, []int64{2}, nil, nil, nil)[0]).Should(Equal(int64(87721)))
 
 }
 

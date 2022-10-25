@@ -3,7 +3,7 @@ package Day201815
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/pezza/advent-of-code/puzzles/Common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 var _ = Describe("Cave", func() {

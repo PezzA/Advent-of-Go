@@ -3,11 +3,10 @@ package Day201806
 import (
 	"testing"
 
-	"github.com/pezza/advent-of-code/puzzles/Common"
-
 	"fmt"
 
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 var testInput = `1, 1
@@ -22,25 +21,25 @@ func Test_PartOne(t *testing.T) {
 
 	pointList := getData(testInput)
 
-	Expect(pointList[0]).Should(Equal(numberedPoint{"A", "A", common.Point{1, 1}}))
-	Expect(pointList[1]).Should(Equal(numberedPoint{"B", "A", common.Point{1, 6}}))
+	Expect(pointList[0]).Should(Equal(numberedPoint{"A", "A", common.Point{X: 1, Y: 1}}))
+	Expect(pointList[1]).Should(Equal(numberedPoint{"B", "A", common.Point{X: 1, Y: 6}}))
 
 	min, max := getBounds(pointList)
-	Expect(min).Should(Equal(common.Point{1, 1}))
-	Expect(max).Should(Equal(common.Point{8, 9}))
+	Expect(min).Should(Equal(common.Point{X: 1, Y: 1}))
+	Expect(max).Should(Equal(common.Point{X: 8, Y: 9}))
 
-	Expect(common.GetMDistance(common.Point{-3, -3}, common.Point{3, 3})).Should(Equal(12))
-	Expect(common.GetMDistance(common.Point{3, 3}, common.Point{-3, -3})).Should(Equal(12))
+	Expect(common.Point{X: -3, Y: -3}.GetMDistance(common.Point{X: 3, Y: 3})).Should(Equal(12))
+	Expect(common.Point{X: 3, Y: 3}.GetMDistance(common.Point{X: -3, Y: -3})).Should(Equal(12))
 
-	testPoint := common.Point{0, 0}
+	testPoint := common.Point{X: 0, Y: 0}
 	Expect(getNearestPoint(testPoint, pointList)).Should(Equal("a"))
 
-	testPoint = common.Point{1, 1}
+	testPoint = common.Point{X: 1, Y: 1}
 	Expect(getNearestPoint(testPoint, pointList)).Should(Equal("A"))
-	testPoint = common.Point{10, 10}
+	testPoint = common.Point{X: 10, Y: 10}
 	Expect(getNearestPoint(testPoint, pointList)).Should(Equal("f"))
 
-	testPoint = common.Point{5, 0}
+	testPoint = common.Point{X: 5, Y: 0}
 	Expect(getNearestPoint(testPoint, pointList)).Should(Equal("."))
 
 }
@@ -60,8 +59,8 @@ func Test_PrintGrid(t *testing.T) {
 
 	var lastCounts countMap
 	for !hitExtremety {
-		incMin := common.Point{min.X - count, min.Y - count}
-		incMax := common.Point{max.X + count, max.Y + count}
+		incMin := common.Point{X: min.X - count, Y: min.Y - count}
+		incMax := common.Point{X: max.X + count, Y: max.Y + count}
 
 		counts := getCounts(getBorders(incMin, incMax, pointList))
 		preCounts := counts

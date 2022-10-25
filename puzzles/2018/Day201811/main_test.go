@@ -6,17 +6,17 @@ import (
 	"fmt"
 
 	. "github.com/onsi/gomega"
-	"github.com/pezza/advent-of-code/puzzles/Common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
-	Expect(getPowerLevel(common.Point{3, 5}, 8)).Should(Equal(4))
+	Expect(getPowerLevel(common.Point{X: 3, Y: 5}, 8)).Should(Equal(4))
 
-	Expect(getPowerLevel(common.Point{122, 79}, 57)).Should(Equal(-5))
-	Expect(getPowerLevel(common.Point{101, 153}, 71)).Should(Equal(4))
-	Expect(getPowerLevel(common.Point{217, 196}, 39)).Should(Equal(0))
+	Expect(getPowerLevel(common.Point{X: 122, Y: 79}, 57)).Should(Equal(-5))
+	Expect(getPowerLevel(common.Point{X: 101, Y: 153}, 71)).Should(Equal(4))
+	Expect(getPowerLevel(common.Point{X: 217, Y: 196}, 39)).Should(Equal(0))
 
 	gridSerial := getData(Entry.PuzzleInput())
 
@@ -28,7 +28,7 @@ func Test_PartOne(t *testing.T) {
 
 	for index := range computedGrid {
 		for subIndex := range computedGrid[index] {
-			computedGrid[index][subIndex] = getPowerLevel(common.Point{index + 1, subIndex + 1}, gridSerial)
+			computedGrid[index][subIndex] = getPowerLevel(common.Point{X: index + 1, Y: subIndex + 1}, gridSerial)
 		}
 	}
 
@@ -36,7 +36,7 @@ func Test_PartOne(t *testing.T) {
 	var powerPoint common.Point
 	for x := 1; x <= 298; x++ {
 		for y := 1; y <= 298; y++ {
-			testPoint := common.Point{x, y}
+			testPoint := common.Point{X: x, Y: y}
 			squarePower := computedGrid[x-1][y-1]
 			squarePower += computedGrid[x][y-1]
 			squarePower += computedGrid[x+1][y-1]
@@ -74,7 +74,7 @@ func Test_PartTwo(t *testing.T) {
 
 	for index := range computedGrid {
 		for subIndex := range computedGrid[index] {
-			computedGrid[index][subIndex] = getPowerLevel(common.Point{index + 1, subIndex + 1}, gridSerial)
+			computedGrid[index][subIndex] = getPowerLevel(common.Point{X: index + 1, Y: subIndex + 1}, gridSerial)
 		}
 	}
 	//for each size
@@ -99,7 +99,7 @@ func Test_PartTwo(t *testing.T) {
 
 				if maxPower == -1 || squareCount > maxPower {
 					maxPower = squareCount
-					powerPoint = common.Point{x, y}
+					powerPoint = common.Point{X: x, Y: y}
 					squareSize = z
 				}
 			}

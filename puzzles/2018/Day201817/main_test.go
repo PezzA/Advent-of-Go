@@ -16,7 +16,7 @@ func Test_PartOne(t *testing.T) {
 		fmt.Println(line)
 	}
 
-	fmt.Println(lines.getBoundaries())
+	//	fmt.Println(lines.getBoundaries())
 }
 
 func Test_PartTwo(t *testing.T) {

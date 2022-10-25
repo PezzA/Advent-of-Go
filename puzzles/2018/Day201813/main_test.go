@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/pezza/advent-of-code/puzzles/Common"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 var testData = `/->-\        
@@ -28,7 +28,7 @@ func Test_PartOne(t *testing.T) {
 
 			carts[index], _, crashed = moveCart(carts[index], grid, carts)
 			if crashed {
-				point = common.Point{carts[index].x, carts[index].y}
+				point = common.Point{X: carts[index].x, Y: carts[index].y}
 				break
 			}
 		}

@@ -4,21 +4,21 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/pezza/advent-of-code/2019/intcode"
+	"github.com/pezza/advent-of-code/puzzles/2019/intcode"
 )
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
 	vm := intcode.New(Entry.PuzzleInput())
-	results := vm.RunProgram(nil, []int64{1}, nil, nil)
+	results := vm.RunProgram(nil, []int64{1}, nil, nil, nil)
 	Expect(results[len(results)-1]).Should(Equal(int64(10987514)))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 	vm := intcode.New(Entry.PuzzleInput())
-	results := vm.RunProgram(nil, []int64{5}, nil, nil)
+	results := vm.RunProgram(nil, []int64{5}, nil, nil, nil)
 	Expect(results[0]).Should(Equal(int64(14195011)))
 }
 

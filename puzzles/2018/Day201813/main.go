@@ -137,7 +137,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 			carts[index], _, crashed = moveCart(carts[index], grid, carts)
 			if crashed {
-				point = common.Point{carts[index].x, carts[index].y}
+				point = common.Point{X: carts[index].x, Y: carts[index].y}
 				break
 			}
 		}

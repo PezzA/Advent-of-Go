@@ -69,13 +69,6 @@ func Test_PartTwo(t *testing.T) {
 `)
 	}
 
-	hive[0+i] = getData(`.....'
-.....
-..?..
-.....
-.....
-`)
-
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {

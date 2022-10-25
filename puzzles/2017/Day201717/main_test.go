@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/pezza/AoC2017/Common"
-
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_PartOne(t *testing.T) {
@@ -91,13 +90,13 @@ func Test_PartTwo(t *testing.T) {
 func Benchmark_PartOne(b *testing.B) {
 	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
-		Entry.PartOne(data)
+		Entry.PartOne(data, nil)
 	}
 }
 
 func Benchmark_PartTwo(b *testing.B) {
 	data := Entry.PuzzleInput()
 	for n := 0; n < b.N; n++ {
-		Entry.PartTwo(data)
+		Entry.PartTwo(data, nil)
 	}
 }

@@ -5,9 +5,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/pezza/advent-of-code/common"
-
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_func(t *testing.T) {
@@ -89,8 +88,6 @@ func Test_getPotentials(t *testing.T) {
 
 	fmt.Println(val)
 }
-
-
 
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)

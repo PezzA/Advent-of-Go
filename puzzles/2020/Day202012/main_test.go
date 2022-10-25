@@ -3,9 +3,8 @@ package Day202012
 import (
 	"testing"
 
-	"github.com/pezza/advent-of-code/common"
-
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_ReadData(t *testing.T) {
@@ -106,28 +105,28 @@ func Test_Rotate(t *testing.T) {
 
 	p := common.Point{X: 10, Y: 4}
 
-	p.Rotate(90)
+	p.RotateOrigin(90)
 
 	Expect(p.X).Should(Equal(-4))
 	Expect(p.Y).Should(Equal(10))
 
 	p = common.Point{X: 10, Y: 4}
 
-	p.Rotate(360)
+	p.RotateOrigin(360)
 
 	Expect(p.X).Should(Equal(10))
 	Expect(p.Y).Should(Equal(4))
 
 	p = common.Point{X: 10, Y: 4}
 
-	p.Rotate(720)
+	p.RotateOrigin(720)
 
 	Expect(p.X).Should(Equal(10))
 	Expect(p.Y).Should(Equal(4))
 
 	p = common.Point{X: 10, Y: 4}
 
-	p.Rotate(-720)
+	p.RotateOrigin(-720)
 
 	Expect(p.X).Should(Equal(10))
 	Expect(p.Y).Should(Equal(4))
