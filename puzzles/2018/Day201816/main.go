@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	cc "github.com/pezza/advent-of-code/puzzles/2018/ChronalCompiler"
+	"github.com/pezza/advent-of-code/puzzle-support/chronalcompiler"
 )
 
 type dayEntry bool
@@ -18,9 +18,9 @@ func (td dayEntry) Describe() (int, int, string, int) {
 
 // Start
 type test struct {
-	before cc.RegisterSet
+	before chronalcompiler.RegisterSet
 	codes  []int
-	after  cc.RegisterSet
+	after  chronalcompiler.RegisterSet
 }
 
 func (t test) String() string {
@@ -43,9 +43,9 @@ func getData(input string) ([]test, [][]int) {
 			fmt.Sscanf(lines[i], "After:  [%d, %d, %d, %d]", &a3, &b3, &c3, &d3)
 
 			tests = append(tests, test{
-				cc.RegisterSet{0: a1, 1: b1, 2: c1, 3: d1},
+				chronalcompiler.RegisterSet{0: a1, 1: b1, 2: c1, 3: d1},
 				[]int{a2, b2, c2, d2},
-				cc.RegisterSet{0: a3, 1: b3, 2: c3, 3: d3}})
+				chronalcompiler.RegisterSet{0: a3, 1: b3, 2: c3, 3: d3}})
 			continue
 		}
 
@@ -59,11 +59,15 @@ func getData(input string) ([]test, [][]int) {
 	return tests, codes
 }
 
-func getTestMatches(ocs cc.OpCodes, t test) []string {
+func getTestMatches(ocs chronalcompiler.OpCodes, t test) []string {
 	codes := make([]string, 0)
 
 	for k, v := range ocs {
-		if t.after.Same(v.Process(t.before.DeepCopy(), t.codes[1], t.codes[2], t.codes[3])) {
+
+		regSet := t.before.DeepCopy()
+		regSet[t.codes[3]] = v.Process(regSet, t.codes[1], t.codes[2])
+
+		if t.after.Same(regSet) {
 			codes = append(codes, k)
 		}
 	}
@@ -71,19 +75,18 @@ func getTestMatches(ocs cc.OpCodes, t test) []string {
 	return codes
 }
 
-func getUniques(codes cc.OpCodes, tests []test, uniques map[int]string) map[int]string {
+func getUniques(codes chronalcompiler.OpCodes, tests []test, uniques map[int]string) {
 	for _, test := range tests {
 		results := getTestMatches(codes, test)
 
 		if len(results) == 1 {
 			uniques[test.codes[0]] = results[0]
+			return
 		}
 	}
-
-	return uniques
 }
 
-func determineCodeMap(codes cc.OpCodes, tests []test) map[int]string {
+func determineCodeMap(codes chronalcompiler.OpCodes, tests []test) map[int]string {
 	codeMap := make(map[int]string, 0)
 
 	for len(codes) > 0 {
@@ -102,7 +105,7 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 	count := 0
 	for index := range tests {
-		results := getTestMatches(cc.GetOpCodes(), tests[index])
+		results := getTestMatches(chronalcompiler.GetOpCodes(), tests[index])
 
 		if len(results) >= 3 {
 			count++
@@ -114,5 +117,16 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 
-	return fmt.Sprintf(" -- Not Yet Implemented --")
+	tests, program := getData(inputData)
+	opCodes, regSet := chronalcompiler.GetOpCodes(), chronalcompiler.NewRegisterSet()
+
+	insLookup := determineCodeMap(opCodes, tests)
+	opCodes = chronalcompiler.GetOpCodes()
+	for _, ins := range program {
+		instruction := insLookup[ins[0]]
+		val := opCodes[instruction].Process(regSet, ins[1], ins[2])
+		regSet[ins[3]] = val
+	}
+
+	return fmt.Sprint(regSet[0])
 }

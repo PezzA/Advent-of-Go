@@ -1,6 +1,8 @@
-package ChronalCompiler
+package chronalcompiler
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // RegisterSet is a type to express a map of ints
 type RegisterSet map[int]int
