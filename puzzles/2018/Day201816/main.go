@@ -13,7 +13,7 @@ type dayEntry bool
 var Entry dayEntry
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 16, "Chronal Classification", 1
+	return 2018, 16, "Chronal Classification", 2
 }
 
 // Start
@@ -115,18 +115,27 @@ func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
 	return fmt.Sprintf("%v", count)
 }
 
-func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
+func convertCodeMapToProgram(codes map[int]string, rawProgram [][]int) []chronalcompiler.Instruction {
+	prog := make([]chronalcompiler.Instruction, len(rawProgram))
 
-	tests, program := getData(inputData)
-	opCodes, regSet := chronalcompiler.GetOpCodes(), chronalcompiler.NewRegisterSet()
-
-	insLookup := determineCodeMap(opCodes, tests)
-	opCodes = chronalcompiler.GetOpCodes()
-	for _, ins := range program {
-		instruction := insLookup[ins[0]]
-		val := opCodes[instruction].Process(regSet, ins[1], ins[2])
-		regSet[ins[3]] = val
+	for i := range rawProgram {
+		prog[i] = chronalcompiler.Instruction{OpCode: codes[rawProgram[i][0]], A: rawProgram[i][1], B: rawProgram[i][2], C: rawProgram[i][3]}
 	}
 
-	return fmt.Sprint(regSet[0])
+	return prog
+}
+
+func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
+	tests, rawProgram := getData(inputData)
+
+	// get the instruction lookup list
+	insLookup := determineCodeMap(chronalcompiler.GetOpCodes(), tests)
+
+	// convert the raw codes into actual instructions
+	program := convertCodeMapToProgram(insLookup, rawProgram)
+
+	// run
+	endRegSet := chronalcompiler.RunProgram(program, 4, nil)
+
+	return fmt.Sprint(endRegSet[0])
 }

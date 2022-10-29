@@ -4,6 +4,13 @@ type Processor interface {
 	Process(input RegisterSet, a int, b int) int
 }
 
+type Instruction struct {
+	OpCode string
+	A      int
+	B      int
+	C      int
+}
+
 type OpCodes map[string]Processor
 
 // create the 16 types

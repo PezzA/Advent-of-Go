@@ -1,13 +1,33 @@
 package Day201819
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+	"strings"
 
-var Entry dayEntry
+	"github.com/pezza/advent-of-code/puzzle-support/chronalcompiler"
+)
 
-type dayEntry bool
+func getData(input string) (int, []chronalcompiler.Instruction) {
+	lines := strings.Split(input, "\n")
 
-func (td dayEntry) Describe() (int, int, string, int) {
-	return 0, 0, "Getting the boilerplate in place", 0
+	insList := make([]chronalcompiler.Instruction, len(lines))
+
+	bits := strings.Split(lines[0], " ")
+
+	ipBinding, _ := strconv.Atoi(bits[1])
+
+	insList[0] = chronalcompiler.Instruction{OpCode: "ip", A: 0, B: 0, C: 0}
+
+	for i := 1; i < len(lines); i++ {
+		ins, a, b, c := "", 0, 0, 0
+		fmt.Sscanf(lines[i], "%v %d %d %d", &ins, &a, &b, &c)
+
+		insList[i] = chronalcompiler.Instruction{OpCode: ins, A: a, B: b, C: c}
+	}
+
+	return ipBinding, insList
+
 }
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {

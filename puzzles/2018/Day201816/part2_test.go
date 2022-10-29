@@ -42,7 +42,7 @@ func Test_RunProgram(t *testing.T) {
 	RegisterTestingT(t)
 
 	tests, program := getData(Entry.PuzzleInput())
-	opCodes, regSet := chronalcompiler.GetOpCodes(), chronalcompiler.NewRegisterSet()
+	opCodes, regSet := chronalcompiler.GetOpCodes(), chronalcompiler.NewRegisterSet(4)
 
 	insLookup := determineCodeMap(opCodes, tests)
 	opCodes = chronalcompiler.GetOpCodes()

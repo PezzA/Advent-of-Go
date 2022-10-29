@@ -8,12 +8,12 @@ import (
 type RegisterSet map[int]int
 
 // NewRegisterSet returns a new registerset with registers 0-3 set to zero
-func NewRegisterSet() RegisterSet {
+func NewRegisterSet(registerCount int) RegisterSet {
 	newRs := make(RegisterSet, 0)
-	newRs[0] = 0
-	newRs[1] = 0
-	newRs[2] = 0
-	newRs[3] = 0
+
+	for i := 0; i < registerCount; i++ {
+		newRs[i] = 0
+	}
 
 	return newRs
 }
