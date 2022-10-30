@@ -45,5 +45,5 @@ var Entry dayEntry
 type dayEntry bool
 
 func (td dayEntry) Describe() (int, int, string, int) {
-	return 2018, 19, "Go With The Flow", 0
+	return 2018, 19, "Go With The Flow", 2
 }

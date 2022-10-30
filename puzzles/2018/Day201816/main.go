@@ -135,7 +135,7 @@ func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
 	program := convertCodeMapToProgram(insLookup, rawProgram)
 
 	// run
-	endRegSet := chronalcompiler.RunProgram(program, 4, nil)
+	endRegSet := chronalcompiler.RunProgram(program, 4, nil, nil)
 
 	return fmt.Sprint(endRegSet[0])
 }

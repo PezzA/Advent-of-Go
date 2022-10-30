@@ -1,33 +1,39 @@
 package chronalcompiler
 
-func RunProgram(program []Instruction, regCount int, insPointerRegister int, registers RegisterSet) RegisterSet {
+import "fmt"
+
+func RunProgram(program []Instruction, regCount int, registers RegisterSet, output chan []string) RegisterSet {
 	opCodes := GetOpCodes()
 
-	insPointer := 0
-
-	boundInsPointer := insPointerRegister >= 0
+	hasBoundRegister, insPointer, boundRegister := false, 0, 0
 
 	if registers == nil {
 		registers = NewRegisterSet(regCount)
 	}
 
-	for _, ins := range program {
+	if program[0].OpCode == "#ip" {
+		boundRegister = program[0].A
+		hasBoundRegister = true
+		program = program[1:]
+	}
 
-		if ins.OpCode == "ip" {
-			continue
-		}
-
-		if boundInsPointer {
-			registers[insPointerRegister] = insPointer
+	for {
+		ins := program[insPointer]
+		if hasBoundRegister {
+			registers[boundRegister] = insPointer
 		}
 
 		registers[ins.C] = opCodes[ins.OpCode].Process(registers, ins.A, ins.B)
 
-		if boundInsPointer {
-			insPointer = registers[insPointerRegister]
+		if hasBoundRegister {
+			insPointer = registers[boundRegister]
 		}
 
 		insPointer++
+
+		if output != nil {
+			output <- []string{fmt.Sprintf("-- A:%v B:%v C:%v D:%v E:%v JUMP:%v --", registers[0], registers[1], registers[2], registers[3], registers[4], registers[5])}
+		}
 
 		// if pointer is outside of program bounds, exist
 		if insPointer < 0 || insPointer >= len(program) {

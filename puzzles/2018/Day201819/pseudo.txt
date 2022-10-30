@@ -1,0 +1,68 @@
+a, b, c, d, e, j := 0,0,0,0,0,0
+
+a // setup controler
+b // inner counter
+c // control
+d // decision registers
+e // outer counter
+f // instruction pointer
+
+#ip 5
+
+START: 
+    0  addi j 16 j // JUMP INIT
+
+// PART 1 c = 977
+// PART 2 c = 10,550,400
+
+BEGIN:
+    1  d = 1 
+
+OUTER LOOP:
+    2  b = 1
+
+INNER LOOP:
+    3  mulr e b d   // d = e * b  
+    4  eqrr d c d   // d = d == c ? 1 : 0
+    
+    // IF d == 0 
+    5  addr d j j   // JUMP += d
+    // ELSE
+    6  addi j 1 j   // JUMP + 1
+
+    7  addr e a a   // a += e
+    
+    8  addi b 1 b   // b += 1
+    9  gtrr b c d   // d = b > c ? 1: 0
+    10 addr j 3 j   // GOTO + 3
+    11 seti 2 - j   // GOTO INNER LOOP
+
+    12 addi e 1 e   // e += 1
+    13 gtrr e c d   // d = e > c --> EXIT : OUTER LOOP
+    14 addr d j j   // GOTO + d
+    15 seti 1 - j   // GOTO OUTER LOOP
+    16 mulr j j j   // GOTO j * j ## EXIT
+
+
+INIT:
+    17 addi c 2 c   // c = c + 2    --> 2
+    18 mulr c c c   // c = c * c    --> 4
+    19 mulr j c c   // c = c * 19   --> 76
+    20 muli c 11 c  // c = c * 11   --> 836
+    21 addi d 6 d   // d += 6       --> 6
+    22 mulr d j d   // d *= 22      --> 132
+    23 addi d 9 d   // d += 9       --> 141
+    24 addr c d c   // c += d       --> 977
+    25 addr j a j   // GOTO += a : PART2-INIT
+    26 GOTO BEGIN
+
+PART2-EXTRA:
+    27 setr j - d   // d = 27   --> 27
+    28 mulr d j d   // d *= 28  --> 756 
+    29 addr j d d   // d += 29  --> 785
+    30 mulr j d d   // d *= 30  --> 23,550
+    31 muli d 14 d  // d *= 14  --> 329,700
+    32 mulr d j d   // d *= 32  --> 10,550,400
+    33 addr c d c   // c += d   -->  -->
+    34 seti 0 - a   // a = 0 
+    35 GOTO BEGIN
