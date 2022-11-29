@@ -185,6 +185,31 @@ import (
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201923"
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201924"
 	"github.com/pezza/advent-of-code/puzzles/2019/Day201925"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202201"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202202"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202203"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202204"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202205"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202206"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202207"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202208"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202209"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202210"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202211"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202212"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202213"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202214"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202215"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202216"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202217"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202218"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202219"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202220"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202221"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202222"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202223"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202224"
+	"github.com/pezza/advent-of-code/puzzles/2022/Day202225"
 )
 
 var puzzleList []DailyPuzzle
@@ -267,6 +292,7 @@ func init() {
 		Day201723.Entry,
 		Day201724.Entry,
 		Day201725.Entry,
+
 		Day201801.Entry,
 		Day201802.Entry,
 		Day201803.Entry,
@@ -290,6 +316,7 @@ func init() {
 		Day201823.Entry,
 		Day201824.Entry,
 		Day201825.Entry,
+
 		Day201901.Entry,
 		Day201902.Entry,
 		Day201903.Entry,
@@ -363,5 +390,31 @@ func init() {
 		Day202119.Entry,
 		Day202121.Entry,
 		Day202122.Entry,
+
+		Day202201.Entry,
+		Day202202.Entry,
+		Day202203.Entry,
+		Day202204.Entry,
+		Day202205.Entry,
+		Day202206.Entry,
+		Day202207.Entry,
+		Day202208.Entry,
+		Day202209.Entry,
+		Day202210.Entry,
+		Day202211.Entry,
+		Day202212.Entry,
+		Day202213.Entry,
+		Day202214.Entry,
+		Day202215.Entry,
+		Day202216.Entry,
+		Day202217.Entry,
+		Day202218.Entry,
+		Day202219.Entry,
+		Day202220.Entry,
+		Day202221.Entry,
+		Day202222.Entry,
+		Day202223.Entry,
+		Day202224.Entry,
+		Day202225.Entry,
 	}
 }

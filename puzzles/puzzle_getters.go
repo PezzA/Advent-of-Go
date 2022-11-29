@@ -35,5 +35,5 @@ func GetYearRange() (int, int) {
 }
 
 func GetManualYearRange() (int, int) {
-	return 2015, 2021
+	return 2015, 2022
 }
