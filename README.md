@@ -1,5 +1,5 @@
 # :christmas_tree: Advent-of-code :star:
-
+[![Build](https://github.com/PezzA/advent-of-code/actions/workflows/build-only.yml/badge.svg)](https://github.com/PezzA/advent-of-code/actions/workflows/build-only.yml)<br/>
 This repo contains solutions to puzzles on the [advent of code](https://www.adventofcode.com) website.  Currently this 
 covers solutions for years 2015-2020.  However not all years are complete. :sob:
 
