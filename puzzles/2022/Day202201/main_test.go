@@ -1,4 +1,4 @@
-package Day202201 
+package Day202201
 
 import (
 	"testing"
@@ -9,6 +9,14 @@ import (
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
 
+	elves := loadData(Entry.PuzzleInput())
+
+	Expect(len(elves[0])).Should(Equal(15))
+	Expect(elves[0][0]).Should(Equal(5229))
+	Expect(elves[0][14]).Should(Equal(4504))
+
+	Expect(elves[len(elves)-1][0]).Should(Equal(6500))
+	Expect(elves[len(elves)-1][6]).Should(Equal(10283))
 }
 
 func Test_PartOne(t *testing.T) {

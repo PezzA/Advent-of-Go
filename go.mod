@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/fatih/vim-go-tutorial v0.0.0-20181010233933-3f8bbd5f5e07 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
