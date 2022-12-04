@@ -1,11 +1,15 @@
-package Day202205 
+package Day202205
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/pezza/advent-of-code/puzzles/common"
+)
 
 func (td dayEntry) PartOne(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	return fmt.Sprint(common.NOT_IMPLEMENTED)
 }
 
 func (td dayEntry) PartTwo(inputData string, updateChan chan []string) string {
-	return fmt.Sprintf("%v", " -- Not Yet Implemented --")
+	return fmt.Sprint(common.NOT_IMPLEMENTED)
 }

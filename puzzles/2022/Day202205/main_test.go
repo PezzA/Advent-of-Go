@@ -1,9 +1,10 @@
-package Day202205 
+package Day202205
 
 import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_ReadData(t *testing.T) {
@@ -14,11 +15,13 @@ func Test_ReadData(t *testing.T) {
 func Test_PartOne(t *testing.T) {
 	RegisterTestingT(t)
 
+	Expect(Entry.PartOne(Entry.PuzzleInput(), nil)).Should(Equal(common.NOT_IMPLEMENTED))
 }
 
 func Test_PartTwo(t *testing.T) {
 	RegisterTestingT(t)
 
+	Expect(Entry.PartTwo(Entry.PuzzleInput(), nil)).Should(Equal(common.NOT_IMPLEMENTED))
 }
 
 func Benchmark_BenchPartOne(b *testing.B) {
