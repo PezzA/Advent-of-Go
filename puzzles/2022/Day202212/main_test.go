@@ -1,13 +1,20 @@
-package Day202212 
+package Day202212
 
 import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"github.com/pezza/advent-of-code/puzzles/common"
 )
 
 func Test_ReadData(t *testing.T) {
 	RegisterTestingT(t)
+
+	vista, start, end := getData(Entry.PuzzleInput())
+
+	Expect(vista[common.Point{0, 0}]).Should(Equal(int32(97)))
+	Expect(start).Should(Equal(common.Point{0, 20}))
+	Expect(end).Should(Equal(common.Point{88, 20}))
 
 }
 
